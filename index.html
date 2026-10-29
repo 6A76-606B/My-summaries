@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>المنصة</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f2f4f0;--card:#fff;--ink:#14213d;--mut:#5b6678;--ac:#0e7c66;--acink:#fff;--line:#d9ded6;--bad:#c0392b}
+[data-theme=dark]{--bg:#0e1716;--card:#16231f;--ink:#e8f1ee;--mut:#93a6a0;--ac:#5ad1b0;--acink:#08201a;--line:#27393380;--bad:#ff7b6b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;line-height:1.6}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:720px;margin:0 auto;padding:16px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:14px}
+.top .r{display:flex;gap:6px;align-items:center}
+.btn{background:var(--ac);color:var(--acink);border:0;border-radius:10px;padding:10px 16px;font-weight:600;cursor:pointer}
+.btn.g{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.s{padding:5px 10px;font-size:.85rem}
+.btn.d{background:var(--bad);color:#fff}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+input,select,textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px;margin:6px 0}
+textarea{min-height:110px}
+.center{min-height:80vh;display:flex;flex-direction:column;justify-content:center;gap:12px;text-align:center}
+h1{font-size:2rem;margin:0}h2{margin:0 0 8px;font-size:1.2rem}
+.mut{color:var(--mut);font-size:.9rem}
+.split{display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--ink);border-radius:14px;overflow:hidden;margin-bottom:14px}
+.split button{background:transparent;border:0;padding:16px;font-weight:700;font-size:1.05rem;cursor:pointer}
+.split button+button{border-inline-start:2px solid var(--ink)}
+.split button.on{background:var(--ink);color:var(--bg)}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.three button{padding:12px 4px;border-radius:10px;border:1px solid var(--line);background:var(--card);cursor:pointer;font-weight:600}
+.three button.on{background:var(--ac);color:var(--acink);border-color:var(--ac)}
+.vid{position:relative;padding-top:56.25%;border-radius:10px;overflow:hidden;margin-top:8px}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.msgs{height:55vh;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:4px}
+.m{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 12px;max-width:88%}
+.m.me{align-self:flex-start;border-color:var(--ac)}
+.m .n{font-size:.8rem;color:var(--mut);display:flex;gap:6px;align-items:center}
+.av{width:22px;height:22px;border-radius:50%;object-fit:cover;background:var(--line)}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.row>input{flex:1;margin:0}
+.opt{display:block;padding:8px;border:1px solid var(--line);border-radius:8px;margin:4px 0;cursor:pointer}
+.opt input{width:auto;margin:0 0 0 8px}
+.err{color:var(--bad);font-size:.9rem;min-height:1.2em}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:12px}
+.tabs button{white-space:nowrap}
+img.ct{max-width:100%;border-radius:10px;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+// ====== ضع هنا إعدادات Firebase الخاصة بك ======
+const firebaseConfig = {
+  apiKey: "AIzaSyClrmNqejej-eE_tifXK_q5TFOdk6Tpo1Q",
+  authDomain: "learn-english-e8df8.firebaseapp.com",
+  projectId: "learn-english-e8df8",
+  storageBucket: "learn-english-e8df8.firebasestorage.app",
+  messagingSenderId: "393207198417",
+  appId: "1:393207198417:web:21280f89da9e5b2b3b8bf0"
+};
+// ================================================
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth(), db = firebase.firestore();
+const TS = () => firebase.firestore.FieldValue.serverTimestamp();
+const GRADES = ['bac1','bac2','sec3'];
+
+const T = {
+ ar:{title:'المنصة',google:'الدخول بجوجل',admin:'دخول الأدمن',email:'الإيميل',pass:'كلمة المرور',login:'دخول',out:'خروج',
+  pickGrade:'اختر صفك الدراسي',gradeWarn:'لن تستطيع تغييره بعد ذلك، الأدمن فقط يغيّره.',
+  bac1:'أولى بكالوريا',bac2:'تانية بكالوريا',sec3:'تالتة ثانوي',
+  name:'الاسم (إجباري)',photo:'صورة البروفايل (اختياري)',save:'حفظ',pending:'حسابك قيد المراجعة. سيفتح بعد موافقة الأدمن.',
+  content:'المحتوى',comm:'المجتمع',videos:'الفيديوهات',files:'الملفات',exams:'الامتحانات',
+  empty:'لا يوجد شيء هنا بعد.',send:'إرسال',msg:'اكتب رسالة',closed:'الجروب مغلق حاليًا.',
+  talk:'كلم الأدمن',group:'جروب الصف',edit:'تعديل',del:'حذف',open:'فتح',submit:'تسليم الامتحان',
+  done:'تم التسليم. درجتك:',already:'سلّمت هذا الامتحان من قبل. درجتك:',
+  students:'الطلاب',add:'إضافة',exam:'امتحان',groups:'الجروبات',inbox:'رسائل الطلاب',
+  accept:'قبول',kick:'إخراج',pend:'بانتظار القبول',acc:'المقبولون',
+  ttl:'العنوان',url:'الرابط',type:'النوع',lock:'قفل',unlock:'فتح',
+  examHelp:'كل سطر سؤال: السؤال | خيار1 | خيار2 | خيار3 | رقم الصحيح',
+  fail:'فشل. تأكد من البيانات.',adminOnly:'هذا الحساب ليس أدمن.',saved:'تم.'},
+ en:{title:'Platform',google:'Sign in with Google',admin:'Admin login',email:'Email',pass:'Password',login:'Sign in',out:'Sign out',
+  pickGrade:'Choose your grade',gradeWarn:'You cannot change it later. Only the admin can.',
+  bac1:'1st Bac',bac2:'2nd Bac',sec3:'3rd Secondary',
+  name:'Name (required)',photo:'Profile photo (optional)',save:'Save',pending:'Your account is under review. It opens once the admin accepts you.',
+  content:'Content',comm:'Community',videos:'Videos',files:'Files',exams:'Exams',
+  empty:'Nothing here yet.',send:'Send',msg:'Write a message',closed:'This group is closed for now.',
+  talk:'Talk to admin',group:'Class group',edit:'Edit',del:'Delete',open:'Open',submit:'Submit exam',
+  done:'Submitted. Your score:',already:'You already submitted this exam. Score:',
+  students:'Students',add:'Add',exam:'Exam',groups:'Groups',inbox:'Student messages',
+  accept:'Accept',kick:'Remove',pend:'Waiting for approval',acc:'Approved',
+  ttl:'Title',url:'Link',type:'Type',lock:'Lock',unlock:'Unlock',
+  examHelp:'One question per line: question | option1 | option2 | option3 | correct number',
+  fail:'Failed. Check your input.',adminOnly:'This account is not an admin.',saved:'Done.'}
+};
+let lang = localStorage.lang || 'ar', theme = localStorage.theme || (matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+const t = k => T[lang][k] || k;
+const $app = document.getElementById('app');
+const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let unsubs = [];
+const clean = () => { unsubs.forEach(u=>u()); unsubs=[]; };
+let S = {user:null, profile:null, isAdmin:false, tab:'content', sub:'videos'};
+
+function applyUI(){
+  document.documentElement.lang = lang; document.documentElement.dir = lang==='ar'?'rtl':'ltr';
+  document.documentElement.dataset.theme = theme; document.title = t('title');
+}
+function topbar(extra=''){
+  return `<div class="top"><strong>${t('title')}</strong><div class="r">${extra}
+   <button class="btn g s" onclick="toggleLang()">${lang==='ar'?'EN':'ع'}</button>
+   <button class="btn g s" onclick="toggleTheme()" aria-label="theme">${theme==='dark'?'☀':'☾'}</button>
+   ${S.user?`<button class="btn g s" onclick="auth.signOut()">${t('out')}</button>`:''}</div></div>`;
+}
+function toggleLang(){lang=lang==='ar'?'en':'ar';localStorage.lang=lang;applyUI();route();}
+function toggleTheme(){theme=theme==='dark'?'light':'dark';localStorage.theme=theme;applyUI();route();}
+
+// ===== Auth routing =====
+auth.onAuthStateChanged(async u=>{
+  clean(); S.user=u; S.profile=null; S.isAdmin=false;
+  if(u){
+    try{ S.isAdmin = (await db.doc('admins/'+u.uid).get()).exists; }catch(e){}
+    if(!S.isAdmin){
+      const unsub = db.doc('users/'+u.uid).onSnapshot(d=>{S.profile=d.exists?d.data():null; route(true);});
+      unsubs.push(unsub); return;
+    }
+  }
+  route();
+});
+function route(fromSnap){
+  applyUI();
+  if(!S.user) return loginView();
+  if(S.isAdmin) return adminView();
+  if(!S.profile) return onboardView();
+  if(!S.profile.approved) return pendingView();
+  studentView();
+}
+
+// ===== Login =====
+function loginView(msg=''){
+  clean();
+  $app.innerHTML = topbar() + `<div class="center"><h1>${t('title')}</h1>
+   <button class="btn" onclick="googleLogin()">${t('google')}</button>
+   <details class="card"><summary>${t('admin')}</summary>
+    <input id="em" type="email" placeholder="${t('email')}" autocomplete="username">
+    <input id="pw" type="password" placeholder="${t('pass')}" autocomplete="current-password">
+    <button class="btn" onclick="adminLogin()">${t('login')}</button></details>
+   <div class="err" id="err">${msg}</div></div>`;
+}
+async function googleLogin(){
+  try{ await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
+  catch(e){ document.getElementById('err').textContent=t('fail'); }
+}
+async function adminLogin(){
+  try{
+    const c = await auth.signInWithEmailAndPassword(em.value.trim(), pw.value);
+    const ok = (await db.doc('admins/'+c.user.uid).get()).exists;
+    if(!ok){ await auth.signOut(); loginView(t('adminOnly')); }
+  }catch(e){ document.getElementById('err').textContent=t('fail'); }
+}
+
+// ===== Onboarding =====
+let ob = {grade:null, photo:''};
+function onboardView(){
+  $app.innerHTML = topbar() + `<div class="card"><h2>${t('pickGrade')}</h2><p class="mut">${t('gradeWarn')}</p>
+   <div class="three">${GRADES.map(g=>`<button id="g_${g}" class="${ob.grade===g?'on':''}" onclick="ob.grade='${g}';onboardView()">${t(g)}</button>`).join('')}</div>
+   <input id="nm" placeholder="${t('name')}" value="${esc(S.user.displayName||'')}">
+   <label class="mut">${t('photo')}</label>
+   <input id="ph" type="file" accept="image/*" onchange="readPhoto(this)">
+   <div class="err" id="err"></div>
+   <button class="btn" onclick="saveProfile()">${t('save')}</button></div>`;
+}
+function readPhoto(inp){
+  const f=inp.files[0]; if(!f) return;
+  const img=new Image(); img.onload=()=>{
+    const c=document.createElement('canvas'); c.width=c.height=128;
+    const s=Math.min(img.width,img.height); c.getContext('2d').drawImage(img,(img.width-s)/2,(img.height-s)/2,s,s,0,0,128,128);
+    ob.photo=c.toDataURL('image/jpeg',.7);
+  }; img.src=URL.createObjectURL(f);
+}
+async function saveProfile(){
+  const name=nm.value.trim();
+  if(!ob.grade||!name){ document.getElementById('err').textContent=t('fail'); return; }
+  try{
+    await db.doc('users/'+S.user.uid).set({name,photo:ob.photo,grade:ob.grade,approved:false,email:S.user.email||'',createdAt:TS()});
+  }catch(e){ document.getElementById('err').textContent=t('fail'); }
+}
+function pendingView(){
+  $app.innerHTML = topbar() + `<div class="center"><h2>${esc(S.profile.name)}</h2><p>${t('pending')}</p></div>
+   <div class="card"><h2>${t('talk')}</h2>${supportBox()}</div>`;
+  mountSupport(S.user.uid);
+}
+
+// ===== Student =====
+function studentView(){
+  clean();
+  const p=S.profile;
+  $app.innerHTML = topbar() + `<p class="mut">${esc(p.name)} · ${t(p.grade)}</p>
+   <div class="split"><button id="t_content" onclick="S.tab='content';studentView()" class="${S.tab==='content'?'on':''}">${t('content')}</button>
+   <button id="t_comm" onclick="S.tab='comm';studentView()" class="${S.tab==='comm'?'on':''}">${t('comm')}</button></div><div id="body"></div>`;
+  S.tab==='content' ? contentView(p.grade) : commView(p);
+}
+function contentView(grade){
+  const b=document.getElementById('body');
+  b.innerHTML = `<div class="three">${['videos','files','exams'].map(k=>`<button class="${S.sub===k?'on':''}" onclick="S.sub='${k}';studentView()">${t(k)}</button>`).join('')}</div><div id="list"></div>`;
+  const list=document.getElementById('list');
+  const col = S.sub==='exams'?'exams':'content';
+  let q=db.collection(col).where('grade','==',grade);
+  if(col==='content') q=q.where('type','==',S.sub==='videos'?'video':'file');
+  unsubs.push(q.onSnapshot(s=>{
+    const docs=s.docs.sort((a,b)=>(b.data().createdAt?.seconds||0)-(a.data().createdAt?.seconds||0));
+    list.innerHTML = docs.length? docs.map(d=>itemHTML(d.id,d.data())).join('') : `<p class="mut">${t('empty')}</p>`;
+  },()=>list.innerHTML=`<p class="err">${t('fail')}</p>`));
+}
+function ytId(u){const m=u.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/);return m&&m[1];}
+function itemHTML(id,d){
+  if(S.isAdmin===false && S.sub==='exams' || d.questions) return examCard(id,d);
+  const adm = S.isAdmin?`<button class="btn d s" onclick="delDoc('content','${id}')">${t('del')}</button>`:'';
+  if(d.type==='video'){
+    const y=ytId(d.url);
+    return `<div class="card"><h2>${esc(d.title)}</h2>${y?`<div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/${y}" allowfullscreen loading="lazy"></iframe></div>`:`<a href="${esc(d.url)}" target="_blank" rel="noopener">${t('open')}</a>`}${adm}</div>`;
+  }
+  const isImg=/\.(png|jpe?g|gif|webp)(\?|$)/i.test(d.url);
+  return `<div class="card"><h2>${esc(d.title)}</h2>${isImg?`<img class="ct" src="${esc(d.url)}" alt="">`:''}<a class="btn s" href="${esc(d.url)}" target="_blank" rel="noopener">${t('open')}</a> ${adm}</div>`;
+}
+async function delDoc(c,id){ if(confirm('?')) await db.doc(c+'/'+id).delete(); }
+
+// Exams
+function examCard(id,d){
+  const adm = S.isAdmin?`<button class="btn d s" onclick="delDoc('exams','${id}')">${t('del')}</button>`:'';
+  if(S.isAdmin) return `<div class="card"><h2>${esc(d.title)}</h2><span class="mut">${d.questions.length} Q</span> ${adm}</div>`;
+  return `<div class="card"><h2>${esc(d.title)}</h2><button class="btn s" onclick="startExam('${id}')">${t('open')}</button><div id="ex_${id}"></div></div>`;
+}
+async function startExam(id){
+  const box=document.getElementById('ex_'+id);
+  const sub=await db.doc('submissions/'+id+'_'+S.user.uid).get();
+  if(sub.exists){ box.innerHTML=`<p>${t('already')} ${sub.data().score}/${sub.data().total}</p>`; return; }
+  const ex=(await db.doc('exams/'+id).get()).data();
+  box.innerHTML = ex.questions.map((q,i)=>`<div class="card"><strong>${i+1}. ${esc(q.q)}</strong>${q.options.map((o,j)=>`<label class="opt"><input type="radio" name="q${i}" value="${j+1}">${esc(o)}</label>`).join('')}</div>`).join('')
+   + `<button class="btn" onclick="submitExam('${id}')">${t('submit')}</button>`;
+  window._ex=ex;
+}
+async function submitExam(id){
+  const ex=window._ex; let score=0; const ans=[];
+  ex.questions.forEach((q,i)=>{const r=document.querySelector(`input[name=q${i}]:checked`);const v=r?+r.value:0;ans.push(v);if(v===q.answer)score++;});
+  try{
+    await db.doc('submissions/'+id+'_'+S.user.uid).set({uid:S.user.uid,name:S.profile.name,examId:id,grade:S.profile.grade,answers:ans,score,total:ex.questions.length,createdAt:TS()});
+    document.getElementById('ex_'+id).innerHTML=`<p><strong>${t('done')} ${score}/${ex.questions.length}</strong></p>`;
+  }catch(e){ alert(t('fail')); }
+}
+
+// ===== Community / chat =====
+function commView(p){
+  document.getElementById('body').innerHTML = `<div class="card"><h2>${t('group')}</h2>${chatBox(p.grade)}</div>
+   <div class="card"><h2>${t('talk')}</h2>${supportBox()}</div>`;
+  mountChat(p.grade); mountSupport(S.user.uid);
+}
+function chatBox(g){
+  return `<div class="msgs" id="cm_${g}"></div><div class="err" id="cl_${g}"></div>
+   <div class="row"><input id="ci_${g}" placeholder="${t('msg')}" onkeydown="if(event.key==='Enter')sendChat('${g}')"><button class="btn" onclick="sendChat('${g}')">${t('send')}</button></div>`;
+}
+function msgHTML(col,id,m){
+  const mine = m.uid===S.user.uid, can = mine||S.isAdmin;
+  return `<div class="m ${mine?'me':''}"><div class="n">${m.photo?`<img class="av" src="${esc(m.photo)}" alt="">`:'<span class="av"></span>'}${esc(m.name)}</div>
+   <div>${esc(m.text)}</div>${can?`<div class="row">${mine?`<button class="btn g s" onclick="editMsg('${col}','${id}')">${t('edit')}</button>`:''}<button class="btn g s" onclick="delMsg('${col}','${id}')">${t('del')}</button></div>`:''}</div>`;
+}
+function renderMsgs(el,col,snap){
+  el.innerHTML=snap.docs.map(d=>msgHTML(col,d.id,d.data())).join('');
+  el.scrollTop=el.scrollHeight;
+}
+function mountChat(g){
+  const col='chats/'+g+'/messages', el=document.getElementById('cm_'+g);
+  unsubs.push(db.collection(col).orderBy('createdAt').limitToLast(100).onSnapshot(s=>renderMsgs(el,col,s)));
+  unsubs.push(db.doc('groups/'+g).onSnapshot(d=>{
+    const closed=d.exists&&d.data().open===false;
+    document.getElementById('cl_'+g).textContent=closed?t('closed'):'';
+  }));
+}
+async function sendChat(g){
+  const i=document.getElementById('ci_'+g), text=i.value.trim(); if(!text) return;
+  const name=S.isAdmin?'Admin':S.profile.name, photo=S.isAdmin?'':(S.profile.photo||'');
+  try{ await db.collection('chats/'+g+'/messages').add({uid:S.user.uid,name,photo,text,createdAt:TS()}); i.value=''; }
+  catch(e){ document.getElementById('cl_'+g).textContent=t('closed'); }
+}
+async function editMsg(col,id){
+  const cur=(await db.doc(col+'/'+id).get()).data().text, n=prompt('',cur);
+  if(n&&n.trim()) await db.doc(col+'/'+id).update({text:n.trim()});
+}
+async function delMsg(col,id){ if(confirm('?')) await db.doc(col+'/'+id).delete(); }
+
+// Support thread (student <-> admin), keyed by student uid
+function supportBox(uid){
+  uid=uid||S.user.uid;
+  return `<div class="msgs" id="sm_${uid}" style="height:40vh"></div>
+   <div class="row"><input id="si_${uid}" placeholder="${t('msg')}" onkeydown="if(event.key==='Enter')sendSupport('${uid}')"><button class="btn" onclick="sendSupport('${uid}')">${t('send')}</button></div>`;
+}
+function mountSupport(uid){
+  const col='support/'+uid+'/messages', el=document.getElementById('sm_'+uid);
+  unsubs.push(db.collection(col).orderBy('createdAt').limitToLast(100).onSnapshot(s=>renderMsgs(el,col,s)));
+}
+async function sendSupport(uid){
+  const i=document.getElementById('si_'+uid), text=i.value.trim(); if(!text) return;
+  const name=S.isAdmin?'Admin':S.profile.name;
+  await db.collection('support/'+uid+'/messages').add({uid:S.user.uid,name,photo:'',text,createdAt:TS()});
+  if(!S.isAdmin) await db.doc('support/'+uid).set({name,last:TS()},{merge:true});
+  i.value='';
+}
+
+// ===== Admin =====
+let A={tab:'students',grade:'bac1',st:null};
+function adminView(){
+  clean();
+  const tabs=['students','add','exam','groups','inbox'];
+  $app.innerHTML = topbar() + `<div class="tabs">${tabs.map(k=>`<button class="btn s ${A.tab===k?'':'g'}" onclick="A.tab='${k}';adminView()">${t(k)}</button>`).join('')}</div><div id="body"></div>`;
+  ({students:aStudents,add:aAdd,exam:aExam,groups:aGroups,inbox:aInbox})[A.tab]();
+}
+function gradeSel(id,val){return `<select id="${id}">${GRADES.map(g=>`<option value="${g}" ${g===val?'selected':''}>${t(g)}</option>`).join('')}</select>`;}
+function aStudents(){
+  const b=document.getElementById('body');
+  unsubs.push(db.collection('users').onSnapshot(s=>{
+    const us=s.docs.map(d=>({id:d.id,...d.data()}));
+    const row=u=>`<div class="card"><div class="row">${u.photo?`<img class="av" src="${esc(u.photo)}" alt="">`:''}<strong>${esc(u.name)}</strong><span class="mut">${esc(u.email)}</span></div>
+      <div class="row">${gradeSel('gr_'+u.id,u.grade)}
+      <button class="btn g s" onclick="setGrade('${u.id}')">${t('save')}</button>
+      ${u.approved?'':`<button class="btn s" onclick="db.doc('users/${u.id}').update({approved:true})">${t('accept')}</button>`}
+      <button class="btn d s" onclick="kick('${u.id}')">${t('kick')}</button></div></div>`;
+    b.innerHTML=`<h2>${t('pend')}</h2>${us.filter(u=>!u.approved).map(row).join('')||`<p class="mut">${t('empty')}</p>`}
+      <h2>${t('acc')}</h2>${us.filter(u=>u.approved).map(row).join('')||`<p class="mut">${t('empty')}</p>`}`;
+  }));
+}
+async function setGrade(id){ await db.doc('users/'+id).update({grade:document.getElementById('gr_'+id).value}); }
+async function kick(id){ if(confirm('?')) await db.doc('users/'+id).delete(); }
+function aAdd(){
+  document.getElementById('body').innerHTML=`<div class="card"><label>${t('type')}</label>
+   <select id="ty"><option value="video">${t('videos')}</option><option value="file">${t('files')}</option></select>
+   ${gradeSel('ag',A.grade)}<input id="at" placeholder="${t('ttl')}"><input id="au" placeholder="${t('url')}" dir="ltr">
+   <p class="mut">YouTube (Unlisted) / Drive / image or PDF link</p><div class="err" id="err"></div>
+   <button class="btn" onclick="addContent()">${t('add')}</button></div><div id="list"></div>`;
+  S.sub='videos';
+  unsubs.push(db.collection('content').onSnapshot(s=>{
+    document.getElementById('list').innerHTML=s.docs.map(d=>`<div class="card"><span class="mut">${t(d.data().grade)}</span>${itemHTML(d.id,d.data())}</div>`).join('');
+  }));
+}
+async function addContent(){
+  const title=at.value.trim(), url=au.value.trim();
+  if(!title||!/^https?:\/\//.test(url)){ err.textContent=t('fail'); return; }
+  await db.collection('content').add({type:ty.value,grade:ag.value,title,url,createdAt:TS()});
+  at.value=au.value=''; err.textContent=t('saved');
+}
+function aExam(){
+  document.getElementById('body').innerHTML=`<div class="card">${gradeSel('eg',A.grade)}<input id="et" placeholder="${t('ttl')}">
+   <p class="mut">${t('examHelp')}</p><textarea id="eq" dir="auto"></textarea><div class="err" id="err"></div>
+   <button class="btn" onclick="addExam()">${t('add')}</button></div><div id="list"></div>`;
+  S.sub='exams';
+  unsubs.push(db.collection('exams').onSnapshot(s=>{
+    document.getElementById('list').innerHTML=s.docs.map(d=>`<div class="card"><span class="mut">${t(d.data().grade)}</span>${examCard(d.id,d.data())}</div>`).join('');
+  }));
+}
+async function addExam(){
+  const title=et.value.trim(), qs=[];
+  for(const line of eq.value.split('\n').map(l=>l.trim()).filter(Boolean)){
+    const p=line.split('|').map(x=>x.trim()), ans=+p.pop(), q=p.shift();
+    if(!q||p.length<2||!(ans>=1&&ans<=p.length)){ err.textContent=t('fail')+': '+line; return; }
+    qs.push({q,options:p,answer:ans});
+  }
+  if(!title||!qs.length){ err.textContent=t('fail'); return; }
+  await db.collection('exams').add({grade:eg.value,title,questions:qs,createdAt:TS()});
+  et.value=eq.value=''; err.textContent=t('saved');
+}
+function aGroups(){
+  const b=document.getElementById('body');
+  b.innerHTML=`<div class="three">${GRADES.map(g=>`<button class="${A.grade===g?'on':''}" onclick="A.grade='${g}';adminView()">${t(g)}</button>`).join('')}</div>
+   <div class="card"><div class="row"><h2 id="gs" style="flex:1"></h2><button class="btn s" id="gt"></button></div>${chatBox(A.grade)}</div>`;
+  mountChat(A.grade);
+  unsubs.push(db.doc('groups/'+A.grade).onSnapshot(d=>{
+    const open=!(d.exists&&d.data().open===false);
+    gs.textContent=t(A.grade); gt.textContent=open?t('lock'):t('unlock');
+    gt.onclick=()=>db.doc('groups/'+A.grade).set({open:!open});
+  }));
+}
+function aInbox(){
+  const b=document.getElementById('body');
+  unsubs.push(db.collection('support').onSnapshot(s=>{
+    if(A.st) return;
+    b.innerHTML=s.docs.map(d=>`<div class="card row"><strong style="flex:1">${esc(d.data().name)}</strong><button class="btn s" onclick="A.st='${d.id}';openThread('${d.id}')">${t('open')}</button></div>`).join('')||`<p class="mut">${t('empty')}</p>`;
+  }));
+  if(A.st) openThread(A.st);
+}
+function openThread(uid){
+  document.getElementById('body').innerHTML=`<button class="btn g s" onclick="A.st=null;adminView()">←</button><div class="card">${supportBox(uid)}</div>`;
+  mountSupport(uid);
+}
+applyUI();
+</script>
+</body>
+</html>
