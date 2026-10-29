@@ -70,6 +70,11 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth(), db = firebase.firestore();
 const TS = () => firebase.firestore.FieldValue.serverTimestamp();
 const GRADES = ['bac1','bac2','sec3'];
+const ADMIN_EMAIL = 'dama@gmail.com';
+async function checkAdmin(u){
+  if((u.email||'').toLowerCase()===ADMIN_EMAIL && u.emailVerified) return true;
+  try{ return (await db.doc('admins/'+u.uid).get()).exists; }catch(e){ return false; }
+}
 
 const T = {
  ar:{title:'المنصة',google:'الدخول بجوجل',admin:'دخول الأدمن',email:'الإيميل',pass:'كلمة المرور',login:'دخول',out:'خروج',
@@ -124,7 +129,7 @@ function toggleTheme(){theme=theme==='dark'?'light':'dark';localStorage.theme=th
 auth.onAuthStateChanged(async u=>{
   clean(); S.user=u; S.profile=null; S.isAdmin=false;
   if(u){
-    try{ S.isAdmin = (await db.doc('admins/'+u.uid).get()).exists; }catch(e){}
+    S.isAdmin = await checkAdmin(u);
     if(!S.isAdmin){
       const unsub = db.doc('users/'+u.uid).onSnapshot(d=>{S.profile=d.exists?d.data():null; route(true);});
       unsubs.push(unsub); return;
@@ -159,7 +164,7 @@ async function googleLogin(){
 async function adminLogin(){
   try{
     const c = await auth.signInWithEmailAndPassword(em.value.trim(), pw.value);
-    const ok = (await db.doc('admins/'+c.user.uid).get()).exists;
+    const ok = await checkAdmin(c.user);
     if(!ok){ await auth.signOut(); loginView(t('adminOnly')); }
   }catch(e){ document.getElementById('err').textContent=t('fail'); }
 }
