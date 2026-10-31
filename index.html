@@ -1027,8 +1027,17 @@ a.vcard:hover::before,.fcard:hover::before{animation:xsheen 1.1s ease 1}
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {getAuth,onAuthStateChanged,GoogleAuthProvider,signInWithPopup,signInWithRedirect,signInWithEmailAndPassword,signOut}
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import {getFirestore,doc,getDoc,getDocs,setDoc,addDoc,updateDoc,deleteDoc,collection,query,where,orderBy,limit,onSnapshot,serverTimestamp,writeBatch}
+import {getFirestore,doc,getDoc,getDocs,setDoc as _setDoc,addDoc as _addDoc,updateDoc as _updateDoc,deleteDoc as _deleteDoc,collection,query,where,orderBy,limit,onSnapshot,serverTimestamp,writeBatch as _writeBatch}
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/* وضع معاينة الأدمن كطالب: القراءة شغالة والكتابة متوقفة عشان ما يتلخبطش بيانات حقيقية */
+let viewAs=null;
+const _nb={set(){return _nb},update(){return _nb},delete(){return _nb},commit:async()=>{}};
+const setDoc=(...a)=>viewAs?Promise.resolve():_setDoc(...a);
+const addDoc=(...a)=>viewAs?Promise.resolve({id:'preview'}):_addDoc(...a);
+const updateDoc=(...a)=>viewAs?Promise.resolve():_updateDoc(...a);
+const deleteDoc=(...a)=>viewAs?Promise.resolve():_deleteDoc(...a);
+const writeBatch=d=>viewAs?_nb:_writeBatch(d);
 
 /* =====================================================================
    CONFIG — paste your values from Firebase Console > Project settings
@@ -1189,9 +1198,13 @@ window.addEventListener('hashchange',()=>{if(ready)render();});
 function render(){
   unsubs.forEach(f=>{try{f();}catch{}});unsubs=[];
   cleanups.forEach(f=>{try{f();}catch{}});cleanups=[];
-  chatCleanup();chatCtx=null;aiState=null;closeSheet();routeTok++;
+  chatCleanup();chatCtx=null;aiState=null;aiRO=false;closeSheet();routeTok++;{const o=document.getElementById('pvbar');if(o)o.remove();}
   if(!ready){app.innerHTML='';return;}
   if(!me)return viewAuth();
+  if(admin&&viewAs){
+    profile={uid:me.uid,name:'طالب (معاينة)',track:viewAs.track,photoURL:''};studentRoute();
+    const b=document.createElement('button');b.id='pvbar';b.dataset.act='view-exit';b.textContent='👁 معاينة طالب '+((TRACKS[viewAs.track]||{}).name||'')+' — اضغط للرجوع للأدمن';document.body.appendChild(b);return;
+  }
   if(admin)return adminRoute();
   if(!profile)return viewSetup();
   if(profile.banned)return viewBanned();
@@ -1565,10 +1578,20 @@ function openAI(ctx){
     <form class="composer" data-form="ai"><input name="t" placeholder="اسأل أي حاجة عن السؤال ده…" autocomplete="off" maxlength="500"><button class="send" aria-label="إرسال">${icon('i-send','flip')}</button></form>`,'tall');
   sendAI(aiPrompt(ctx),true);
 }
-async function sendAI(text,hidden){
+let aiKB=null;
+/* مرجع من أسئلة وشرح المدرّس: بنختار أقرب أسئلة لكلام الطالب ونديها للـ AI يتّسق معاها */
+async function aiNotes(text){
+  try{if(!aiKB)aiKB=(await getDocs(query(collection(db,'exams'),where('track','in',['all',profile.track])))).docs.flatMap(d=>(d.data().questions||[]).map(q=>({q:String(q.q||''),a:String(q.model||(q.options||[])[q.correct]||''),e:String(q.explain||'')})));}catch{aiKB=[];}
+  const tok=s=>String(s).replace(/[^\u0600-\u06FFa-zA-Z0-9]+/g,' ').split(' ').filter(w=>w.length>2);
+  const T=new Set(tok(text));if(!T.size)return [];
+  return aiKB.map(k=>({k,s:tok(k.q+' '+k.e).filter(w=>T.has(w)).length})).filter(x=>x.s>=2).sort((a,b)=>b.s-a.s).slice(0,3).map(x=>x.k);
+}
+async function sendAI(text,hidden,images){
   const st=aiState;if(!st||st.busy)return;st.busy=true;
-  st.msgs.push({role:'user',content:text,hidden:!!hidden});st.err='';paintAI(true);
-  try{const reply=await askAI(st.ctx,st.msgs.map(m=>({role:m.role,content:m.content})));if(aiState!==st)return;st.msgs.push({role:'assistant',content:reply});}
+  st.msgs.push({role:'user',content:text,hidden:!!hidden,images:images&&images.length?images:undefined});st.err='';paintAI(true);
+  const last=st.msgs.length-1;
+  if(st.body==='abody'){st.ctx.notes=await aiNotes(text);try{st.ctx.exams=Object.values((prog&&prog.attempts)||{}).map(a=>({t:a.title||'',p:Math.round(100*(+a.best||0)/(+a.total||1))})).sort((a,b)=>a.p-b.p).slice(0,12);}catch{}}
+  try{const reply=await askAI(st.ctx,st.msgs.map((m,i)=>({role:m.role,content:m.images&&i<last?m.content+'\n[الطالب بعت صورة هنا]':m.content,...(m.images&&i===last?{images:m.images.map(d=>d.split(',')[1])}:{})})));if(aiState!==st)return;st.msgs.push({role:'assistant',content:reply});}
   catch(e){if(aiState!==st)return;st.err=aiWhy(e);}
   st.busy=false;aiSave();paintAI(false);
 }
@@ -1579,32 +1602,192 @@ function paintAI(loading){
     const tn=(TRACKS[profile.track]||{}).name||'';
     b.innerHTML=`<div class="ai-welcome"><span class="aw-ic">${icon('i-spark')}</span><h2>أنا مدرّس الـ AI بتاعك</h2>
       <p class="muted">اسألني في أي حاجة في منهج ${esc(tn)} تانية بكالوريا: شرح درس، تلخيص، حل مسألة، أو أسئلة تدريبية.</p>
-      <div class="aw-chips">${['اشرحلي درس خطوة بخطوة','لخصلي درس في نقاط','اديني أسئلة تدريبية على درس','فسرلي مسألة مش فاهمها'].map(t=>`<button type="button" class="aw-chip" data-act="ai-chip" data-t="${esc(t)}">${esc(t)}</button>`).join('')}</div></div>`;
+      <div class="aw-chips">${['اعملي امتحان ١٠ أسئلة على درس','لخصلي درس في ملخص منظم','ارسملي رسم يوضح فكرة','صوّر مسألة وابعتها 📷'].map(t=>`<button type="button" class="aw-chip" data-act="ai-chip" data-t="${esc(t)}">${esc(t)}</button>`).join('')}</div></div>`;
     return;
   }
-  b.innerHTML=vis.map((m,i)=>`<div class="ai-m ${m.role==='user'?'u':''} ${i===vis.length-1&&!loading?'last':''}">${fmt(m.content)}</div>`).join('')
+  b.innerHTML=vis.map((m,i)=>m.role==='user'
+    ?`<div class="ai-m u ${i===vis.length-1&&!loading?'last':''}">${(m.images||[]).map(s=>`<img class="ai-th" src="${s}" alt="">`).join('')}${fmt(m.content)}</div>`
+    :`<div class="ai-m ${i===vis.length-1&&!loading?'last':''}">${aiRich(m.content,i,i===vis.length-1&&!loading)}${aiState.body==='abody'?`<div class="ai-acts"><button type="button" data-act="ai-copy" data-i="${i}">نسخ</button><button type="button" data-act="ai-pdf" data-i="${i}">PDF</button></div>`:''}</div>`).join('')
     +(loading?`<div class="ai-m last"><span class="typing"><i></i><i></i><i></i></span></div>`:'')
     +(aiState.err?`<div class="ai-m err last">${esc(aiState.err)}</div>`:'');
   b.scrollTop=b.scrollHeight;
 }
 /* شات الطالب الحر مع الـ AI (جوه المنهج بس — القيد الحقيقي في الـ Worker) */
-const aiKey=()=>'ai_chat_'+(me&&me.uid);
+const aiCol=u=>collection(db,'ai_chats',u||me.uid,'chats');
+const aiLastKey=()=>'ai_last_'+(me&&me.uid);
 function aiSave(){
-  if(!aiState||aiState.body!=='abody')return;
-  try{localStorage.setItem(aiKey(),JSON.stringify(aiState.msgs.filter(m=>!m.hidden).slice(-40).map(m=>({role:m.role,content:m.content}))));}catch{}
+  if(!aiState||aiState.body!=='abody'||!me)return;
+  const vis=aiState.msgs.filter(m=>!m.hidden);if(!vis.length)return;
+  if(!aiState.chatId)aiState.chatId=doc(aiCol()).id;
+  if(!aiState.title){const f=vis.find(m=>m.role==='user');aiState.title=(f?f.content:'محادثة').replace(/\s+/g,' ').slice(0,40);}
+  const id=aiState.chatId,first=!aiState.created,from=aiState.saved||0;aiState.created=1;aiState.saved=vis.length;
+  try{localStorage.setItem(aiLastKey(),id);}catch{}
+  setDoc(doc(aiCol(),id),{title:aiState.title,count:vis.length,updatedAt:serverTimestamp(),...(first?{createdAt:serverTimestamp()}:{})},{merge:true}).catch(()=>{});
+  vis.slice(from).forEach((m,i)=>{const n=from+i;setDoc(doc(db,'ai_chats',me.uid,'chats',id,'m',String(n).padStart(5,'0')),{n,role:m.role,content:String(m.content).slice(0,30000)+(m.images?'\n[📷 صورة مرفقة]':''),at:serverTimestamp()}).catch(()=>{});});
+  setDoc(doc(db,'ai_chats',me.uid),{uid:me.uid,name:profile.name||'',track:profile.track||'',last:vis[vis.length-1].content.slice(0,80),updatedAt:serverTimestamp()},{merge:true}).catch(()=>{});
+}
+/* تحميل محادثة كاملة (الجديدة رسائلها في مجموعة فرعية m، والقديمة جوه المستند) */
+async function aiLoad(id,uid){
+  uid=uid||me.uid;const s=await getDoc(doc(aiCol(uid),id));if(!s.exists())return null;const d=s.data();
+  if(d.msgs)return {title:d.title,msgs:d.msgs,legacy:true};
+  const r=await getDocs(query(collection(db,'ai_chats',uid,'chats',id,'m'),orderBy('n','asc')));
+  return {title:d.title,msgs:r.docs.map(x=>x.data())};
 }
 function viewAIChat(){
   const tr=TRACKS[profile.track]||{};
-  const head=chatHead('i-spark',tr.color||'#6A4CFF','مدرّس الـ AI','بيرد على منهج '+(tr.name||'شعبتك')+' بس').replace(/<\/div>$/,`<button type="button" class="cbtn" data-act="ai-new" aria-label="محادثة جديدة">${icon('i-plus')}</button></div>`);
+  const head=chatHead('i-spark',tr.color||'#6A4CFF','مدرّس الـ AI','بيرد على منهج '+(tr.name||'شعبتك')+' بس').replace(/<\/div>$/,`<span class="ai-hb"><button type="button" class="cbtn lbl" data-act="ai-list">${icon('i-chat')}<span>المحادثات</span></button><button type="button" class="cbtn lbl" data-act="ai-new">${icon('i-plus')}<span>جديدة</span></button></span></div>`);
   studentShell('ai',`<div class="chat">${head}<div class="msgs aibody" id="abody"></div>
-    <form class="composer" data-form="ai"><input name="t" placeholder="اسأل في منهجك…" autocomplete="off" maxlength="600"><button class="send" aria-label="إرسال">${icon('i-send','flip')}</button></form></div>`,'chatpage');
-  let saved=[];try{saved=JSON.parse(localStorage.getItem(aiKey())||'[]').filter(m=>m&&(m.role==='user'||m.role==='assistant')&&typeof m.content==='string');}catch{}
-  aiState={ctx:{type:'chat',track:profile.track},msgs:saved,err:'',body:'abody'};
+    <div class="ai-modes">${[['💡 اشرحلي','اشرحلي بالتفصيل: '],['🎯 اختبرني','اختبرني سؤال سؤال في: '],['🗂 كروت','اعملي فلاش كاردز مراجعة على: '],['📅 خطة','اعملي لي خطة مذاكرة ل'],['⚡ مراجعة سريعة','راجعني بسرعة قبل الامتحان على: ']].map(([l,t])=>`<button type="button" data-act="ai-mode" data-t="${t}">${l}</button>`).join('')}</div><div class="apend" id="apend"></div>
+    <form class="composer" data-form="ai"><button type="button" class="ai-attach" data-act="ai-attach" aria-label="إرفاق صورة">📷</button><input name="t" placeholder="اسأل أو ابعت صورة مسألة…" autocomplete="off" maxlength="1500"><input type="file" id="afile" accept="image/*" multiple hidden><button class="send" aria-label="إرسال">${icon('i-send','flip')}</button></form></div>`,'chatpage');
+  aiState={ctx:{type:'chat',track:profile.track},msgs:[],err:'',body:'abody',pending:[]};aiQ={};
   paintAI(false);
+  let last='';try{last=localStorage.getItem(aiLastKey())||'';}catch{}
+  if(last&&!viewAs){const st=aiState;aiLoad(last).then(d=>{if(aiState!==st||st.msgs.length||!d)return;st.msgs=d.msgs.filter(m=>m&&(m.role==='user'||m.role==='assistant')).map(m=>({role:m.role,content:m.content}));if(!d.legacy){st.chatId=last;st.created=1;st.saved=st.msgs.length;}st.title=d.title;paintAI(false);}).catch(()=>{});}
 }
-acts['ai-chip']=el=>{if(aiState&&aiState.body==='abody')sendAI(el.dataset.t);};
-acts['ai-new']=()=>{if(!aiState||aiState.busy)return;if(aiState.msgs.length&&!confirm('تبدأ محادثة جديدة؟ المحادثة الحالية هتتمسح.'))return;aiState.msgs=[];aiState.err='';aiSave();paintAI(false);};
-forms['ai']=f=>{const t=f.elements.t.value.trim();if(!t)return;f.elements.t.value='';sendAI(t);};
+acts['ai-chip']=el=>{if(!aiState||aiState.body!=='abody')return;if(el.dataset.t.includes('📷'))return acts['ai-attach']();$('#abody')&&$('form[data-form=ai] input[name=t]')?.focus();sendAI(el.dataset.t.includes('امتحان')||el.dataset.t.includes('ملخص')||el.dataset.t.includes('رسم')?el.dataset.t+' (اسألني الأول أي درس)':el.dataset.t);};
+acts['ai-new']=()=>{if(!aiState||aiState.busy)return;aiState.msgs=[];aiState.err='';aiState.pending=[];aiState.chatId=null;aiState.title=null;aiState.created=0;aiState.saved=0;aiQ={};try{localStorage.removeItem(aiLastKey());}catch{}paintAI(false);aiPend();};
+let aiChats=[];
+const aiDate=t=>{try{return t&&t.toDate?t.toDate().toLocaleDateString('ar-EG',{day:'numeric',month:'short'}):'';}catch{return '';}};
+function aiListPaint(){
+  const b=$('#aichats');if(!b)return;
+  b.innerHTML=aiChats.length?aiChats.map(c=>`<div class="urow ai-row"><button type="button" class="info" data-act="ai-open" data-id="${c.id}"><b>${esc(c.title||'محادثة')}</b><small class="muted">${aiDate(c.updatedAt)} · ${c.count??(c.msgs||[]).length} رسالة${aiState&&aiState.chatId===c.id?' · الحالية':''}</small></button><button type="button" class="icon-btn" data-act="ai-del" data-id="${c.id}" aria-label="مسح">${icon('i-trash')}</button></div>`).join(''):empty('مفيش محادثات محفوظة لسه','i-spark');
+}
+acts['ai-list']=async()=>{
+  openSheet(`${sheetHead('محادثاتي')}<button class="btn primary block" data-act="ai-new-close">${icon('i-plus')} محادثة جديدة</button><div id="aichats" class="stack" style="margin-top:10px"><div class="skel"></div></div>`,'tall');
+  try{const s=await getDocs(query(aiCol(),orderBy('updatedAt','desc'),limit(40)));aiChats=s.docs.map(d=>({id:d.id,...d.data()}));}catch{aiChats=[];}
+  aiListPaint();
+};
+acts['ai-new-close']=()=>{acts['ai-new']();closeSheet();};
+acts['ai-open']=async el=>{if(!aiState||aiState.busy)return;const st=aiState;let d;try{d=await aiLoad(el.dataset.id);}catch(e){fail(e);return;}if(!d||aiState!==st)return;
+  st.msgs=d.msgs.map(m=>({role:m.role,content:m.content}));st.title=d.title;st.err='';aiQ={};
+  if(d.legacy){st.chatId=null;st.created=0;st.saved=0;}else{st.chatId=el.dataset.id;st.created=1;st.saved=st.msgs.length;try{localStorage.setItem(aiLastKey(),st.chatId);}catch{}}
+  closeSheet();paintAI(false);};
+async function aiPurge(uid,id){try{const r=await getDocs(collection(db,'ai_chats',uid,'chats',id,'m'));await Promise.all(r.docs.map(x=>deleteDoc(x.ref)));}catch{}await deleteDoc(doc(db,'ai_chats',uid,'chats',id));}
+acts['ai-del']=async el=>{if(!confirm('تمسح المحادثة دي؟'))return;const id=el.dataset.id;try{await aiPurge(me.uid,id);}catch(e){fail(e);return;}aiChats=aiChats.filter(c=>c.id!==id);if(aiState&&aiState.chatId===id){aiState.msgs=[];aiState.chatId=null;aiState.title=null;aiState.created=0;aiState.saved=0;paintAI(false);}aiListPaint();};
+forms['ai']=f=>{const imgs=(aiState&&aiState.pending)||[];const t=f.elements.t.value.trim()||(imgs.length?'اقرا الصورة دي وحلّها أو اشرحها خطوة بخطوة.':'');if(!t)return;f.elements.t.value='';if(aiState)aiState.pending=[];aiPend();sendAI(t,false,imgs);};
+
+/* ---- قدرات الشات: صور / رسومات SVG / امتحانات تفاعلية / نسخ و PDF ---- */
+let aiQ={},aiRO=false;
+function aiPend(){const p=$('#apend');if(!p)return;const a=(aiState&&aiState.pending)||[];p.innerHTML=a.map((s,i)=>`<span class="ai-pt"><img src="${s}" alt=""><button type="button" data-act="ai-unpend" data-i="${i}" aria-label="شيل">×</button></span>`).join('');}
+acts['ai-attach']=()=>{if(aiState&&aiState.busy)return;const f=$('#afile');if(f)f.click();};
+acts['ai-unpend']=el=>{if(aiState&&aiState.pending){aiState.pending.splice(+el.dataset.i,1);aiPend();}};
+document.addEventListener('change',async e=>{
+  const f=e.target;if(!f||f.id!=='afile'||!aiState)return;
+  const files=[...f.files].filter(x=>x.type.startsWith('image/')).slice(0,3-(aiState.pending||[]).length);f.value='';
+  for(const file of files){try{aiState.pending.push(await aiShrink(file));}catch{alert('مقدرتش أقرا الصورة دي، جرّب صورة تانية.');}}
+  aiPend();
+});
+async function aiShrink(file){
+  const bmp=await createImageBitmap(file);const s=Math.min(1,1400/Math.max(bmp.width,bmp.height));
+  const c=document.createElement('canvas');c.width=Math.round(bmp.width*s);c.height=Math.round(bmp.height*s);
+  const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(bmp,0,0,c.width,c.height);
+  return c.toDataURL('image/jpeg',.82);
+}
+function aiSvg(code){
+  let s=String(code).trim();if(!/^<svg[\s>]/i.test(s)||s.length>60000)return '';
+  s=s.replace(/<script[\s\S]*?<\/script>/gi,'').replace(/<foreignObject[\s\S]*?<\/foreignObject>/gi,'').replace(/\son\w+\s*=\s*("[^"]*"|'[^']*')/gi,'').replace(/(xlink:)?href\s*=\s*("(?!#)[^"]*"|'(?!#)[^']*')/gi,'');
+  if(!/xmlns=/.test(s))s=s.replace('<svg','<svg xmlns="http://www.w3.org/2000/svg"');
+  return 'data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(s)));
+}
+function aiBlock(kind,body,key,last){
+  if(kind==='next'){if(!last||aiRO)return '';let a;try{a=JSON.parse(body);}catch{return '';}return Array.isArray(a)?`<div class="ai-next">${a.slice(0,4).map(t=>`<button type="button" data-act="ai-next" data-t="${esc(String(t).slice(0,80))}">${esc(String(t).slice(0,80))}</button>`).join('')}</div>`:'';}
+  if(kind==='cards'){let c;try{c=JSON.parse(body);}catch{return '<div class="muted">(الكروت لسه بتتكتب…)</div>';}if(!c||!Array.isArray(c.cards))return '';return `<div class="fc-box"><div class="aq-h">🗂 ${esc(c.title||'كروت مراجعة')} <small class="muted">(دوس على الكارت عشان تشوف الإجابة)</small></div><div class="fc-grid">${c.cards.slice(0,20).map(k=>`<button type="button" class="fc" data-act="fc"><span class="f">${esc(k.f)}</span><span class="b">${esc(k.b)}</span></button>`).join('')}</div></div>`;}
+  if(kind==='svg'){const u=aiSvg(body);return u?`<figure class="ai-fig"><img src="${u}" alt="رسم توضيحي"><button type="button" class="ai-dl" data-act="ai-svg-dl" data-u="${u}">⬇ حفظ كصورة</button></figure>`:'';}
+  let q;try{q=JSON.parse(body);}catch{return '<div class="muted">(الامتحان لسه بيتكتب…)</div>';}
+  if(!q||!Array.isArray(q.questions)||!q.questions.length)return '';
+  const st=aiQ[key]||(aiQ[key]=[]);
+  const qs=q.questions.slice(0,15).map((it,qi)=>{
+    const done=st[qi]!==undefined,ans=+it.answer;
+    return `<div class="aq-q"><b>${qi+1}. ${esc(it.q)}</b>${(it.options||[]).map((o,oi)=>`<button type="button" class="aq-o ${done?(oi===ans?'right':oi===st[qi]?'wrong':''):''}" ${done||aiRO?'disabled':''} data-act="aiq" data-k="${key}" data-q="${qi}" data-o="${oi}">${esc(o)}</button>`).join('')}${done&&it.explain?`<div class="expl"><b>الشرح:</b> ${esc(it.explain)}</div>`:''}</div>`;
+  }).join('');
+  const n=Math.min(15,q.questions.length),got=q.questions.slice(0,n).filter((it,i)=>st[i]===+it.answer).length;
+  const fin=st.filter(v=>v!==undefined).length===n;
+  return `<div class="aq"><div class="aq-h">📝 ${esc(q.title||'امتحان تدريبي')}</div>${qs}${fin?`<div class="aq-s">نتيجتك: ${got} من ${n} ${got/n>=.8?'🔥 ممتاز':got/n>=.5?'👍 كويس، راجع الغلط':'💪 محتاج مراجعة، اطلب مني أشرحلك'}</div>`:''}</div>`;
+}
+function aiRich(t,mi,last){
+  let n=0;const parts=String(t).split(/```(quiz|svg|cards|next)\s*\n?([\s\S]*?)(?:```|$)/);let out='';
+  for(let i=0;i<parts.length;i+=3){
+    out+=aiMd(parts[i]);
+    if(parts[i+1])out+=aiBlock(parts[i+1],parts[i+2]||'',mi+'_'+(n++),last);
+  }
+  return out;
+}
+function aiMd(t){
+  return esc(t).split('\n').map(l=>{
+    let m;if(m=l.match(/^#{1,3}\s+(.*)/))return `<div class="ai-h">${m[1]}</div>`;
+    if(m=l.match(/^\s*[-•*]\s+(.*)/))return `<div class="ai-li">• ${m[1]}</div>`;
+    return l?l+'<br>':'<span class="ai-sp"></span>';
+  }).join('').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+}
+acts['fc']=el=>el.classList.toggle('on');
+acts['ai-next']=el=>{if(aiState&&!aiState.busy)sendAI(el.dataset.t);};
+acts['ai-mode']=el=>{const i=$('form[data-form=ai] input[name=t]');if(i){i.value=el.dataset.t;i.focus();}};
+acts['aiq']=el=>{const st=aiQ[el.dataset.k];if(!st||st[+el.dataset.q]!==undefined)return;st[+el.dataset.q]=+el.dataset.o;paintAI(false);};
+acts['ai-copy']=el=>{const m=aiState.msgs.filter(x=>!x.hidden)[+el.dataset.i];if(!m)return;try{navigator.clipboard.writeText(m.content.replace(/```(quiz|svg|cards|next)[\s\S]*?```/g,''));el.textContent='اتنسخ ✓';setTimeout(()=>el.textContent='نسخ',1500);}catch{}};
+acts['ai-pdf']=el=>{const m=aiState.msgs.filter(x=>!x.hidden)[+el.dataset.i];if(!m)return;const w=window.open('','_blank');if(!w){alert('اسمح بالنوافذ المنبثقة عشان تطبع.');return;}
+  w.document.write(`<!doctype html><html dir="rtl" lang="ar"><meta charset="utf-8"><title>ملخص</title><style>body{font-family:Tahoma,Arial,sans-serif;line-height:1.9;padding:28px;max-width:780px;margin:auto;color:#111}.ai-h{font-size:1.25rem;font-weight:800;color:#3b2fd0;margin:16px 0 4px;border-bottom:2px solid #ddd}.ai-li{padding-inline-start:12px}img{max-width:100%}.aq{border:1px solid #ccc;padding:10px;border-radius:10px}.aq-o{display:block;margin:4px 0;padding:6px 10px;border:1px solid #ccc;border-radius:8px;background:#fff;width:100%;text-align:start}button{all:unset}
+.ai-attach{width:40px;height:40px;border-radius:50%;flex:none;font-size:1.2rem;display:grid;place-items:center;background:color-mix(in srgb,var(--act) 10%,var(--card))}
+.apend{display:flex;gap:8px;padding:6px 8px;flex-wrap:wrap}.apend:empty{display:none}
+.ai-pt{position:relative}.ai-pt img{width:58px;height:58px;object-fit:cover;border-radius:12px;border:1.5px solid var(--line)}
+.ai-pt button{position:absolute;top:-6px;inset-inline-end:-6px;width:20px;height:20px;border-radius:50%;background:var(--bad);color:#fff;font-size:.8rem;line-height:1}
+.ai-th{display:block;max-width:180px;max-height:180px;border-radius:12px;margin-bottom:6px}
+.ai-h{font-weight:800;font-size:1.05rem;color:var(--act);margin:10px 0 3px}.ai-li{padding-inline-start:6px}.ai-sp{display:block;height:6px}
+.ai-fig{margin:8px 0;text-align:center}.ai-fig img{width:100%;max-width:460px;background:#fff;border-radius:14px;border:1.5px solid var(--line)}
+.ai-dl,.ai-acts button{font-size:.78rem;font-weight:700;padding:4px 12px;border-radius:999px;border:1.5px solid var(--line);margin:6px 4px 0 0;background:var(--card);color:var(--act)}
+.ai-acts{display:flex;gap:4px;margin-top:4px}
+.aq{border:1.5px solid color-mix(in srgb,var(--act) 40%,var(--line));border-radius:16px;padding:10px;margin:8px 0;background:var(--card)}
+.aq-h{font-weight:800;margin-bottom:6px}.aq-q{margin:10px 0}.aq-q>b{display:block;margin-bottom:6px}
+.aq-o{display:block;width:100%;text-align:start;padding:9px 12px;margin:5px 0;border-radius:12px;border:1.5px solid var(--line);background:var(--paper,var(--card))}
+.aq-o.right{border-color:var(--ok,#1a9e5c);background:color-mix(in srgb,var(--ok,#1a9e5c) 16%,var(--card))}.aq-o.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,var(--card))}
+.aq-s{margin-top:10px;padding:10px;border-radius:12px;text-align:center;font-weight:800;background:color-mix(in srgb,var(--act) 12%,var(--card))}
+
+.ai-hb{margin-inline-start:auto;display:flex;gap:6px}
+.cbtn.lbl{width:auto;padding:0 12px;border-radius:999px;display:inline-flex;align-items:center;gap:4px;font-size:.78rem;font-weight:700}
+.cbtn.lbl .ic{width:1.1em;height:1.1em}
+.ai-row{padding:6px 10px}.ai-row .info{flex:1;text-align:start;background:none}
+.aiadm{border:1.5px solid var(--line);border-radius:14px;padding:10px;background:var(--card)}.aiadm summary{cursor:pointer}
+#pvbar{position:fixed;top:calc(env(safe-area-inset-top,0px) + 6px);left:50%;transform:translateX(-50%);z-index:9999;padding:6px 14px;border-radius:999px;background:#f5a524;color:#1a1200;font-weight:800;font-size:.74rem;box-shadow:0 6px 18px rgba(0,0,0,.3);white-space:nowrap;max-width:94vw;overflow:hidden;text-overflow:ellipsis}
+
+/* ===== تحسين الشكل العام ===== */
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}::selection{background:color-mix(in srgb,var(--act) 28%,transparent)}
+*{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--act) 35%,transparent) transparent}
+@keyframes pgin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes shim{to{background-position:-200% 0}}
+.page>*{animation:pgin .45s cubic-bezier(.2,.8,.2,1) both}.page>*:nth-child(2){animation-delay:.05s}.page>*:nth-child(3){animation-delay:.1s}.page>*:nth-child(4){animation-delay:.15s}.page>*:nth-child(n+5){animation-delay:.2s}
+.card,.vcard,.fcard,.mycard,.urow,.stat,.brow,.irow,.qb,.lb,.kv{border-radius:20px;border:1px solid var(--line);box-shadow:0 10px 26px -18px rgba(14,27,46,.45);transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s,border-color .25s}
+.vcard:hover,.fcard:hover,.urow:hover,.irow:hover,.brow:hover,.card:hover{transform:translateY(-3px);box-shadow:0 18px 34px -16px color-mix(in srgb,var(--act) 45%,transparent);border-color:color-mix(in srgb,var(--act) 40%,var(--line))}
+.vcard:active,.fcard:active,.urow:active,.btn:active,.opt:active,.bn:active{transform:scale(.97)}
+.thumb,.vcard img,.fcard img{border-radius:16px}
+.btn{border-radius:16px;font-weight:800;letter-spacing:.2px;transition:transform .2s,box-shadow .25s,filter .2s}
+.btn.primary{background:linear-gradient(135deg,var(--act),color-mix(in srgb,var(--act) 55%,#8a3dff));box-shadow:0 10px 24px -10px color-mix(in srgb,var(--act) 75%,transparent)}
+.btn.primary:hover{filter:brightness(1.08);transform:translateY(-2px)}
+.input,.field input,.field textarea,.field select,.search{border-radius:16px;transition:border-color .2s,box-shadow .2s}
+.input:focus,.field input:focus,.field textarea:focus,.field select:focus,.search:focus-within,.composer:focus-within{border-color:var(--act);box-shadow:0 0 0 4px color-mix(in srgb,var(--act) 18%,transparent)}
+.opt{border-radius:16px;transition:transform .2s,border-color .2s,background .2s,box-shadow .2s}.opt:not(:disabled):hover{border-color:var(--act);transform:translateX(-3px);box-shadow:0 8px 18px -12px color-mix(in srgb,var(--act) 60%,transparent)}
+.chip,.badge{border-radius:999px;font-weight:800;letter-spacing:.2px}
+.seg{border-radius:18px;padding:4px;backdrop-filter:blur(8px)}.seg a,.seg button{border-radius:14px;transition:background .25s,color .25s,transform .2s}
+.top{background:linear-gradient(135deg,var(--hero),color-mix(in srgb,var(--hero) 70%,var(--act)))}
+.bottom{backdrop-filter:blur(16px) saturate(1.3);background:color-mix(in srgb,var(--paper) 82%,transparent)}
+.bn{transition:transform .25s,color .25s,background .25s}.bn.on .ic{transform:translateY(-2px) scale(1.12)}
+.scrim{backdrop-filter:blur(5px);background:rgba(8,14,28,.5)}
+.sheet{border-radius:28px 28px 0 0;box-shadow:0 -20px 60px -20px rgba(0,0,0,.55)}
+.skel{border-radius:16px;background:linear-gradient(90deg,var(--line) 25%,color-mix(in srgb,var(--line) 40%,var(--card)) 50%,var(--line) 75%);background-size:200% 100%;animation:shim 1.3s linear infinite}
+.pbar{border-radius:999px;overflow:hidden}.pbar i{background:linear-gradient(90deg,var(--act),#8a3dff);border-radius:999px;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.empty{border:2px dashed var(--line);border-radius:22px;padding:28px 16px;background:color-mix(in srgb,var(--card) 60%,transparent)}
+.wordmark{background:linear-gradient(135deg,var(--act),#c04cff);-webkit-background-clip:text;background-clip:text}
+.gbtn{border-radius:18px;box-shadow:0 12px 28px -14px rgba(14,27,46,.5);transition:transform .2s,box-shadow .2s}.gbtn:hover{transform:translateY(-3px)}
+.ai-m{line-height:1.85;font-size:.98rem}.ai-m.u{box-shadow:0 8px 20px -10px color-mix(in srgb,var(--act) 60%,transparent)}
+.aq{box-shadow:0 14px 32px -20px color-mix(in srgb,var(--act) 55%,transparent)}.ai-fig img{box-shadow:0 12px 28px -18px rgba(0,0,0,.5)}
+.avatar-btn .av,.av{box-shadow:0 0 0 2px color-mix(in srgb,var(--act) 55%,transparent)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.ai-modes{display:flex;gap:6px;overflow-x:auto;padding:6px 4px;scrollbar-width:none}.ai-modes button{flex:none;padding:6px 12px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);font-size:.78rem;font-weight:800;transition:transform .2s,border-color .2s}.ai-modes button:hover{border-color:var(--act);transform:translateY(-2px)}
+.ai-next{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.ai-next button{padding:7px 13px;border-radius:999px;border:1.5px solid color-mix(in srgb,var(--act) 50%,var(--line));background:color-mix(in srgb,var(--act) 8%,var(--card));color:var(--act);font-size:.82rem;font-weight:800;text-align:start}
+.fc-box{margin:8px 0}.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:6px}
+.fc{position:relative;min-height:96px;padding:12px;border-radius:16px;border:1.5px solid var(--line);background:var(--card);font-weight:700;display:grid;place-items:center;text-align:center;transition:transform .25s,background .25s}
+.fc .b{display:none;font-weight:600}.fc.on{background:linear-gradient(135deg,color-mix(in srgb,var(--act) 16%,var(--card)),var(--card));border-color:var(--act);transform:rotateY(0)}.fc.on .f{display:none}.fc.on .b{display:block}
+</style><body>${aiRich(m.content,'p'+el.dataset.i)}<script>setTimeout(()=>print(),400)<\/script></body></html>`);w.document.close();};
+acts['ai-svg-dl']=el=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');c.width=img.width*2||1200;c.height=img.height*2||900;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(img,0,0,c.width,c.height);const a=document.createElement('a');a.download='رسم.png';a.href=c.toDataURL('image/png');a.click();};img.src=el.dataset.u;};
 
 /* =====================================================================
    LEADERBOARD (لوحة الشرف)
@@ -2101,15 +2284,15 @@ function viewCommunity(tab){
    ADMIN
    ===================================================================== */
 function adminShell(active,body,pageCls=''){
-  const nav=[['students','الطلاب','i-users'],['content','المحتوى','i-content'],['group','الجروب','i-chat'],['inbox','الرسائل','i-inbox']];
+  const nav=[['students','الطلاب','i-users'],['content','المحتوى','i-content'],['group','الجروب','i-chat'],['inbox','الرسائل','i-inbox'],['ai','محادثات AI','i-spark']];
   const full=pageCls.includes('chatpage');
   app.innerHTML=full?`<div class="shell full adm">
     <header class="top"><a class="icon-btn" href="#/admin/students" aria-label="رجوع">${icon('i-back')}</a><b class="ttl">الجروب</b><span class="sp"></span>${sndBtn()}${themeBtn()}</header>
     <main class="page ${pageCls}" id="page">${body}</main></div>`:`<div class="shell adm">
     <header class="top"><div class="brand"><span class="logo">${icon('i-shield')}</span><div><b>My summaries</b><small>لوحة الأدمن</small></div></div>
-      <span style="flex:1"></span>${sndBtn()}${themeBtn()}<button class="icon-btn" data-act="logout" aria-label="خروج">${icon('i-out')}</button></header>
+      <span style="flex:1"></span>${sndBtn()}${themeBtn()}<button class="icon-btn" data-act="view-as" aria-label="اعرض كطالب" title="اعرض كطالب">👁</button><button class="icon-btn" data-act="logout" aria-label="خروج">${icon('i-out')}</button></header>
     <main class="page ${pageCls}" id="page">${body}</main>
-    <nav class="bottom four">${nav.map(([k,l,ic])=>`<a class="bn ${k===active?'on':''}" href="#/admin/${k}${k==='content'?'/videos':''}">${icon(ic)}<span>${l}</span>${k==='inbox'?'<i class="dot" id="inboxdot" hidden></i>':''}</a>`).join('')}</nav></div>`;
+    <nav class="bottom four five">${nav.map(([k,l,ic])=>`<a class="bn ${k===active?'on':''}" href="#/admin/${k}${k==='content'?'/videos':''}">${icon(ic)}<span>${l}</span>${k==='inbox'?'<i class="dot" id="inboxdot" hidden></i>':''}</a>`).join('')}</nav></div>`;
   let nf=true;
   if(active!=='inbox')unsubs.push(onSnapshot(query(collection(db,'support_threads'),where('unread','==',true),limit(1)),s=>{const d=$('#inboxdot');if(d)d.hidden=s.empty;if(!nf&&s.docChanges().some(c=>!c.doc.metadata.hasPendingWrites))playSnd('notify');nf=false;},()=>{}));
 }
@@ -2119,9 +2302,44 @@ function adminRoute(){
   if(b==='content')return viewAdminContent(c);
   if(b==='group')return viewAdminGroup(c);
   if(b==='inbox')return c?viewAdminThread(c):viewAdminInbox();
+  if(b==='ai')return viewAdminAI(c);
   return viewAdminStudents();
 }
 if(!location.hash)location.hash='';
+
+/* ---------- محادثات الطلاب مع الـ AI (للأدمن) ---------- */
+function viewAdminAI(uid){
+  if(uid)return viewAdminAIUser(uid);
+  adminShell('ai',`<label class="search">${icon('i-search')}<input id="q" placeholder="ابحث باسم الطالب"></label><div id="ulist" class="stack"><div class="skel"></div></div>`);
+  let rows=[],term='';
+  const paint=()=>{const l=$('#ulist');if(!l)return;const r=rows.filter(u=>!term||(u.name||'').toLowerCase().includes(term));
+    l.innerHTML=r.length?r.map(u=>`<a class="urow" href="#/admin/ai/${u.uid}">${avatar(u,44)}<div class="info"><b>${esc(u.name||'طالب')}</b><small class="muted">${esc(u.last||'')}</small></div><div class="stack" style="gap:4px;align-items:flex-end">${u.track&&TRACKS[u.track]?`<span class="chip" style="--c:${TRACKS[u.track].color}">${TRACKS[u.track].name}</span>`:''}<small class="muted">${aiDate(u.updatedAt)}</small></div></a>`).join(''):empty('لسه مفيش طالب كلّم الـ AI','i-spark');};
+  unsubs.push(onSnapshot(query(collection(db,'ai_chats'),orderBy('updatedAt','desc'),limit(300)),s=>{rows=s.docs.map(d=>({uid:d.id,...d.data()}));paint();},fail));
+  $('#q').oninput=e=>{term=e.target.value.trim().toLowerCase();paint();};
+}
+async function viewAdminAIUser(uid){
+  subShell('محادثات الطالب','#/admin/ai',`<div id="aiu" class="stack"><div class="skel"></div></div>`);
+  aiRO=true;const tok=routeTok;
+  try{
+    const [u,s]=await Promise.all([getDoc(doc(db,'ai_chats',uid)),getDocs(query(collection(db,'ai_chats',uid,'chats'),orderBy('updatedAt','desc'),limit(50)))]);
+    if(tok!==routeTok)return;
+    const t=$('#ttl');if(t&&u.exists())t.textContent=u.data().name||'محادثات الطالب';
+    const box=$('#aiu');if(!box)return;
+    box.innerHTML=s.empty?empty('مفيش محادثات','i-spark'):s.docs.map(d=>{const c=d.data(),id=d.id;
+      return `<details class="aiadm" data-u="${uid}" data-id="${id}"><summary><b>${esc(c.title||'محادثة')}</b><small class="muted"> · ${aiDate(c.updatedAt)} · ${c.count??(c.msgs||[]).length} رسالة</small></summary>
+      <div class="aibody aimsgs" style="max-height:none;display:flex;flex-direction:column;gap:8px;margin-top:8px"><div class="skel"></div></div>
+      <button class="btn ghost sm" data-act="ai-adm-del" data-u="${uid}" data-id="${id}" style="margin-top:8px">${icon('i-trash')} مسح المحادثة</button></details>`;}).join('');
+  }catch(e){fail(e);}
+}
+acts['ai-adm-del']=async el=>{if(!confirm('تمسح المحادثة دي نهائي؟'))return;try{await aiPurge(el.dataset.u,el.dataset.id);el.closest('details').remove();toast('اتمسحت ✓');}catch(e){fail(e);}};
+
+document.addEventListener('toggle',async e=>{const d=e.target;if(!d||!d.classList||!d.classList.contains('aiadm')||!d.open||d.dataset.done)return;d.dataset.done=1;
+  const box=d.querySelector('.aimsgs');try{const r=await aiLoad(d.dataset.id,d.dataset.u);aiRO=true;box.innerHTML=r?r.msgs.map((m,i)=>m.role==='user'?`<div class="ai-m u">${fmt(m.content)}</div>`:`<div class="ai-m">${aiRich(m.content,'a'+d.dataset.id+'_'+i)}</div>`).join(''):'';}catch(x){box.textContent='مقدرتش أحمّل المحادثة';}},true);
+
+/* ---------- اعرض كطالب ---------- */
+acts['view-as']=()=>openSheet(`${sheetHead('اعرض المنصة كطالب')}<p class="muted">هتشوف المنصة كلها زي ما الطالب بيشوفها. الحفظ متوقف في الوضع ده، فمفيش حاجة بتتسجّل ولا بتظهر للطلاب.</p><div class="stack">${Object.entries(TRACKS).map(([k,t])=>`<button class="btn ghost block" data-act="view-as-go" data-k="${k}">${esc(t.name)}</button>`).join('')}</div>`);
+acts['view-as-go']=el=>{viewAs={track:el.dataset.k};closeSheet();location.hash='#/content/videos';render();};
+acts['view-exit']=()=>{viewAs=null;profile=null;location.hash='#/admin/students';render();};
 
 /* ---------- students ---------- */
 function viewAdminStudents(){
