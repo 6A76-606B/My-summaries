@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0A2A5E">
-<script>(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t);var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='dark'?'#06142C':'#0A2A5E';}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<meta name="theme-color" content="#1B2670">
+<script>(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t);var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='dark'?'#0B1030':'#1B2670';}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
 <title>My summaries</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -109,7 +109,7 @@ textarea.input{resize:vertical;min-height:80px}
 .seg a.on{background:var(--act);color:var(--act-ink)}
 .card{background:var(--card);border:1.5px solid var(--line);border-radius:var(--r);padding:14px}
 .vcard{display:flex;gap:12px;background:var(--card);border:1.5px solid var(--line);border-radius:var(--r);padding:10px;align-items:stretch}
-.thumb{width:128px;min-height:78px;border-radius:12px;background:linear-gradient(135deg,var(--hero),#24406b) center/cover;display:grid;place-items:center;color:#fff;flex:none}
+.thumb{width:128px;min-height:78px;border-radius:12px;background:linear-gradient(135deg,var(--hero),#34408A) center/cover;display:grid;place-items:center;color:#fff;flex:none}
 .thumb .ic{width:2rem;height:2rem;fill:#fff;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4))}
 .vinfo{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;justify-content:center}
 .vinfo b{line-height:1.4}
@@ -175,7 +175,7 @@ textarea.input{resize:vertical;min-height:80px}
 .msg.mine{flex-direction:row-reverse}
 .mav{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,hsl(var(--h,220) 62% 52%),hsl(var(--h,220) 62% 36%));color:#fff;display:grid;place-items:center;font-size:.82rem;font-weight:700;flex:none;box-shadow:0 2px 6px rgba(0,0,0,.15)}
 .bub{position:relative;max-width:78%;min-width:70px;padding:8px 12px 5px;border-radius:18px;background:var(--card);border:1px solid var(--line);box-shadow:0 1px 3px rgba(14,27,46,.07);border-end-start-radius:5px}
-.msg.mine .bub{background:linear-gradient(135deg,var(--act),color-mix(in srgb,var(--act) 60%,var(--act2,#0EA5E9)));color:#fff;border-color:transparent;border-end-start-radius:18px;border-end-end-radius:5px;box-shadow:0 4px 14px color-mix(in srgb,var(--act) 30%,transparent)}
+.msg.mine .bub{background:linear-gradient(135deg,var(--act),color-mix(in srgb,var(--act) 60%,var(--act2,#6B63F2)));color:#fff;border-color:transparent;border-end-start-radius:18px;border-end-end-radius:5px;box-shadow:0 4px 14px color-mix(in srgb,var(--act) 30%,transparent)}
 .mn{font-size:.76rem;font-weight:700;color:hsl(var(--h,220) 55% var(--nl))}
 .msg.mine .mn{color:rgba(255,255,255,.85)}
 .mn em{font-style:normal;background:var(--gold);color:#2A1B00;padding:0 7px;border-radius:99px;font-size:.7rem;margin-inline-start:4px}
@@ -204,7 +204,7 @@ textarea.input{resize:vertical;min-height:80px}
 .composer[hidden],.recbar[hidden]{display:none}
 .composer input:not([type=file]){flex:1;min-width:0;min-height:42px;padding:0 10px;border:0;background:none;outline:none}
 .composer input:disabled{opacity:.6}
-.send{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--act),color-mix(in srgb,var(--act) 60%,var(--act2,#0EA5E9)));color:#fff;display:grid;place-items:center;flex:none;box-shadow:0 4px 12px color-mix(in srgb,var(--act) 35%,transparent)}
+.send{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--act),color-mix(in srgb,var(--act) 60%,var(--act2,#6B63F2)));color:#fff;display:grid;place-items:center;flex:none;box-shadow:0 4px 12px color-mix(in srgb,var(--act) 35%,transparent)}
 .send[disabled]{opacity:.5}
 .composer.chatc.has .mic,.composer.chatc:not(.has) .send:not(.mic){display:none}
 .cbtn{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;color:var(--muted);flex:none;cursor:pointer}
@@ -348,7 +348,7 @@ textarea.input{resize:vertical;min-height:80px}
 .msgs{padding:14px 10px 10px;scroll-behavior:smooth;
   background:
    radial-gradient(circle at 12% 0%,color-mix(in srgb,var(--act) 10%,transparent),transparent 50%),
-   radial-gradient(circle at 92% 100%,color-mix(in srgb,#0EA5E9 8%,transparent),transparent 48%),
+   radial-gradient(circle at 92% 100%,color-mix(in srgb,#6B63F2 8%,transparent),transparent 48%),
    color-mix(in srgb,var(--paper) 55%,var(--card))}
 .msgs::-webkit-scrollbar{width:6px}.msgs::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--muted) 35%,transparent);border-radius:9px}
 .msg{margin:10px 0 2px;align-items:flex-start}
@@ -376,7 +376,7 @@ textarea.input{resize:vertical;min-height:80px}
 .aibody{gap:8px;padding:6px 2px 10px;scroll-behavior:smooth}
 .ai-m{position:relative;padding:10px 14px 11px;border-radius:18px;border-start-start-radius:5px;max-width:90%;line-height:1.75;box-shadow:0 1px 3px rgba(14,27,46,.07);animation:msgin .25s ease-out}
 .ai-m:not(.u):not(.err)::before{content:"✦ " var(--ainame,"مدرّس الـ AI");display:block;font-size:.72rem;font-weight:700;color:var(--act);margin-bottom:2px}
-.ai-m.u{background:linear-gradient(135deg,var(--act),color-mix(in srgb,var(--act) 60%,var(--act2,#0EA5E9)));border-start-start-radius:18px;border-start-end-radius:5px;box-shadow:0 4px 14px color-mix(in srgb,var(--act) 28%,transparent)}
+.ai-m.u{background:linear-gradient(135deg,var(--act),color-mix(in srgb,var(--act) 60%,var(--act2,#6B63F2)));border-start-start-radius:18px;border-start-end-radius:5px;box-shadow:0 4px 14px color-mix(in srgb,var(--act) 28%,transparent)}
 .ai-m.err{background:color-mix(in srgb,var(--bad) 10%,var(--card));border-color:color-mix(in srgb,var(--bad) 45%,var(--line))}
 .typing{gap:5px;padding:4px 2px}.typing i{width:8px;height:8px;background:var(--act);animation:bounce 1.1s infinite ease-in-out}
 @keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.35}30%{transform:translateY(-5px);opacity:1}}
@@ -442,7 +442,7 @@ a.vcard:hover,.fcard:hover,.urow:hover{box-shadow:0 8px 22px rgba(14,27,46,.1);b
 .stack{gap:14px}
 h2{line-height:1.4}h3{margin:6px 0}
 .btn{min-height:50px;border-radius:16px;letter-spacing:.1px}
-.btn.primary{background:linear-gradient(135deg,var(--act),color-mix(in srgb,var(--act) 62%,var(--act2,#0EA5E9)));box-shadow:0 6px 16px color-mix(in srgb,var(--act) 28%,transparent)}
+.btn.primary{background:linear-gradient(135deg,var(--act),color-mix(in srgb,var(--act) 62%,var(--act2,#6B63F2)));box-shadow:0 6px 16px color-mix(in srgb,var(--act) 28%,transparent)}
 .btn.primary:disabled,.btn.primary[disabled]{box-shadow:none}
 .input,select.input,textarea.input{border-radius:16px;transition:border-color .15s,box-shadow .15s}
 .input:focus{box-shadow:0 0 0 4px color-mix(in srgb,var(--act) 16%,transparent)}
@@ -461,7 +461,7 @@ h2{line-height:1.4}h3{margin:6px 0}
 /* ---------- الامتحان للطالب ---------- */
 .examhead{padding:10px 14px;border-radius:16px;background:var(--card);border:1.5px solid var(--line);box-shadow:0 2px 10px rgba(14,27,46,.045)}
 .examhead .bar{height:10px;margin:0}
-.examhead .bar i{background:linear-gradient(90deg,var(--act),var(--act2,#0EA5E9))}
+.examhead .bar i{background:linear-gradient(90deg,var(--act),var(--act2,#6B63F2))}
 .qtext{font-size:1.3rem;line-height:1.7;margin:16px 2px 18px;font-weight:700}
 .opts{gap:12px}
 .opt{padding:14px 16px;border-radius:18px;box-shadow:0 2px 8px rgba(14,27,46,.04);line-height:1.6}
@@ -483,17 +483,17 @@ h2{line-height:1.4}h3{margin:6px 0}
 @property --spot{syntax:'<number>';inherits:true;initial-value:0}
 
 :root{
-  --text:#0B1B33; --hero:#0A2A5E; --paper:#EEF4FB; --card:rgba(255,255,255,.84); --line:rgba(20,80,160,.16);
-  --muted:#5B6F8C; --act:#1769E0; --act-ink:#fff; --ok:#10A37A; --bad:#E5484D; --gold:#FFB534;
-  --hot:#12B5E5; --aqua:#1FD2C2; --r:24px; --sh:10,40,100;
-  --grad:linear-gradient(120deg,#1769E0 0%,#0EA5E9 52%,#12B5E5 100%);
+  --text:#11183A; --hero:#1B2670; --paper:#F0F2FD; --card:rgba(255,255,255,.84); --line:rgba(70,80,200,.16);
+  --muted:#626B97; --act:#3F5FE8; --act-ink:#fff; --ok:#10A37A; --bad:#E5484D; --gold:#FFB534;
+  --hot:#9A6BF4; --aqua:#1FD2C2; --r:24px; --sh:30,40,120;
+  --grad:linear-gradient(120deg,#3F5FE8 0%,#6B63F2 52%,#9A6BF4 100%);
   --ease:cubic-bezier(.22,1,.36,1); --spring:cubic-bezier(.34,1.56,.64,1);
   --disp:'Lalezar','Readex Pro',system-ui,sans-serif;
 }
 @media (prefers-color-scheme:dark){
   :root{
-    --text:#EAF2FF; --hero:#06142C; --paper:#071120; --card:rgba(18,34,66,.68); --line:rgba(110,170,255,.18);
-    --muted:#93A8C8; --act:#4D9BFF; --ok:#2FD8A0; --bad:#FF6B73; --sh:0,0,0;
+    --text:#ECEFFF; --hero:#0B1030; --paper:#0A0E24; --card:rgba(26,32,76,.68); --line:rgba(140,150,255,.2);
+    --muted:#A2A9D6; --act:#7B8DFF; --ok:#2FD8A0; --bad:#FF6B73; --sh:0,0,0;
   }
 }
 
@@ -560,12 +560,12 @@ body::after{width:62vmax;height:62vmax;bottom:-26vmax;inset-inline-start:-22vmax
 /* ---------- الهيكل ---------- */
 .shell{background:transparent}
 .top{position:relative;z-index:3;overflow:hidden;gap:12px;padding-bottom:18px;color:#fff;
-  background:linear-gradient(120deg,#0A2A5E 0%,#1769E0 55%,#0F4C9E 100%);
+  background:linear-gradient(120deg,#1B2670 0%,#3F5FE8 55%,#3A3FBF 100%);
   border-radius:0 0 32px 32px;box-shadow:0 16px 36px -16px rgba(70,24,190,.75);animation:xdrop .8s var(--ease) backwards}
 .top::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.17) 50%,transparent 62%);animation:xsheen 8s ease-in-out 1.6s infinite}
 .top .ttl,.brand b{font-family:var(--disp);font-weight:400;font-size:1.3rem;letter-spacing:.2px}
 .brand small{color:rgba(255,255,255,.75)}
-.logo{background:linear-gradient(135deg,#FFD36B,#12B5E5);color:#06223A;border-radius:14px;box-shadow:0 6px 18px rgba(255,79,154,.55);animation:xwiggle 6s ease-in-out 2s infinite}
+.logo{background:linear-gradient(135deg,#FFD36B,#9A6BF4);color:#06223A;border-radius:14px;box-shadow:0 6px 18px rgba(107,99,242,.55);animation:xwiggle 6s ease-in-out 2s infinite}
 .icon-btn{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);border-radius:14px;transition:transform .25s var(--spring),background .2s}
 .icon-btn:hover{background:rgba(255,255,255,.26);transform:translateX(3px)}
 .icon-btn:active{transform:scale(.88)}
@@ -592,7 +592,7 @@ body::after{width:62vmax;height:62vmax;bottom:-26vmax;inset-inline-start:-22vmax
 .btn:active{transform:scale(.95)}
 .btn.primary{background:var(--grad);background-size:220% 220%;animation:xgrad 7s ease infinite;box-shadow:0 12px 26px -8px color-mix(in srgb,var(--act) 75%,transparent)}
 .btn.primary::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.35) 50%,transparent 60%);transform:translateX(-130%);animation:xsheen 5s ease-in-out 1s infinite}
-.btn.dark{background:linear-gradient(135deg,#0A2A5E,#1769E0)}
+.btn.dark{background:linear-gradient(135deg,#1B2670,#3F5FE8)}
 .btn.ghost{background:var(--card);border-color:var(--line)}
 .btn.sm{min-height:42px}
 .rip{position:absolute;border-radius:50%;background:rgba(255,255,255,.5);transform:scale(0);animation:xrip .7s ease-out forwards;pointer-events:none;z-index:0}
@@ -618,7 +618,7 @@ body::after{width:62vmax;height:62vmax;bottom:-26vmax;inset-inline-start:-22vmax
 a.vcard:hover,.fcard:hover,.urow:hover{transform:translateY(-4px);box-shadow:0 22px 40px -18px rgba(var(--sh),.6);border-color:color-mix(in srgb,var(--act) 45%,var(--line))}
 a.vcard:active,.fcard:active,.urow:active{transform:scale(.97)}
 .vcard{padding:10px;gap:14px}
-.thumb{position:relative;overflow:hidden;border-radius:18px;background:linear-gradient(135deg,#0A2A5E,#1769E0 70%,#12B5E5) center/cover;box-shadow:0 10px 22px -10px rgba(var(--sh),.8)}
+.thumb{position:relative;overflow:hidden;border-radius:18px;background:linear-gradient(135deg,#1B2670,#3F5FE8 70%,#9A6BF4) center/cover;box-shadow:0 10px 22px -10px rgba(var(--sh),.8)}
 .thumb::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(15,5,40,.55))}
 .thumb::after{content:'';position:absolute;width:48px;height:48px;inset:0;margin:auto;border-radius:50%;border:2px solid rgba(255,255,255,.9);animation:xping 2.2s ease-out infinite}
 .thumb .ic{position:relative;z-index:1;box-sizing:content-box;width:1.15rem;height:1.15rem;padding:12px;border-radius:50%;background:rgba(255,255,255,.22);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:transform .35s var(--spring)}
@@ -631,9 +631,9 @@ a.vcard:hover .thumb .ic{transform:scale(1.18)}
 .skel{border-radius:var(--r);height:98px;background:linear-gradient(100deg,var(--line) 20%,color-mix(in srgb,var(--act) 18%,var(--card)) 50%,var(--line) 80%);background-size:220% 100%;animation:sk 1.3s infinite linear}
 
 /* ---------- الدخول (البطل) ---------- */
-.auth{background:radial-gradient(120% 70% at 85% 0%,#0F4C9E 0%,transparent 60%),radial-gradient(90% 60% at 0% 100%,#0A7C9C 0%,transparent 60%),#06142C;overflow:hidden;color:#fff}
+.auth{background:radial-gradient(120% 70% at 85% 0%,#3A3FBF 0%,transparent 60%),radial-gradient(90% 60% at 0% 100%,#3B3FB8 0%,transparent 60%),#0B1030;overflow:hidden;color:#fff}
 .auth::before{content:'';position:absolute;inset:auto;top:-30vmin;inset-inline-end:-42vmin;width:125vmin;height:125vmin;border-radius:50%;
-  background:conic-gradient(from 0deg,#1769E0,#12B5E5,#FFB534,#1FD2C2,#1769E0);filter:blur(70px);opacity:.5;animation:xspin 26s linear infinite}
+  background:conic-gradient(from 0deg,#3F5FE8,#9A6BF4,#FFB534,#1FD2C2,#3F5FE8);filter:blur(70px);opacity:.5;animation:xspin 26s linear infinite}
 .auth::after{content:'';position:absolute;bottom:-34vmin;inset-inline-start:-34vmin;width:90vmin;height:90vmin;border-radius:50%;background:radial-gradient(circle,#1FD2C2,transparent 66%);filter:blur(46px);animation:xbreathe 9s ease-in-out infinite}
 .auth .fx{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
 .fl{position:absolute;bottom:-70px;font-style:normal;font-family:var(--disp);color:rgba(255,255,255,.16);animation:xfloat linear infinite;will-change:transform;line-height:1}
@@ -641,7 +641,7 @@ a.vcard:hover .thumb .ic{transform:scale(1.18)}
 .orbit{position:absolute;left:0;top:0;border-radius:50%;border:1px dashed rgba(255,255,255,.2);animation:xspin linear infinite}
 .orbit i{position:absolute;top:-6px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--c,#FFB534);box-shadow:0 0 18px var(--c,#FFB534),0 0 40px var(--c,#FFB534)}
 .orbit.o1{width:46vmin;height:46vmin;margin:-23vmin 0 0 -23vmin;animation-duration:14s;--c:#FFB534}
-.orbit.o2{width:74vmin;height:74vmin;margin:-37vmin 0 0 -37vmin;animation-duration:24s;animation-direction:reverse;--c:#12B5E5}
+.orbit.o2{width:74vmin;height:74vmin;margin:-37vmin 0 0 -37vmin;animation-duration:24s;animation-direction:reverse;--c:#9A6BF4}
 .orbit.o3{width:104vmin;height:104vmin;margin:-52vmin 0 0 -52vmin;animation-duration:38s;--c:#1FD2C2}
 .auth .corner{z-index:3}
 .corner button{background:rgba(255,255,255,.12);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.22);transition:transform .3s var(--spring),background .2s;animation:xslidex .8s var(--ease) 1.2s backwards}
@@ -650,7 +650,7 @@ a.vcard:hover .thumb .ic{transform:scale(1.18)}
 .wordmark{font-family:var(--disp);font-weight:400;font-size:clamp(3.2rem,16vw,6rem);line-height:.98;letter-spacing:0;white-space:nowrap;text-shadow:0 10px 50px rgba(106,76,255,.6)}
 .wordmark .ch{display:inline-block;font-style:normal;animation:xletter 1s var(--spring) backwards;animation-delay:calc(var(--i)*70ms + .25s)}
 .wordmark .b{font-style:normal;color:inherit;animation:xhue 6s ease-in-out infinite alternate}
-.wordmark .b .ch{background:linear-gradient(90deg,#FFB534,#12B5E5 40%,#0EA5E9 75%,#1FD2C2);background-size:420% 100%;background-position:calc(var(--i)*11%) 0;
+.wordmark .b .ch{background:linear-gradient(90deg,#FFB534,#9A6BF4 40%,#6B63F2 75%,#1FD2C2);background-size:420% 100%;background-position:calc(var(--i)*11%) 0;
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 .tagline{font-size:1.08rem;line-height:1.9;color:rgba(255,255,255,.82);animation:xrise .9s var(--ease) 1.1s backwards}
 .gbtn{position:relative;overflow:hidden;border-radius:999px;min-height:58px;box-shadow:0 18px 40px -10px rgba(255,255,255,.28),0 0 0 6px rgba(255,255,255,.1);transition:transform .35s var(--spring),box-shadow .3s;
@@ -770,7 +770,7 @@ a.vcard:hover .thumb .ic{transform:scale(1.18)}
 .sheet-h{font-family:var(--disp);font-weight:400;font-size:1.5rem}
 .x{transition:transform .35s var(--spring),background .2s}
 .x:hover{transform:rotate(90deg) scale(1.1);background:color-mix(in srgb,var(--bad) 22%,var(--line))}
-#toast{border-radius:999px;background:linear-gradient(135deg,#0A2A5E,#1769E0);border:1px solid rgba(255,255,255,.18);box-shadow:0 18px 40px -10px rgba(40,10,120,.7);font-weight:600;transition:opacity .3s,transform .5s var(--spring)}
+#toast{border-radius:999px;background:linear-gradient(135deg,#1B2670,#3F5FE8);border:1px solid rgba(255,255,255,.18);box-shadow:0 18px 40px -10px rgba(40,10,120,.7);font-weight:600;transition:opacity .3s,transform .5s var(--spring)}
 #toast.show{animation:xtoast .55s var(--spring)}
 #toast.bad{background:linear-gradient(135deg,#B3202A,#E5484D)}
 .lb{animation:xscrim .3s ease-out;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
@@ -827,9 +827,9 @@ a.vcard:hover .thumb .ic{transform:scale(1.18)}
 
 /* ---------- وضع فاتح / داكن ---------- */
 :root{--solid:#fff;--wa:#25D366}
-@media (prefers-color-scheme:dark){:root{--solid:#0F2040}}
-html[data-theme=light]{color-scheme:light;--text:#0B1B33;--hero:#0A2A5E;--paper:#EEF4FB;--card:rgba(255,255,255,.86);--solid:#fff;--line:rgba(20,80,160,.16);--muted:#5B6F8C;--act:#1769E0;--ok:#10A37A;--bad:#E5484D;--sh:10,40,100;--nl:38%}
-html[data-theme=dark]{color-scheme:dark;--text:#EAF2FF;--hero:#06142C;--paper:#071120;--card:rgba(18,34,66,.68);--solid:#0F2040;--line:rgba(110,170,255,.18);--muted:#93A8C8;--act:#4D9BFF;--ok:#2FD8A0;--bad:#FF6B73;--sh:0,0,0;--nl:74%}
+@media (prefers-color-scheme:dark){:root{--solid:#171C48}}
+html[data-theme=light]{color-scheme:light;--text:#11183A;--hero:#1B2670;--paper:#F0F2FD;--card:rgba(255,255,255,.86);--solid:#fff;--line:rgba(70,80,200,.16);--muted:#626B97;--act:#3F5FE8;--ok:#10A37A;--bad:#E5484D;--sh:30,40,120;--nl:38%}
+html[data-theme=dark]{color-scheme:dark;--text:#ECEFFF;--hero:#0B1030;--paper:#0A0E24;--card:rgba(26,32,76,.68);--solid:#171C48;--line:rgba(140,150,255,.2);--muted:#A2A9D6;--act:#7B8DFF;--ok:#2FD8A0;--bad:#FF6B73;--sh:0,0,0;--nl:74%}
 html[data-theme=dark] .badge.gold,html[data-theme=dark] .lock-ic{color:var(--gold)}
 html[data-theme=light] .badge.gold,html[data-theme=light] .lock-ic{color:#8A5E00}
 html[data-theme=dark] body::before{opacity:.5}html[data-theme=dark] body::after{opacity:.38}
@@ -866,9 +866,9 @@ html[data-theme=dark] .themebtn .tsun,html[data-theme=light] .themebtn .tmoon{op
 
 /* ---------- أزرار الطالب (جامدة) ---------- */
 .btn{min-height:54px;font-weight:700;font-size:1rem;border-width:2px}
-.btn.primary{box-shadow:0 5px 0 color-mix(in srgb,var(--act) 52%,#06142C),0 16px 28px -10px color-mix(in srgb,var(--act) 70%,transparent)}
-.btn.primary:hover{transform:translateY(-3px);box-shadow:0 8px 0 color-mix(in srgb,var(--act) 52%,#06142C),0 22px 34px -10px color-mix(in srgb,var(--act) 75%,transparent)}
-.btn.primary:active{transform:translateY(4px);box-shadow:0 1px 0 color-mix(in srgb,var(--act) 52%,#06142C),0 6px 12px -6px color-mix(in srgb,var(--act) 60%,transparent)}
+.btn.primary{box-shadow:0 5px 0 color-mix(in srgb,var(--act) 52%,#0B1030),0 16px 28px -10px color-mix(in srgb,var(--act) 70%,transparent)}
+.btn.primary:hover{transform:translateY(-3px);box-shadow:0 8px 0 color-mix(in srgb,var(--act) 52%,#0B1030),0 22px 34px -10px color-mix(in srgb,var(--act) 75%,transparent)}
+.btn.primary:active{transform:translateY(4px);box-shadow:0 1px 0 color-mix(in srgb,var(--act) 52%,#0B1030),0 6px 12px -6px color-mix(in srgb,var(--act) 60%,transparent)}
 .btn.ghost{box-shadow:0 4px 0 var(--line)}.btn.ghost:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line)}
 .btn.danger{box-shadow:0 4px 0 color-mix(in srgb,var(--bad) 28%,transparent)}.btn.danger:active{transform:translateY(3px);box-shadow:none}
 .input,select.input,textarea.input{background:var(--solid);min-height:54px}
@@ -946,12 +946,12 @@ a.vcard:hover::before,.fcard:hover::before{animation:xsheen 1.1s ease 1}
 .aw-chip{background:var(--solid);font-weight:700}.aw-chip:hover{background:var(--grad);color:#fff;border-color:transparent}
 
 /* ---------- لوحة الأدمن ---------- */
-.adm .top{background:linear-gradient(120deg,#0A1B45 0%,#1E3FAE 52%,#1769E0 100%);box-shadow:0 16px 36px -16px rgba(30,63,174,.75)}
+.adm .top{background:linear-gradient(120deg,#0A1B45 0%,#1E3FAE 52%,#3F5FE8 100%);box-shadow:0 16px 36px -16px rgba(30,63,174,.75)}
 .adm .logo{background:linear-gradient(135deg,#7CF0D0,#4C8DFF);color:#06223A;box-shadow:0 6px 18px rgba(76,141,255,.55)}
 .adm .brand small{display:inline-flex;align-items:center;gap:6px;width:max-content;padding:1px 10px;border-radius:99px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.22);font-size:.72rem;font-weight:700;color:#fff}
 .adm .brand small::before{content:"";width:7px;height:7px;border-radius:50%;background:#35E0A1;animation:xon 2s ease-out infinite}
 .adm .page{padding-top:18px}
-.adm .bottom .bn.on,.adm .bottom.four .bn.on{background:linear-gradient(135deg,#1E3FAE,#1769E0,#0EA5E9);background-size:220% 220%}
+.adm .bottom .bn.on,.adm .bottom.four .bn.on{background:linear-gradient(135deg,#1E3FAE,#3F5FE8,#6B63F2);background-size:220% 220%}
 .adm .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:10px;overflow:visible;padding-bottom:6px}
 .adm .stat{min-width:0;text-align:center;padding:16px 8px 12px;animation:xpop .6s var(--spring) backwards}
 .adm .stat:nth-child(2){animation-delay:.06s}.adm .stat:nth-child(3){animation-delay:.12s}.adm .stat:nth-child(4){animation-delay:.18s}.adm .stat:nth-child(5){animation-delay:.24s}.adm .stat:nth-child(n+6){animation-delay:.3s}
@@ -982,7 +982,7 @@ a.vcard:hover::before,.fcard:hover::before{animation:xsheen 1.1s ease 1}
 .top .ai-hb{display:flex;gap:8px;align-items:center}
 .mtn.adm,.mtn.ai{color:#fff;padding:0 7px;border-radius:8px;font-weight:700}
 .mtn.adm{background:linear-gradient(135deg,#7C3AED,#C026D3)}
-.mtn.ai{background:linear-gradient(135deg,#0EA5E9,#14B8A6)}
+.mtn.ai{background:linear-gradient(135deg,#6B63F2,#14B8A6)}
 .bub.aib{border-color:#14B8A6;background:color-mix(in srgb,#14B8A6 11%,var(--card))}
 .bub.aib .mn em{background:#14B8A6;color:#fff}
 .ai-attach{width:40px;height:40px;border-radius:50%;flex:none;font-size:1.2rem;display:grid;place-items:center;background:color-mix(in srgb,var(--act) 10%,var(--card))}
@@ -1018,7 +1018,7 @@ html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}::selection{backg
 .vcard:active,.fcard:active,.urow:active,.btn:active,.opt:active,.bn:active{transform:scale(.97)}
 .thumb,.vcard img,.fcard img{border-radius:16px}
 .btn{border-radius:16px;font-weight:800;letter-spacing:.2px;transition:transform .2s,box-shadow .25s,filter .2s}
-.btn.primary{background:linear-gradient(135deg,var(--act),color-mix(in srgb,var(--act) 55%,var(--act2,#0EA5E9)));box-shadow:0 10px 24px -10px color-mix(in srgb,var(--act) 75%,transparent)}
+.btn.primary{background:linear-gradient(135deg,var(--act),color-mix(in srgb,var(--act) 55%,var(--act2,#6B63F2)));box-shadow:0 10px 24px -10px color-mix(in srgb,var(--act) 75%,transparent)}
 .btn.primary:hover{filter:brightness(1.08);transform:translateY(-2px)}
 .input,.field input,.field textarea,.field select,.search{border-radius:16px;transition:border-color .2s,box-shadow .2s}
 .input:focus,.field input:focus,.field textarea:focus,.field select:focus,.search:focus-within,.composer:focus-within{border-color:var(--act);box-shadow:0 0 0 4px color-mix(in srgb,var(--act) 18%,transparent)}
@@ -1031,7 +1031,7 @@ html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}::selection{backg
 .scrim{backdrop-filter:blur(5px);background:rgba(8,14,28,.5)}
 .sheet{border-radius:28px 28px 0 0;box-shadow:0 -20px 60px -20px rgba(0,0,0,.55)}
 .skel{border-radius:16px;background:linear-gradient(90deg,var(--line) 25%,color-mix(in srgb,var(--line) 40%,var(--card)) 50%,var(--line) 75%);background-size:200% 100%;animation:shim 1.3s linear infinite}
-.pbar{border-radius:999px;overflow:hidden}.pbar i{background:linear-gradient(90deg,var(--act),var(--act2,#0EA5E9));border-radius:999px;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.pbar{border-radius:999px;overflow:hidden}.pbar i{background:linear-gradient(90deg,var(--act),var(--act2,#6B63F2));border-radius:999px;transition:width .8s cubic-bezier(.2,.8,.2,1)}
 .empty{border:2px dashed var(--line);border-radius:22px;padding:28px 16px;background:color-mix(in srgb,var(--card) 60%,transparent)}
 .wordmark{background:linear-gradient(135deg,var(--act),#14D2B8);-webkit-background-clip:text;background-clip:text}
 .gbtn{border-radius:18px;box-shadow:0 12px 28px -14px rgba(14,27,46,.5);transition:transform .2s,box-shadow .2s}.gbtn:hover{transform:translateY(-3px)}
@@ -1119,23 +1119,175 @@ html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}::selection{backg
 .mgrst.bad{border-color:color-mix(in srgb,var(--bad) 55%,var(--line))}
 .mgrbtns{display:flex;gap:8px;flex-wrap:wrap}.mgrbtns .btn{flex:1;min-width:104px;padding-inline:10px}
 #mgrbody .ai-m:not(.u):not(.err)::before{content:"🛡 مدير المنصة"}
-/* ---------- ثيم البنات (بيتفعّل لما gender = f) ---------- */
-html[data-gender=f]{--hot:#FF5FA2;--aqua:#C77DFF;--act2:#FF8FC0;--grad:linear-gradient(120deg,#E0357F 0%,#FF5FA2 52%,#FF8FC0 100%)}
-html[data-gender=f][data-theme=light]{--text:#3A1030;--hero:#8E1B5E;--paper:#FFF1F7;--line:rgba(200,50,120,.18);--muted:#8A5E78;--act:#E0357F;--sh:150,20,90}
-html[data-gender=f][data-theme=dark]{--text:#FFEAF4;--hero:#2A0C20;--paper:#1A0814;--card:rgba(60,18,46,.68);--solid:#2A0F22;--line:rgba(255,130,190,.2);--muted:#D6A3C0;--act:#FF6FAE;--sh:0,0,0}
-html[data-gender=f] .top{background:linear-gradient(120deg,#8E1B5E 0%,#E0357F 55%,#FF6FAE 100%);box-shadow:0 16px 36px -16px rgba(224,53,127,.6)}
-html[data-gender=f] .btn.dark{background:linear-gradient(135deg,#8E1B5E,#E0357F)}
-html[data-gender=f] .thumb{background:linear-gradient(135deg,#8E1B5E,#E0357F 70%,#FF8FC0) center/cover}
-html[data-gender=f] #toast{background:linear-gradient(135deg,#8E1B5E,#E0357F)}
-html[data-gender=f] .logo{background:linear-gradient(135deg,#FFD36B,#FF5FA2);color:#4A0A2E}
-html[data-gender=f] .bn.on{background:linear-gradient(135deg,#8E1B5E,#E0357F);color:#fff}
-/* شاشة اختيار ولد/بنت */
-.gpick{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
-.gpick button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:150px;border-radius:22px;border:2px solid var(--line);background:var(--card);font-weight:700;font-size:1.1rem;transition:transform .25s,border-color .2s,box-shadow .2s}
-.gpick button span{font-size:3rem;line-height:1}
-.gpick button:hover,.gpick button:active{transform:translateY(-3px) scale(1.03)}
-.gpick button[data-g=m]:hover{border-color:#1769E0;box-shadow:0 10px 24px -10px rgba(23,105,224,.6)}
-.gpick button[data-g=f]:hover{border-color:#E0357F;box-shadow:0 10px 24px -10px rgba(224,53,127,.6)}
+
+
+/* ================= Professional polish ================= */
+html:root{--grad:var(--act);--r:14px}
+html[data-theme=light]:root,html:root{--act:#2447C9}
+html[data-theme=dark]:root{--act:#5B7CF0}
+/* buttons */
+body .btn{position:relative;min-height:46px;padding:0 20px;border-radius:12px;font-weight:600;font-size:.95rem;letter-spacing:0;border:1px solid transparent;box-shadow:none;transition:background .15s,border-color .15s,box-shadow .15s,transform .1s,opacity .15s;animation:none}
+body .btn:hover{transform:none}body .btn:active{transform:scale(.98)}
+body .btn::after{display:none!important}
+body .btn.primary{background:var(--act)!important;color:#fff;animation:none;box-shadow:0 1px 2px rgba(14,27,46,.2),0 4px 10px -4px color-mix(in srgb,var(--act) 55%,transparent)}
+body .btn.primary:hover{background:color-mix(in srgb,var(--act) 88%,#000)!important}
+body .btn.dark{background:var(--hero);color:#fff}
+body .btn.ghost{background:var(--card);border-color:var(--line);color:var(--text)}
+body .btn.ghost:hover{border-color:var(--act);color:var(--act);background:color-mix(in srgb,var(--act) 6%,var(--card))}
+body .btn.danger{background:color-mix(in srgb,var(--bad) 7%,var(--card));color:var(--bad);border-color:color-mix(in srgb,var(--bad) 35%,var(--line))}
+body .btn.danger:hover{background:color-mix(in srgb,var(--bad) 14%,var(--card))}
+body .btn.sm{min-height:36px;padding:0 14px;font-size:.85rem;border-radius:10px}
+body .btn[disabled]{opacity:.45;box-shadow:none}
+.row[style*="flex-wrap"]>.btn.sm{flex:1 1 auto}
+/* top bar (non-chat pages) */
+.shell:not(.full) .top{background:var(--hero)!important;box-shadow:0 1px 0 rgba(255,255,255,.06),0 2px 10px rgba(0,0,0,.18)!important;padding-bottom:12px!important;border-radius:0!important}
+.shell:not(.full) .top::after{display:none!important}
+.top .ttl,.brand b{font-family:inherit!important;font-weight:700!important;font-size:1.08rem!important;letter-spacing:0!important}
+body .icon-btn{width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.1);border:0;transition:background .15s}
+body .icon-btn:hover{background:rgba(255,255,255,.2);transform:none}body .icon-btn:active{transform:scale(.94)}
+/* bottom navigation */
+body .bottom{margin:0!important;border:0!important;border-top:1px solid var(--line)!important;border-radius:0!important;background:var(--card)!important;box-shadow:0 -2px 12px rgba(14,27,46,.05)!important;padding:6px 6px calc(env(safe-area-inset-bottom,0px) + 6px)!important;gap:2px!important;backdrop-filter:none}
+body .bottom .bn,body .bottom.four .bn,body .bottom.five .bn{flex-direction:column;gap:3px;height:56px;border-radius:12px;font-size:.72rem;font-weight:600;color:var(--muted);background:transparent!important;box-shadow:none!important;animation:none!important}
+body .bottom .bn .ic{width:1.45em;height:1.45em;animation:none!important}
+body .bottom .bn:hover{color:var(--act);background:color-mix(in srgb,var(--act) 6%,transparent)!important}
+body .bottom .bn.on{color:var(--act)!important;background:color-mix(in srgb,var(--act) 11%,transparent)!important}
+body .bottom .bn.on::before{content:"";position:absolute;top:0;left:30%;right:30%;height:3px;border-radius:0 0 3px 3px;background:var(--act)}
+/* cards / lists / stats */
+body .card,body .vcard,body .fcard,body .irow,body .urow,body .rv,body .brow,body .stat,body .mycard{border-radius:14px;border:1px solid var(--line);box-shadow:0 1px 2px rgba(14,27,46,.05);transition:border-color .15s,box-shadow .15s,background .15s}
+body .card:hover,body .vcard:hover,body .fcard:hover,body .irow:hover,body .urow:hover,body .rv:hover,body .brow:hover,body .stat:hover{transform:none!important;box-shadow:0 4px 14px -6px rgba(14,27,46,.2);border-color:color-mix(in srgb,var(--act) 35%,var(--line))}
+body .stat::before{display:none}body .stat b{font-family:inherit;font-weight:700;font-size:1.5rem}
+body .urow .av{box-shadow:none}
+body .input{border-radius:12px;border:1px solid var(--line);background:var(--card)}
+body .input:focus{border-color:var(--act);box-shadow:0 0 0 3px color-mix(in srgb,var(--act) 18%,transparent);outline:0}
+body .seg{border-radius:12px;border:1px solid var(--line)}
+body .chip,body .badge{font-weight:600}
+body .sheet{border-radius:20px 20px 0 0}
+/* platform manager */
+.mgrhead{gap:10px!important;padding:2px 0 10px}
+.mgrst{position:relative;padding:12px 14px 12px 14px!important;padding-inline-start:44px!important;border-radius:14px!important;border:1px solid var(--line)!important;background:var(--card)!important;font-size:.9rem;font-weight:500;box-shadow:0 1px 2px rgba(14,27,46,.05)}
+.mgrst::before{content:"";position:absolute;top:50%;inset-inline-start:16px;translate:0 -50%;width:12px;height:12px;border-radius:50%;background:var(--muted)}
+.mgrst.ok::before{background:var(--ok);box-shadow:0 0 0 4px color-mix(in srgb,var(--ok) 22%,transparent)}
+.mgrst.bad::before{background:var(--bad);box-shadow:0 0 0 4px color-mix(in srgb,var(--bad) 22%,transparent)}
+.mgrst.ok{background:color-mix(in srgb,var(--ok) 7%,var(--card))!important;border-color:color-mix(in srgb,var(--ok) 40%,var(--line))!important}
+.mgrst.bad{background:color-mix(in srgb,var(--bad) 7%,var(--card))!important;border-color:color-mix(in srgb,var(--bad) 40%,var(--line))!important}
+.mgrbtns{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px!important}
+.mgrbtns .btn{min-width:0;width:100%;min-height:42px;font-size:.88rem}
+.aiadm{border-radius:14px!important}
+
+/* ================= Platform manager ================= */
+.mg-hero{display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:18px;color:#fff;background:linear-gradient(135deg,var(--hero),color-mix(in srgb,var(--hero) 55%,var(--act)));box-shadow:0 8px 24px -12px rgba(14,27,46,.5)}
+.mg-top,.mg-row{display:flex;align-items:center;gap:12px}
+.mg-ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:1.4rem;background:rgba(255,255,255,.14);flex:none}
+.mg-ic.sm{width:40px;height:40px;font-size:1.15rem;background:color-mix(in srgb,var(--act) 12%,var(--card))}
+.mg-tt{flex:1;min-width:0}.mg-tt b{display:block;font-size:1.1rem;line-height:1.3}.mg-tt small{opacity:.8}
+.mg-sw{width:52px;height:30px;border-radius:99px;background:rgba(127,127,127,.4);position:relative;flex:none;transition:background .2s;padding:0}
+.mg-sw i{position:absolute;top:3px;inset-inline-start:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.35);transition:transform .2s}
+.mg-sw.on{background:var(--ok)}.mg-sw.on i{transform:translateX(-22px)}
+.mg-hero .mgrst{background:rgba(255,255,255,.1)!important;border:1px solid rgba(255,255,255,.18)!important;color:#fff;box-shadow:none;font-size:.84rem;line-height:1.7}
+.mg-hero .mgrst.ok::before{background:#4ade80}.mg-hero .mgrst.bad::before{background:#fb923c;box-shadow:0 0 0 4px rgba(251,146,60,.25)}
+.mg-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.mg-tiles>*{display:flex;flex-direction:column;align-items:center;gap:1px;padding:10px 4px;border-radius:14px;background:rgba(255,255,255,.1);color:#fff;text-align:center;transition:background .15s}
+.mg-tiles>*:hover{background:rgba(255,255,255,.2)}.mg-tiles span{font-size:1.4rem;line-height:1.3}.mg-tiles b{font-size:.84rem}.mg-tiles small{font-size:.7rem;opacity:.75}
+.mg-card{margin:12px 0;padding:14px;border-radius:16px;background:var(--card);border:1px solid var(--line);box-shadow:0 1px 2px rgba(14,27,46,.05)}
+.mg-row .info{flex:1;min-width:0}.mg-row .info b{display:block}.mg-row .info small{color:var(--muted)}
+.mg-more{margin-top:10px;font-size:.84rem;color:var(--muted)}.mg-more summary{cursor:pointer;font-weight:600;color:var(--act)}.mg-more p{margin-top:6px;line-height:1.8}
+#mgrtabs{margin-bottom:12px}
+.mg-al{padding:14px;border-radius:16px;background:var(--card);border:1px solid var(--line);border-inline-start:4px solid var(--bad);display:flex;flex-direction:column;gap:10px;box-shadow:0 1px 2px rgba(14,27,46,.05)}
+.mg-al:not(.new){border-inline-start-color:var(--ok)}
+.mg-alh{display:flex;align-items:center;gap:10px}.mg-alh .info{flex:1;min-width:0}.mg-alh .info b,.mg-alh .info small{display:block}.mg-alh .info small{color:var(--muted);font-size:.78rem}
+.mg-av{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff;background:hsl(var(--h,220) 55% 45%);flex:none}
+.mg-tags{display:flex;gap:6px;flex-wrap:wrap}
+.mg-q{padding:10px 12px;border-radius:12px;background:color-mix(in srgb,var(--bad) 9%,var(--card));border-inline-start:3px solid var(--bad);white-space:pre-wrap;word-break:break-word;font-size:.92rem}
+.mg-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}.mg-acts .btn:first-child{grid-column:1/-1}
+.mg-done{font-size:.84rem;font-weight:600;color:var(--ok)}
+/* ================= WhatsApp look ================= */
+html{--wa-bg:#EFEAE2;--wa-out:#D9FDD3;--wa-in:#FFFFFF;--wa-head:#008069;--wa-send:#00A884;--wa-text:#111B21;--wa-meta:#667781;--wa-chip:#FFFFFFE6;--wa-rq:#06CF9C;--wa-link:#027EB5;
+--wa-pat:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160' fill='none' stroke='%23000' stroke-opacity='.055' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='24' cy='28' r='7'/%3E%3Cpath d='M80 20l8 8m0-8l-8 8'/%3E%3Crect x='118' y='22' width='20' height='14' rx='5'/%3E%3Cpath d='M30 90c6-8 14-8 20 0'/%3E%3Ccircle cx='100' cy='96' r='5'/%3E%3Cpath d='M130 120h18m-9-9v18'/%3E%3Cpath d='M60 140l10-10 10 10z'/%3E%3Ccircle cx='20' cy='140' r='4'/%3E%3C/svg%3E")}
+html[data-theme=dark]{--wa-bg:#0B141A;--wa-out:#005C4B;--wa-in:#202C33;--wa-head:#1F2C34;--wa-send:#00A884;--wa-text:#E9EDEF;--wa-meta:#8696A0;--wa-chip:#182229E6;--wa-rq:#53BDEB;--wa-link:#53BDEB;
+--wa-pat:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160' fill='none' stroke='%23fff' stroke-opacity='.045' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='24' cy='28' r='7'/%3E%3Cpath d='M80 20l8 8m0-8l-8 8'/%3E%3Crect x='118' y='22' width='20' height='14' rx='5'/%3E%3Cpath d='M30 90c6-8 14-8 20 0'/%3E%3Ccircle cx='100' cy='96' r='5'/%3E%3Cpath d='M130 120h18m-9-9v18'/%3E%3Cpath d='M60 140l10-10 10 10z'/%3E%3Ccircle cx='20' cy='140' r='4'/%3E%3C/svg%3E")}
+/* header */
+.shell.full .top{background:var(--wa-head)!important;border-radius:0!important;box-shadow:0 1px 3px rgba(0,0,0,.25)!important;padding:calc(env(safe-area-inset-top,0px) + 8px) 8px 8px!important;gap:6px!important;color:#fff!important}
+.shell.full .top::after{display:none!important}
+.shell.full .top .ttl{font-family:inherit!important;font-size:1.05rem!important;font-weight:600!important;letter-spacing:0!important;display:block}
+.shell.full .top>.ttl::before{content:"👤";display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.22);margin-inline-end:10px;font-size:1.05rem;vertical-align:middle}
+.wa-t{min-width:0;flex:1 1 0;line-height:1.25}.wa-t .ttl::before{display:none!important}
+.wa-t .ttl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wa-sub{display:block;font-size:.74rem;opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wa-av{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.22);display:grid;place-items:center;font-size:1.2rem;flex:none;margin-inline-start:2px}
+/* page + wallpaper */
+.shell.full .page.chatpage{padding:0!important;max-width:920px!important;width:100%;margin:0 auto}
+body .chat .msgs,body .shell.full .msgs{border:0!important;border-radius:0!important;box-shadow:none!important;padding:10px 8px 8px!important;background:var(--wa-pat),var(--wa-bg)!important;background-size:160px,auto!important;scroll-behavior:smooth}
+body .msgs.aibody{display:flex;flex-direction:column;gap:3px}
+/* bubbles */
+.msg{margin:6px 0 1px!important;gap:6px!important;flex-direction:row-reverse!important;align-items:flex-end!important}
+.msg.mine{flex-direction:row!important}
+.msg.cont{margin-top:1px!important}
+.msg.mine .mav,.msg.mine .mn{display:none!important}
+.mav{width:30px!important;height:30px!important;font-size:.78rem!important;box-shadow:none!important}
+body .msgs .msg .bub{position:relative;max-width:82%!important;min-width:64px;padding:5px 9px 4px!important;border:0!important;border-radius:8px!important;background:var(--wa-in)!important;color:var(--wa-text)!important;box-shadow:0 1px .5px rgba(11,20,26,.14)!important;animation:none!important}
+body .msgs .msg.mine .bub{background:var(--wa-out)!important}
+.msg:not(.cont):not(.mine) .bub{border-top-left-radius:0!important}
+.msg:not(.cont).mine .bub{border-top-right-radius:0!important}
+.msg:not(.cont) .bub::before{content:"";position:absolute;top:0;width:9px;height:12px;background:inherit}
+.msg:not(.cont):not(.mine) .bub::before{left:-8px;clip-path:polygon(100% 0,0 0,100% 100%)}
+.msg:not(.cont).mine .bub::before{right:-8px;clip-path:polygon(0 0,100% 0,0 100%)}
+.mn{font-size:.8rem!important;font-weight:600!important;margin-bottom:1px}
+.mn em{background:var(--wa-send)!important;color:#fff!important;font-weight:600}
+.bub p{display:inline;font-size:.97rem;line-height:1.5;color:inherit}
+.bub::after{content:"";display:block;clear:both}
+body .bub time{float:left;display:inline-flex;align-items:center;margin:7px 8px -2px 0!important;font-size:.67rem!important;color:var(--wa-meta)!important;opacity:1!important}
+.msg.mine .bub time::after{content:"✓✓"!important;letter-spacing:-3px!important;margin-inline-start:4px!important;color:#53BDEB!important;font-size:.8rem}
+.bub.hasimg{padding:3px!important}.bub.hasimg .mimg{border-radius:6px;margin:0}.bub.hasimg time,.bub.hasimg p{padding:0 5px}
+.bub.ment{box-shadow:0 0 0 2px color-mix(in srgb,var(--wa-send) 45%,transparent)!important}
+.mtn{color:var(--wa-link)!important;background:none!important;padding:0!important}
+.msg.dayfirst::before{background:var(--wa-chip)!important;color:var(--wa-meta)!important;border:0!important;border-radius:8px!important;font-size:.74rem!important;font-weight:500!important;padding:4px 12px!important;box-shadow:0 1px .5px rgba(11,20,26,.13)!important}
+.msg.flash .bub{animation:none!important;box-shadow:0 0 0 9999px color-mix(in srgb,var(--wa-send) 18%,transparent)!important}
+.mmore{top:0!important;inset-inline-end:2px!important;width:22px!important;height:22px!important;opacity:0;color:var(--wa-meta)}
+.bub:hover .mmore,.bub:focus-within .mmore{opacity:.9}
+@media(hover:none){.mmore{opacity:.55}}
+.mrep{position:absolute;top:50%;translate:0 -50%;width:30px;height:30px;border-radius:50%;background:var(--wa-chip);color:var(--wa-meta);display:grid;place-items:center;opacity:0;transition:opacity .15s;font-size:1rem;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.msg:not(.mine) .mrep{right:-38px}.msg.mine .mrep{left:-38px}
+@media(hover:hover){.msg:hover .mrep{opacity:1}}
+/* reply quote + bar */
+.rq{display:block;width:100%;text-align:start;border-radius:6px;background:rgba(0,0,0,.07);border-inline-start:4px solid var(--wa-rq);padding:4px 8px;margin:2px 0 4px}
+html[data-theme=dark] .rq{background:rgba(255,255,255,.07)}
+.rq b{display:block;font-size:.76rem;color:var(--wa-rq)}
+.rq span{display:block;font-size:.82rem;color:var(--wa-meta);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:240px}
+.rbar{display:flex;align-items:center;gap:8px;margin:0 8px;padding:6px 10px;background:var(--wa-in);border-radius:12px 12px 0 0;border-inline-start:4px solid var(--wa-send);min-width:0}
+.rbar>div{flex:1;min-width:0}.rbar b{display:block;font-size:.8rem;color:var(--wa-send)}
+.rbar span{display:block;font-size:.84rem;color:var(--wa-meta);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* composer */
+body .composer,body .recbar{background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important;margin:0!important;padding:6px 8px calc(8px + env(safe-area-inset-bottom,0px))!important;gap:6px!important;align-items:flex-end!important;background-color:var(--wa-bg)!important}
+.wa-pill{flex:1;min-width:0;display:flex;align-items:center;gap:0;background:var(--wa-in);border-radius:26px;padding:2px 4px;min-height:48px;box-shadow:0 1px .5px rgba(11,20,26,.14)}
+.wa-pill input:not([type=file]){flex:1;min-width:0;background:none!important;border:0!important;outline:none!important;color:var(--wa-text);font-size:1rem}
+.wa-pill .cbtn,.wa-pill .ai-attach{width:40px;height:40px;font-size:1.25rem;display:grid;place-items:center;border-radius:50%;color:var(--wa-meta);background:none}
+body .send{width:48px!important;height:48px!important;background:var(--wa-send)!important;box-shadow:0 1px 3px rgba(0,0,0,.3)!important;animation:none!important}
+.recbar{border-radius:0!important}.recbar b{color:var(--wa-text)}
+.emop{display:grid;grid-template-columns:repeat(8,1fr);gap:2px;max-height:210px;overflow-y:auto;padding:8px;background:var(--wa-in);border-top:1px solid rgba(127,127,127,.2)}
+.emop button{font-size:1.45rem;padding:4px;border-radius:8px;line-height:1.2}.emop button:active{background:rgba(127,127,127,.2)}
+.cprev{margin:0 8px!important;border-radius:12px 12px 0 0!important}
+.tobot{background:var(--wa-in)!important;color:var(--wa-meta)!important;box-shadow:0 2px 6px rgba(0,0,0,.3)!important;inset-inline-start:auto!important;inset-inline-end:12px!important}
+.pinbar{margin:0!important;border-radius:0!important;border:0!important;border-bottom:1px solid rgba(127,127,127,.25)!important;background:var(--wa-in)!important}
+.chat-empty p{display:inline-block;background:var(--wa-chip);padding:6px 14px;border-radius:8px;color:var(--wa-meta);animation:none!important}.chat-empty span{animation:none!important}
+.aplay{background:var(--wa-send)!important;color:#fff!important}.wv i.on{background:var(--wa-send)!important}
+.msg.mine .aplay{background:var(--wa-send)!important;color:#fff!important}.msg.mine .wv i.on{background:var(--wa-send)!important}
+.popt{background:rgba(127,127,127,.12)!important;border:0!important}.popt .pfill{background:color-mix(in srgb,var(--wa-send) 35%,transparent)!important}
+.msg.mine .pq{color:inherit}
+/* AI + manager chat */
+body .ai-m{max-width:88%!important;align-self:flex-end;border:0!important;border-radius:8px!important;border-top-left-radius:0!important;background:var(--wa-in)!important;color:var(--wa-text)!important;box-shadow:0 1px .5px rgba(11,20,26,.14)!important;padding:7px 11px!important;animation:none!important;margin:2px 0!important}
+body .ai-m.u{align-self:flex-start;max-width:80%!important;background:var(--wa-out)!important;border-radius:8px!important;border-top-right-radius:0!important}
+body .ai-m.err{background:color-mix(in srgb,var(--bad) 18%,var(--wa-in))!important}
+.ai-modes{display:flex;gap:6px;overflow-x:auto;padding:6px 8px 0;background:var(--wa-bg)}
+.ai-modes button{flex:none;border:0!important;border-radius:99px!important;background:var(--wa-in)!important;color:var(--wa-send)!important;font-weight:600;padding:5px 13px!important;box-shadow:0 1px .5px rgba(11,20,26,.14)}
+.aimsgs{background:var(--wa-pat),var(--wa-bg);border-radius:10px;padding:8px}
+/* conversation lists (inbox, AI chats, my chats) */
+#tlist.stack,#ulist.stack,#aichats{gap:0!important}
+#tlist .urow,#ulist .urow,#aichats .urow{border:0!important;border-bottom:1px solid var(--line)!important;border-radius:0!important;box-shadow:none!important;background:transparent!important;transform:none!important;padding:10px 6px!important;gap:12px!important}
+#tlist .urow:hover,#ulist .urow:hover,#aichats .urow:hover,#tlist .urow:active,#ulist .urow:active{background:color-mix(in srgb,var(--wa-send) 8%,transparent)!important}
+#tlist .urow .av,#ulist .urow .av,#aichats .urow .av{width:52px!important;height:52px!important;font-size:1.2rem;box-shadow:none!important}
+#tlist .urow .info b,#ulist .urow .info b,#aichats .urow .info b{font-size:1.02rem;font-weight:600}
+#tlist .urow .info small,#ulist .urow .info small,#aichats .urow .info small{margin-top:2px;font-size:.86rem}
+#tlist .badge.bad{background:var(--wa-send)!important;color:#fff!important;border-radius:99px;min-width:22px;height:22px;padding:0 7px;display:inline-grid;place-items:center;font-size:.74rem;font-weight:700}
 </style>
 </head>
 <body>
@@ -1368,10 +1520,8 @@ window.addEventListener('hashchange',()=>{if(ready)render();});
    ROUTER
    ===================================================================== */
 function applyGender(){
-  const r=document.documentElement,f=!!(me&&!admin&&!viewAs&&profile&&profile.gender==='f');
-  if(f)r.dataset.gender='f';else delete r.dataset.gender;
   const m=document.querySelector('meta[name=theme-color]');
-  if(m){const d=r.dataset.theme==='dark';m.content=f?(d?'#2A0C20':'#8E1B5E'):(d?'#06142C':'#0A2A5E');}
+  if(m){const d=document.documentElement.dataset.theme==='dark';m.content=d?'#0B1030':'#1B2670';}
 }
 function render(){
   applyGender();
@@ -1387,7 +1537,6 @@ function render(){
   if(admin)return adminRoute();
   if(!profile)return viewSetup();
   if(profile.banned)return viewBanned();
-  if(!profile.gender)return viewGender();
   if(!profile.track)return viewTracks();
   studentRoute();
 }
@@ -1445,16 +1594,6 @@ forms['setup']=async f=>{
   try{await setDoc(doc(db,'users',me.uid),{name,email:me.email||'',photoURL:pendingPhoto||me.photoURL||'',track:'',gender:'',createdAt:serverTimestamp()});}
   catch(e){fail(e);b.disabled=false;}
 };
-function viewGender(){
-  app.innerHTML=`<div class="plain">
-    <h1>انت ولد ولا بنت؟</h1><p class="muted">هنظبطلك شكل المنصة على حسب اختيارك.</p>
-    <div class="gpick">
-      <button type="button" data-act="pick-gender" data-g="m"><span>👦</span>ولد</button>
-      <button type="button" data-act="pick-gender" data-g="f"><span>👧</span>بنت</button>
-    </div>
-    <button class="btn ghost block" type="button" data-act="logout" style="margin-top:22px">خروج</button></div>`;
-}
-acts['pick-gender']=async el=>{try{await updateDoc(doc(db,'users',me.uid),{gender:el.dataset.g});}catch(e){fail(e);}};
 function viewTracks(){
   app.innerHTML=`<div class="plain"><h1>اختار تخصصك</h1><p class="muted">هتشوف المحتوى الخاص بتخصصك بس. تقدر تغيّره بعدين من حسابك.</p>
     <div class="tracks">${Object.entries(TRACKS).map(([k,t])=>`<button class="track" style="--c:${t.color}" data-act="pick-track" data-k="${k}">${icon(t.icon)}<span><b>${t.name}</b><small>${t.sub}</small></span></button>`).join('')}</div></div>`;
@@ -1468,7 +1607,7 @@ function studentShell(main,body,pageCls=''){
   const t=TRACKS[profile.track];
   if(pageCls.includes('chatpage')){
     app.innerHTML=`<div class="shell full">
-    <header class="top"><a class="icon-btn" href="#/content/videos" aria-label="رجوع">${icon('i-back')}</a><b class="ttl">${main==='group'?'الجروب':main==='ai'?`<span data-ainame>${esc(AI_LABEL)}</span>`:'كلم الأدمن'}</b><span class="sp"></span>${main==='ai'?AI_HB:''}</header>
+    <header class="top"><a class="icon-btn" href="#/content/videos" aria-label="رجوع">${icon('i-back')}</a><span class="wa-av">${main==='group'?'👥':main==='ai'?'✨':'🛡️'}</span><div class="wa-t"><b class="ttl">${main==='group'?'الجروب':main==='ai'?`<span data-ainame>${esc(AI_LABEL)}</span>`:'كلم الأدمن'}</b><small class="wa-sub">${main==='group'?'اكتب لزمايلك — الأدمن والـ AI موجودين':main==='ai'?'متصل دائماً':'الأدمن بيرد عليك هنا'}</small></div><span class="sp"></span>${main==='ai'?AI_HB:''}</header>
     <main class="page ${pageCls}" id="page">${body}</main></div>`;
     watchStudentCounts(main);
     return;
@@ -2028,7 +2167,7 @@ function viewAIChat(){
   const head='';
   studentShell('ai',`<div class="chat aichat">${head}<div class="msgs aibody" id="abody"></div>
     <div class="ai-modes">${[['💡 اشرحلي','اشرحلي بالتفصيل: '],['🎯 اختبرني','اختبرني سؤال سؤال في: '],['🗂 كروت','اعملي فلاش كاردز مراجعة على: '],['📅 خطة','اعملي لي خطة مذاكرة ل'],['⚡ مراجعة سريعة','راجعني بسرعة قبل الامتحان على: ']].map(([l,t])=>`<button type="button" data-act="ai-mode" data-t="${t}">${l}</button>`).join('')}</div><div class="apend" id="apend"></div>
-    <form class="composer" data-form="ai"><button type="button" class="ai-attach" data-act="ai-attach" aria-label="إرفاق صورة">📷</button><input name="t" placeholder="اسأل أو ابعت صورة مسألة…" autocomplete="off" maxlength="1500"><input type="file" id="afile" accept="image/*" multiple hidden><button class="send" aria-label="إرسال">${icon('i-send','flip')}</button></form></div>`,'chatpage');
+    <form class="composer" data-form="ai"><div class="wa-pill"><button type="button" class="cbtn" data-act="emo" aria-label="إيموجي">🙂</button><input name="t" placeholder="اسأل أو ابعت صورة مسألة…" autocomplete="off" maxlength="1500"><button type="button" class="ai-attach" data-act="ai-attach" aria-label="إرفاق صورة">📷</button><input type="file" id="afile" accept="image/*" multiple hidden></div><button class="send" aria-label="إرسال">${icon('i-send','flip')}</button></form></div>`,'chatpage');
   aiState={ctx:{type:'chat',track:profile.track},msgs:[],err:'',body:'abody',pending:[]};aiQ={};loadKB().catch(()=>{});
   paintAI(false);
   let last='';try{last=localStorage.getItem(aiLastKey())||'';}catch{}
@@ -2128,7 +2267,7 @@ acts['ai-mode']=el=>{const i=$('form[data-form=ai] input[name=t]');if(i){i.value
 acts['aiq']=el=>{const st=aiQ[el.dataset.k];if(!st||st[+el.dataset.q]!==undefined)return;st[+el.dataset.q]=+el.dataset.o;paintAI(false);};
 acts['ai-copy']=el=>{const m=aiState.msgs.filter(x=>!x.hidden)[+el.dataset.i];if(!m)return;try{navigator.clipboard.writeText(m.content.replace(/```(quiz|svg|cards|next)[\s\S]*?```/g,''));el.textContent='اتنسخ ✓';setTimeout(()=>el.textContent='نسخ',1500);}catch{}};
 acts['ai-pdf']=el=>{const m=aiState.msgs.filter(x=>!x.hidden)[+el.dataset.i];if(!m)return;const w=window.open('','_blank');if(!w){alert('اسمح بالنوافذ المنبثقة عشان تطبع.');return;}
-  w.document.write(`<!doctype html><html dir="rtl" lang="ar"><meta charset="utf-8"><title>ملخص</title><style>body{font-family:Tahoma,Arial,sans-serif;line-height:1.9;padding:28px;max-width:780px;margin:auto;color:#111}.ai-h{font-size:1.25rem;font-weight:800;color:#1769E0;margin:16px 0 4px;border-bottom:2px solid #ddd}.ai-li{padding-inline-start:12px}img{max-width:100%}.aq{border:1px solid #ccc;padding:10px;border-radius:10px}.aq-o{display:block;margin:4px 0;padding:6px 10px;border:1px solid #ccc;border-radius:8px;background:#fff;width:100%;text-align:start}button{all:unset}
+  w.document.write(`<!doctype html><html dir="rtl" lang="ar"><meta charset="utf-8"><title>ملخص</title><style>body{font-family:Tahoma,Arial,sans-serif;line-height:1.9;padding:28px;max-width:780px;margin:auto;color:#111}.ai-h{font-size:1.25rem;font-weight:800;color:#3F5FE8;margin:16px 0 4px;border-bottom:2px solid #ddd}.ai-li{padding-inline-start:12px}img{max-width:100%}.aq{border:1px solid #ccc;padding:10px;border-radius:10px}.aq-o{display:block;margin:4px 0;padding:6px 10px;border:1px solid #ccc;border-radius:8px;background:#fff;width:100%;text-align:start}button{all:unset}
 </style><body>${aiRich(m.content,'p'+el.dataset.i)}<script>setTimeout(()=>print(),400)<\/script></body></html>`);w.document.close();};
 acts['ai-svg-dl']=el=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');c.width=img.width*2||1200;c.height=img.height*2||900;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(img,0,0,c.width,c.height);const a=document.createElement('a');a.download='رسم.png';a.href=c.toDataURL('image/png');a.click();};img.src=el.dataset.u;};
 
@@ -2206,7 +2345,7 @@ const hueOf=n=>{let h=0;for(const c of String(n||''))h=(h*31+c.charCodeAt(0))%36
 const fmtDur=n=>{n=Math.max(0,Math.round(+n||0));return Math.floor(n/60)+':'+String(n%60).padStart(2,'0');};
 const barsOf=id=>{let x=0;for(const c of String(id))x=(Math.imul(x,33)+c.charCodeAt(0))>>>0;return Array.from({length:30},()=>{x=(Math.imul(x,1103515245)+12345)>>>0;return 22+((x>>>16)%74);});};
 const nodeOf=h=>{const t=document.createElement('template');t.innerHTML=h.trim();return t.content.firstElementChild;};
-const media=m=>({image:m.image||'',audio:m.audio||'',dur:+m.dur||0,uid:m.uid||'',type:m.type||'',options:Array.isArray(m.options)?m.options:[],closed:!!m.closed,edited:!!m.edited,mentions:Array.isArray(m.mentions)?m.mentions:[],mentionAll:!!m.mentionAll});
+const media=m=>({image:m.image||'',audio:m.audio||'',dur:+m.dur||0,uid:m.uid||'',type:m.type||'',options:Array.isArray(m.options)?m.options:[],closed:!!m.closed,edited:!!m.edited,mentions:Array.isArray(m.mentions)?m.mentions:[],mentionAll:!!m.mentionAll,reply:(m.replyTo&&m.replyTo.id)?{id:String(m.replyTo.id),name:String(m.replyTo.name||'').slice(0,40),text:String(m.replyTo.text||'').slice(0,120)}:null});
 const timeTxt=m=>fmtTime(m.t)+(m.edited?' · معدّلة':'');
 const sigOf=m=>[m.text,m.edited,m.closed,(m.options||[]).join('~'),m.image?m.image.length:0,(m.mentions||[]).length,m.mentionAll].join('|');
 const isMeU=u=>!!me&&(u===me.uid||(admin&&u==='admin'));
@@ -2228,12 +2367,25 @@ const msgHTML=(m,canDel,hasMenu)=>{
   const aud=okA?`<div class="aplayer" data-aud="${esc(m.id)}" data-dur="${+m.dur||0}"><button type="button" class="aplay" data-act="aplay" data-mid="${esc(m.id)}" aria-label="تشغيل">${icon('i-play')}${icon('i-pause')}</button><div class="wv">${barsOf(m.id).map(v=>`<i style="height:${v}%"></i>`).join('')}</div><span class="adur">${fmtDur(m.dur)}</span></div>`:'';
   const poll=isPoll?`<div class="poll" data-pid="${esc(m.id)}"><div class="pq">${icon('i-poll')}${esc(m.text)}</div><div class="pops">${m.options.map((o,i)=>`<button type="button" class="popt" data-act="vote" data-pid="${esc(m.id)}" data-i="${i}" ${m.closed?'disabled':''}><i class="pfill"></i><span class="plab">${esc(o)}</span><b class="ppct">0%</b></button>`).join('')}</div><div class="pmeta"><span class="pcnt">0 صوت</span>${m.closed?'<span class="pclosed">التصويت اتقفل</span>':''}</div></div>`:'';
   const more=hasMenu?`<button type="button" class="mmore" data-act="msg-menu" data-id="${esc(m.id)}" aria-label="خيارات الرسالة">${icon('i-more')}</button>`:(canDel?`<button class="mdel" data-act="msg-del" data-id="${esc(m.id)}" aria-label="حذف">${icon('i-trash')}</button>`:'');
-  return `<div class="msg ${m.mine?'mine':''}" data-mid="${esc(m.id)}" style="--h:${hueOf(m.name)}"><div class="mav">${initial(m.name)}</div><div class="bub ${okI?'hasimg':''} ${isPoll?'pollb':''} ${hasMenu?'hasmore':''} ${mentionsMe(m)?'ment':''} ${m.badge==='AI'?'aib':''}"><div class="mn">${esc(m.name)}${m.badge?`<em>${m.badge}</em>`:''}</div>${img}${aud}${poll}${(m.text&&!isPoll)?`<p>${mentionHTML(m)}</p>`:''}<time>${timeTxt(m)}</time>${more}</div></div>`;
+  const rq=m.reply?`<button type="button" class="rq" data-act="rq-go" data-id="${esc(m.reply.id)}"><b>${esc(m.reply.name)}</b><span>${esc(m.reply.text)}</span></button>`:'';
+  return `<div class="msg ${m.mine?'mine':''}" data-mid="${esc(m.id)}" style="--h:${hueOf(m.name)}"><div class="mav">${initial(m.name)}</div><div class="bub ${okI?'hasimg':''} ${isPoll?'pollb':''} ${hasMenu?'hasmore':''} ${mentionsMe(m)?'ment':''} ${m.badge==='AI'?'aib':''}"><div class="mn">${esc(m.name)}${m.badge?`<em>${m.badge}</em>`:''}</div>${rq}${img}${aud}${poll}${(m.text&&!isPoll)?`<p>${mentionHTML(m)}</p>`:''}<time>${timeTxt(m)}</time>${more}${isPoll?'':`<button type="button" class="mrep" data-act="msg-reply" data-id="${esc(m.id)}" aria-label="رد">↩</button>`}</div></div>`;
 };
 const chatHead=(ic,color,title,sub)=>`<div class="chead" style="--c:${color}"><span class="chi">${icon(ic)}</span><div><b>${esc(title)}</b><small>${esc(sub)}</small></div></div>`;
-function chatBox(head=''){return `<div class="chat">${head}<div id="pins"></div><div class="msgs" id="msgs"></div><div id="cnote"></div><div id="mpop"></div><div id="cprev"></div>
+function chatBox(head=''){return `<div class="chat">${head}<div id="pins"></div><div class="msgs" id="msgs"></div><div id="cnote"></div><div id="mpop"></div><div id="cprev"></div><div id="rbar"></div>
   <div class="recbar" id="recbar" hidden><button type="button" class="cbtn" data-act="rec-cancel" aria-label="إلغاء التسجيل">${icon('i-trash')}</button><span class="recdot"></span><b id="rectime">0:00</b><span class="recwave">${Array.from({length:22},(_,i)=>`<i style="animation-delay:${(i%7)*.12}s"></i>`).join('')}</span><button type="button" class="send" data-act="rec-send" aria-label="إرسال التسجيل">${icon('i-send','flip')}</button></div>
-  <form class="composer chatc" data-form="chat"><label class="cbtn" aria-label="إرسال صورة">${icon('i-img')}<input type="file" accept="image/*" hidden data-chg="chatimg"></label><input name="t" maxlength="1000" placeholder="اكتب رسالة…" autocomplete="off"><button type="button" class="send mic" data-act="rec-start" aria-label="تسجيل رسالة صوتية">${icon('i-mic')}</button><button class="send" aria-label="إرسال">${icon('i-send','flip')}</button></form></div>`;}
+  <form class="composer chatc" data-form="chat"><div class="wa-pill"><button type="button" class="cbtn" data-act="emo" aria-label="إيموجي">🙂</button><input name="t" maxlength="1000" placeholder="اكتب رسالة…" autocomplete="off"><label class="cbtn" aria-label="إرسال صورة">${icon('i-img')}<input type="file" accept="image/*" hidden data-chg="chatimg"></label></div><button type="button" class="send mic" data-act="rec-start" aria-label="تسجيل رسالة صوتية">${icon('i-mic')}</button><button class="send" aria-label="إرسال">${icon('i-send','flip')}</button></form></div>`;}
+let replyCtx=null;
+function paintReply(){const b=document.getElementById('rbar');if(!b)return;b.innerHTML=replyCtx?`<div class="rbar"><div><b>${esc(replyCtx.name)}</b><span>${esc(replyCtx.text)}</span></div><button type="button" class="cbtn" data-act="rep-x" aria-label="إلغاء الرد">✕</button></div>`:'';}
+acts['msg-reply']=el=>{const m=msgData.get(el.dataset.id);if(!m||!chatCtx||chatCtx.blocked)return;replyCtx={id:m.id,name:m.mine?'أنت':(m.name||''),text:(m.text||(m.image?'📷 صورة':m.audio?'🎤 رسالة صوتية':'')).slice(0,120)};paintReply();const i=mpInput();if(i)i.focus();};
+acts['rep-x']=()=>{replyCtx=null;paintReply();};
+acts['rq-go']=el=>{const n=document.querySelector(`.msg[data-mid="${CSS.escape(el.dataset.id)}"]`);if(!n)return toast('الرسالة الأصلية مش موجودة');n.scrollIntoView({block:'center',behavior:'smooth'});n.classList.remove('flash');void n.offsetWidth;n.classList.add('flash');setTimeout(()=>n.classList.remove('flash'),1600);};
+const EMO='😀😂🤣😊😍🥰😘😎🤩🥳😉😅😇🙂🙃😋😜🤔🤨😐😴😢😭😡🤯😱🥺😬🙄👍👎👏🙌🙏💪🤝👀🔥✨💯🎉❤️🧡💛💚💙💜🖤💔⭐🌟📚✏️📝🧠💡✅❌⚠️❓🎯🏆📅⏰🤒'.match(/\p{Extended_Pictographic}(?:\uFE0F|\u200D\p{Extended_Pictographic})*/gu)||[];
+acts['emo']=el=>{const f=el.closest('form');if(!f)return;const old=document.getElementById('emop');if(old){old.remove();return;}const p=document.createElement('div');p.id='emop';p.className='emop';p.innerHTML=EMO.map(e=>`<button type="button" data-act="emo-add" data-e="${e}">${e}</button>`).join('');f.parentElement.insertBefore(p,f);};
+acts['emo-add']=el=>{const p=document.getElementById('emop'),f=p&&p.nextElementSibling,i=f&&f.elements&&f.elements.t;if(!i)return;const a=i.selectionStart==null?i.value.length:i.selectionStart,b=i.selectionEnd==null?a:i.selectionEnd;i.value=i.value.slice(0,a)+el.dataset.e+i.value.slice(b);i.dispatchEvent(new Event('input',{bubbles:true}));i.focus();};
+(function(){let st=null;
+document.addEventListener('touchstart',e=>{const b=e.target.closest&&e.target.closest('#msgs .bub');if(!b||e.touches.length>1)return;const t=e.touches[0];st={b,x:t.clientX,y:t.clientY,dx:0};},{passive:true});
+document.addEventListener('touchmove',e=>{if(!st)return;const t=e.touches[0],dx=t.clientX-st.x,dy=t.clientY-st.y;if(Math.abs(dy)>14&&Math.abs(dy)>Math.abs(dx)){st.b.style.transform='';st=null;return;}st.dx=dx;if(Math.abs(dx)>8)st.b.style.transform=`translateX(${Math.max(-70,Math.min(70,dx*.5))}px)`;},{passive:true});
+document.addEventListener('touchend',()=>{if(!st)return;const{b,dx}=st;b.style.transform='';st=null;if(Math.abs(dx)>90){const r=b.querySelector('.mrep');if(r)r.click();}},{passive:true});})();
 const msgData=new Map(),pollSubs=new Map();
 let groupPins=[],pinIdx=0,menuList=[];
 function attachPoll(n,m){
@@ -2316,8 +2468,8 @@ forms['chat']=async f=>{
   if((!t&&!img)||!chatCtx||chatCtx.blocked)return;
   if(!admin&&mutedNow(profile))return toast('الأدمن كتم حسابك',true);
   const mx=chatCtx.mentions?buildMentions(t):{};
-  i.value='';setImg('');playSnd('send');mpUpdate();
-  try{await chatCtx.send(t,{...(img?{image:img}:{}),...mx});mpPending.clear();}catch(e){i.value=t;if(img)setImg(img);syncComposer();fail(e);}
+  const rp=replyCtx;i.value='';setImg('');playSnd('send');mpUpdate();replyCtx=null;paintReply();
+  try{await chatCtx.send(t,{...(img?{image:img}:{}),...mx,...(rp?{replyTo:{id:rp.id,name:rp.name,text:rp.text}}:{})});mpPending.clear();}catch(e){i.value=t;if(img)setImg(img);if(rp){replyCtx=rp;paintReply();}syncComposer();fail(e);}
 };
 
 /* ---------- mentions: @شخص و @الكل (زي واتساب) ---------- */
@@ -2641,7 +2793,7 @@ async function recStart(){
 acts['rec-start']=recStart;
 acts['rec-send']=()=>recStop(false);
 acts['rec-cancel']=()=>recStop(true);
-function chatCleanup(){if(rec)recStop(true);pendingImg='';stopAudio();mpItems=[];mpPending.clear();people=[];}
+function chatCleanup(){replyCtx=null;if(rec)recStop(true);pendingImg='';stopAudio();mpItems=[];mpPending.clear();people=[];}
 acts['msg-del']=async el=>{if(chatCtx&&chatCtx.del&&confirm('حذف الرسالة؟')){try{await chatCtx.del(el.dataset.id);}catch(e){fail(e);}}};
 
 function viewCommunity(tab){
@@ -2662,7 +2814,7 @@ function viewCommunity(tab){
       send:(t,x)=>grpSend({uid:me.uid,name:profile.name,text:t,isAdmin:false,track:'all',createdAt:serverTimestamp(),...x}),
       emptyMsg:'ابدأ الكلام مع زمايلك 👋',actions:studentMsgActions,mentions:true});
     window.__grpLock=false;
-    const grpReason=()=>window.__grpLock?'الجروب مقفول حالياً من الأدمن':(mutedNow(profile)?(profile.muted?'الأدمن كتم حسابك في الجروب':'الأدمن كتم حسابك مؤقتاً لحد '+new Date(+profile.mutedUntil).toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'})):'');
+    const grpReason=()=>window.__grpLock?'الجروب مقفول حالياً من الأدمن':(mutedNow(profile)?(profile.muted?'الأدمن كتم حسابك في الجروب':'الأدمن كتم حسابك مؤقتاً لحد '+new Date(+profile.mutedUntil).toLocaleString('ar-EG',(+profile.mutedUntil-Date.now()>432e5)?{weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'}:{hour:'2-digit',minute:'2-digit'})):'');
     setComposer(grpReason());
     {const left=+profile.mutedUntil-Date.now();if(!profile.muted&&left>0&&left<2e9){const tok=routeTok;setTimeout(()=>{if(tok===routeTok)setComposer(grpReason());},left+400);}}
     unsubs.push(onSnapshot(doc(db,'settings','group'),s=>{groupPins=(s.exists()&&s.data().pins_all)||[];renderPins();window.__grpLock=!!(s.exists()&&s.data().locked_all);setComposer(grpReason());},()=>{}));
@@ -2712,6 +2864,9 @@ if(!location.hash)location.hash='';
    مدير المنصة (AI): أوامر + مراقبة 24 ساعة (على الـ Worker) + شات الأدمن
    manager/config = {enabled, rules:[{id,on,text}]} ، manager/state = نبضة الـ Cron ، manager_log = اللي اتنفّذ
    ===================================================================== */
+/* مدد الكتم: -1 = للأبد (muted:true لحد ما الأدمن يفكّه). أول كتم بالشتيمة = 3 ساعات وبعدها بيزيد مع التكرار */
+const GUARD_DEF=180,GUARD_FOREVER=-1,gMins=v=>+v===GUARD_FOREVER?GUARD_FOREVER:(+v>0?+v:GUARD_DEF);
+const fmtMins=m=>{if(m===GUARD_FOREVER||m===0)return 'للأبد';if(m>=1440&&m%1440===0){const d=m/1440;return d===1?'يوم':d===2?'يومين':d<=10?d+' أيام':d+' يوم';}if(m>=60&&m%60===0){const h=m/60;return h===1?'ساعة':h===2?'ساعتين':h<=10?h+' ساعات':h+' ساعة';}return m===1?'دقيقة':m===2?'دقيقتين':m<=10?m+' دقايق':m+' دقيقة';};
 const DEF_RULES=[{id:'r1',on:true,text:'أي طالب يشتم أو يسب أو يهين حد (ألفاظ نابية واضحة): استخدم flag_user (بيمسح رسالته ويكتمه ويبعت تنبيه للأدمن يراجعه) ولا تطرد.'}];
 let mgrCfg={enabled:true,rules:DEF_RULES.map(r=>({...r})),exists:false},mgrState=null,mgrMsgs=[],mgrBusy=false;
 const MGR_ACT={flag_user:'كتم + تنبيه',mute_user:'كتم',unmute_user:'فك كتم',kick_user:'إخراج من الجروب',unkick_user:'إرجاع للجروب',ban_user:'إيقاف حساب',unban_user:'رفع إيقاف',delete_message:'مسح رسالة',post_message:'رسالة في الجروب',create_poll:'تصويت',lock_group:'قفل الجروب',unlock_group:'فتح الجروب',reply_support:'رد على طالب',add_exam:'إضافة امتحان',add_video:'إضافة فيديو',add_file:'إضافة ملف',delete_content:'مسح محتوى',add_rule:'أمر جديد',edit_rule:'تعديل أمر',toggle_rule:'تشغيل/إيقاف أمر',remove_rule:'مسح أمر'};
@@ -2723,7 +2878,9 @@ function paintMgrHead(){
   if(!live)msg='⚠️ المراقبة التلقائية مش شغّالة دلوقتي (آخر فحص: '+mgrAgo(st.lastRunAt)+'). من غير الـ Cron وحساب البوت على الـ Worker محدش بيراقب لما تقفل الصفحة. الأوامر بالشات شغّالة عادي.';
   else if(st.status==='error')msg='⚠️ المراقبة بتفشل: '+esc(st.err||'سبب غير معروف');
   else{cls='ok';msg=(on?'✅ المراقبة شغّالة 24 ساعة':'⏸ المراقبة متوقفة')+' — آخر فحص '+mgrAgo(st.lastRunAt);}
-  b.innerHTML=`<div class="mgrst ${cls}">${msg}</div><div class="mgrbtns"><button type="button" class="btn ${on?'ghost':'primary'}" data-act="mgr-toggle">${on?'إيقاف المراقبة':'تشغيل المراقبة'}</button><button type="button" class="btn ghost" data-act="mgr-rules">📋 الأوامر (${mgrCfg.rules.filter(r=>r.on).length})</button><button type="button" class="btn ghost" data-act="mgr-log">📜 السجل</button>${$('#mgrbody')?'':'<a class="btn primary" href="#/admin/manager/chat">💬 كلّم المدير</a>'}</div>`;
+  if($('#mgrbody')){b.innerHTML=`<div class="mgrst ${cls}">${msg}</div><div class="mgrbtns"><button type="button" class="btn ghost" data-act="mgr-rules">📋 الأوامر (${mgrCfg.rules.filter(r=>r.on).length})</button><button type="button" class="btn ghost" data-act="mgr-log">📜 السجل</button></div>`;return;}
+  const clean=msg.replace(/^[\u26A0\u2705\u23F8\uFE0F\s]+/,''),nr=mgrCfg.rules.filter(r=>r.on).length;
+  b.innerHTML=`<div class="mg-hero"><div class="mg-top"><span class="mg-ic">🛡</span><div class="mg-tt"><b>مدير المنصة</b><small>${on?'المراقبة التلقائية شغّالة':'المراقبة موقوفة'}</small></div><button type="button" class="mg-sw ${on?'on':''}" data-act="mgr-toggle" role="switch" aria-checked="${on}" aria-label="تشغيل أو إيقاف المراقبة"><i></i></button></div><div class="mgrst ${cls}">${clean}</div><div class="mg-tiles"><button type="button" data-act="mgr-rules"><span>📋</span><b>الأوامر</b><small>${nr} شغّالة</small></button><button type="button" data-act="mgr-log"><span>📜</span><b>السجل</b><small>آخر العمليات</small></button><a href="#/admin/manager/chat"><span>💬</span><b>كلّم المدير</b><small>نفّذ أمر</small></a></div></div>`;
 }
 function paintMgr(){
   const b=$('#mgrbody');if(!b)return;
@@ -2734,13 +2891,13 @@ function paintMgr(){
   b.scrollTop=b.scrollHeight;
 }
 function viewAdminManager(){
-  subShell('مدير المنصة (AI)','#/admin/manager',`<div class="chat aichat"><div id="mgrhead" class="mgrhead"></div><div class="msgs aibody" id="mgrbody"></div><form class="composer" data-form="mgr"><input name="t" placeholder="قوله يعمل إيه… مثال: اكتم أحمد ساعة" autocomplete="off" maxlength="1500"><button class="send" aria-label="إرسال">${icon('i-send','flip')}</button></form></div>`,'chatpage');
+  subShell('مدير المنصة (AI)','#/admin/manager',`<div class="chat aichat"><div id="mgrhead" class="mgrhead"></div><div class="msgs aibody" id="mgrbody"></div><form class="composer" data-form="mgr"><div class="wa-pill"><button type="button" class="cbtn" data-act="emo" aria-label="إيموجي">🙂</button><input name="t" placeholder="قوله يعمل إيه… مثال: اكتم أحمد ساعة" autocomplete="off" maxlength="1500"></div><button class="send" aria-label="إرسال">${icon('i-send','flip')}</button></form></div>`,'chatpage');
   mgrMsgs=[];mgrBusy=false;paintMgr();paintMgrHead();mgrWatch();
 }
 function mgrWatch(){
   unsubs.push(onSnapshot(doc(db,'manager','config'),s=>{
-    if(s.exists()){const d=s.data();mgrCfg={enabled:d.enabled!==false,guard:d.guard!==false,guardMins:+d.guardMins||60,rules:(Array.isArray(d.rules)?d.rules:[]).filter(r=>r&&r.id&&r.text),exists:true};}
-    else{mgrCfg={enabled:true,guard:true,guardMins:60,rules:DEF_RULES.map(r=>({...r})),exists:false};setDoc(doc(db,'manager','config'),{enabled:true,rules:mgrCfg.rules}).catch(()=>{});}
+    if(s.exists()){const d=s.data();mgrCfg={enabled:d.enabled!==false,guard:d.guard!==false,guardMins:gMins(d.guardMins),rules:(Array.isArray(d.rules)?d.rules:[]).filter(r=>r&&r.id&&r.text),exists:true};}
+    else{mgrCfg={enabled:true,guard:true,guardMins:GUARD_DEF,rules:DEF_RULES.map(r=>({...r})),exists:false};setDoc(doc(db,'manager','config'),{enabled:true,rules:mgrCfg.rules}).catch(()=>{});}
     paintMgrHead();paintGuard();const r=$('#mgrrules');if(r)r.innerHTML=mgrRulesHTML();
   },fail));
   unsubs.push(onSnapshot(doc(db,'manager','state'),s=>{mgrState=s.exists()?s.data():null;paintMgrHead();},()=>{}));
@@ -2750,12 +2907,12 @@ function mgrWatch(){
 
 /* ---------- فلتر الشتايم اللحظي: شغّال طول ما أي أدمن فاتح المنصة (بيمسح الرسالة ويكتم ويبلّغ في نفس اللحظة) ---------- */
 const nrmAr=t=>String(t||'').replace(/[\u064B-\u0652\u0640]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').toLowerCase();
-const BAD_EXACT = ['كس', 'كسك', 'زب', 'زبي', 'زبر', 'طيز', 'طيزك', 'احا', 'احه', 'خول', 'خولات', 'عرص', 'معرص', 'متناك', 'متناكه', 'منيوك', 'منيوكه', 'ينيك', 'انيك', 'نيك امك', 'نيكمك', 'شرموط', 'شرموطه', 'شراميط', 'قحبه', 'قحاب', 'عاهره', 'زانيه', 'ابن الكلب', 'ابن الكلبه', 'ابن الحرام', 'ابن القحبه', 'ابن الوسخه', 'ابن المتناكه', 'ابن المتناك', 'ابن الشرموطه', 'ابن العرص', 'بنت الكلب', 'بنت الوسخه', 'بنت الشرموطه', 'يلعن ابوك', 'يلعن ابو', 'يلعن امك', 'يلعن دينك', 'يلعن دين', 'كس امك', 'كس ام', 'كس اخت', 'كس ابو', 'كس ختك', 'في ايري', 'ايري'];
-const BAD_ROOTS = ['كسم', 'متناك', 'منيوك', 'شرموط', 'شراميط', 'نيكم'];
+const BAD_EXACT = ['طز', 'طزك', 'كس', 'كسك', 'زب', 'زبي', 'زبر', 'طيز', 'طيزك', 'احا', 'احه', 'خول', 'خولات', 'عرص', 'معرص', 'متناك', 'متناكه', 'منيوك', 'منيوكه', 'ينيك', 'انيك', 'نيك امك', 'نيكمك', 'شرموط', 'شرموطه', 'شراميط', 'قحبه', 'قحاب', 'عاهره', 'زانيه', 'ابن الكلب', 'ابن الكلبه', 'ابن الحرام', 'ابن القحبه', 'ابن الوسخه', 'ابن المتناكه', 'ابن المتناك', 'ابن الشرموطه', 'ابن العرص', 'بنت الكلب', 'بنت الوسخه', 'بنت الشرموطه', 'يلعن ابوك', 'يلعن ابو', 'يلعن امك', 'يلعن دينك', 'يلعن دين', 'كس امك', 'كس ام', 'كس اخت', 'كس ابو', 'كس ختك', 'في ايري', 'ايري', 'ديوث', 'ديوس', 'قواد', 'لبوه', 'ولاد الكلب', 'ولاد الوسخه', 'ولاد المتناكه', 'ابن ستين كلب', 'ابن المره', 'ابن الزانيه', 'يلعن اب', 'يلعن ام'];
+const BAD_ROOTS = ['بضان', 'بيضان', 'كسم', 'متناك', 'منيوك', 'شرموط', 'شراميط', 'نيكم'];
 const BAD_EN = /(?:^|[^a-z0-9])(?:f+u+c+k+\w*|sh[i1!]+t+\w*|b[i1]tch\w*|assh[o0]le\w*|c[u]nt\b|wh[o0]re\b|slut\b|bastard\b|motherf\w+|k[o0]s+\s*(?:om+|um+|em+)\w*|ks+m+k\w*|sharm[o0]+t\w*|sharamet\w*|m[ae]tn[ae]k\w*|a7a+|ibn\s*el\s*(?:kalb|sharmota|metnaka)\w*)(?![a-z0-9])/i;
 const mkBad = (a) => a.map(w => w.replace(/\s+/g, '\\s*')).join('|');
 const BAD_RE = new RegExp('(?<![\\p{L}])(?:[وفبل])?(?:' + mkBad(BAD_EXACT) + ')(?![\\p{L}])|(?<![\\p{L}])(?:[وفبل])?(?:' + BAD_ROOTS.join('|') + ')\\p{L}*', 'u');
-const BAD_COMPACT = new RegExp(['كسم', 'كسام', 'متناك', 'منيوك', 'شرموط', 'نيكم', 'يلعنابو', 'ابنالكلب', 'ابنالمتناك'].join('|'), 'u');
+const BAD_COMPACT = new RegExp(['بضان', 'بيضان', 'كسم', 'كسام', 'متناك', 'منيوك', 'شرموط', 'نيكم', 'يلعنابو', 'ابنالكلب', 'ابنالمتناك'].join('|'), 'u');
 function badWord(text) {
   let t = nrmAr(String(text || '')).replace(/([\u0600-\u06FF])\1+/g, '$1');
   const spaced = t.replace(/[^\p{L}\p{N}\s]/gu, ' ').replace(/\s+/g, ' ');
@@ -2767,10 +2924,10 @@ function badWord(text) {
 }
 
 
-let gcfg={enabled:true,guard:true,guardMins:60};
+let gcfg={enabled:true,guard:true,guardMins:GUARD_DEF};
 function startGuard(){
   if(window.__guardOn||!me||viewAs)return;window.__guardOn=true;
-  onSnapshot(doc(db,'manager','config'),s=>{if(s.exists()){const d=s.data();gcfg={enabled:d.enabled!==false,guard:d.guard!==false,guardMins:+d.guardMins||60};}},()=>{});
+  onSnapshot(doc(db,'manager','config'),s=>{if(s.exists()){const d=s.data();gcfg={enabled:d.enabled!==false,guard:d.guard!==false,guardMins:gMins(d.guardMins)};}},()=>{});
   const done=new Set(),t0=new Date();
   onSnapshot(query(collection(db,'group_messages'),where('createdAt','>',t0),orderBy('createdAt','asc'),limit(100)),s=>{
     s.docChanges().forEach(ch=>{
@@ -2787,39 +2944,39 @@ async function guardHit(id,m,w){
     if((await getDoc(doc(db,'admins',m.uid))).exists())return;
     const prior=await getDocs(query(collection(db,'manager_alerts'),where('uid','==',m.uid),limit(30)));
     const n=prior.docs.filter(d=>{const a=d.data();return d.id!==id&&tms(a.createdAt)>Date.now()-7*864e5&&a.status!=='cleared';}).length;
-    const base=gcfg.guardMins||60,mins=n===0?base:n===1?Math.max(base*4,240):Math.max(base*24,1440);
-    await setDoc(doc(db,'manager_alerts',id),{kind:'profanity',uid:m.uid,name:String(m.name||'').slice(0,60),code:stuCode(m.uid),msgId:'',deleted:true,text:String(m.text||'').slice(0,400),reason:'شتيمة (فلتر لحظي): '+w.slice(0,40)+(n?' — متكررة ('+(n+1)+')':''),muteMins:mins,status:'new',by:'live',createdAt:serverTimestamp()});
-    await updateDoc(doc(db,'users',m.uid),{muted:false,mutedUntil:Date.now()+mins*60000});
+    const base=gMins(gcfg.guardMins),mins=base===GUARD_FOREVER?GUARD_FOREVER:n===0?base:n===1?Math.max(base*4,240):Math.max(base*24,1440),fv=mins===GUARD_FOREVER;
+    await setDoc(doc(db,'manager_alerts',id),{kind:'profanity',uid:m.uid,name:String(m.name||'').slice(0,60),code:stuCode(m.uid),msgId:'',deleted:true,text:String(m.text||'').slice(0,400),reason:'شتيمة (فلتر لحظي): '+w.slice(0,40)+(n?' — متكررة ('+(n+1)+')':''),muteMins:fv?0:mins,forever:fv,status:'new',by:'live',createdAt:serverTimestamp()});
+    await updateDoc(doc(db,'users',m.uid),fv?{muted:true,mutedUntil:0}:{muted:false,mutedUntil:Date.now()+mins*60000});
     await deleteDoc(doc(db,'group_messages',id));
-    addDoc(collection(db,'manager_log'),{at:serverTimestamp(),by:'auto',action:'flag_user',ok:true,uid:m.uid,name:m.name||'',note:'مسح الرسالة وكتم '+mins+' دقيقة',reason:'فلتر لحظي',rule:'فلتر الشتايم'}).catch(()=>{});
+    addDoc(collection(db,'manager_log'),{at:serverTimestamp(),by:'auto',action:'flag_user',ok:true,uid:m.uid,name:m.name||'',note:'مسح الرسالة وكتم '+fmtMins(mins),reason:'فلتر لحظي',rule:'فلتر الشتايم'}).catch(()=>{});
   }catch(e){}
 }
 
 /* ---------- قسم المدير للأدمن: حالة المراقبة + فلتر الشتايم + تنبيهات المراجعة ---------- */
 let mgrAlerts=[],mgrTab='new';
 const ALERT_ST={new:'محتاج مراجعة',confirmed:'اتأكد (الكتم باقي)',cleared:'إنذار غلط (اتفك الكتم)',kicked:'اتخرج من الجروب'};
-const GUARD_OPTS=[[10,'10 دقايق'],[30,'نص ساعة'],[60,'ساعة'],[180,'3 ساعات'],[1440,'يوم']];
+const GUARD_OPTS=[[10,'10 دقايق'],[30,'نص ساعة'],[60,'ساعة'],[180,'3 ساعات'],[1440,'يوم'],[-1,'للأبد']];
 function viewAdminManagerHub(){
   adminShell('manager',`<div id="mgrhead" class="mgrhead"></div><div id="mgrguard"></div><div class="seg" id="mgrtabs"></div><div id="mgralerts" class="stack"><div class="skel"></div></div>`);
   mgrTab='new';paintMgrHead();paintGuard();mgrWatch();
   unsubs.push(onSnapshot(query(collection(db,'manager_alerts'),orderBy('createdAt','desc'),limit(80)),s=>{mgrAlerts=s.docs.map(d=>({id:d.id,...d.data()}));paintAlerts();},fail));
 }
 function paintGuard(){
-  const b=$('#mgrguard');if(!b)return;const on=mgrCfg.guard!==false,m=+mgrCfg.guardMins||60;
-  b.innerHTML=`<div class="irow" style="margin:10px 0;align-items:flex-start;flex-wrap:wrap"><div class="info" style="min-width:60%"><b>🧼 فلتر الشتايم ${on?'(شغّال)':'(موقوف)'}</b><small class="muted" style="white-space:normal">أي شتيمة في الجروب: الرسالة تتمسح والطالب يتكتم في نفس اللحظة وييجيلك تنبيه هنا فيه نص الرسالة تراجعه. لو اتكرر الكتم بيزيد (٤ أضعاف ثم يوم).</small></div><button type="button" class="btn ${on?'ghost':'primary'} sm" data-act="mgr-guard">${on?'وقّف':'شغّل'}</button><div class="field" style="width:100%;margin:8px 0 0"><label>مدة الكتم أول مرة</label><select class="input" data-chg="mgr-guard-mins">${GUARD_OPTS.map(([v,l])=>`<option value="${v}" ${v===m?'selected':''}>${l}</option>`).join('')}</select></div></div>`;
+  const b=$('#mgrguard');if(!b)return;const on=mgrCfg.guard!==false,m=gMins(mgrCfg.guardMins);
+  b.innerHTML=`<div class="mg-card"><div class="mg-row"><span class="mg-ic sm">🧼</span><div class="info"><b>فلتر الشتايم</b><small>${on?'شغّال: بيمسح الرسالة ويكتم الطالب فورًا':'موقوف'}</small></div><button type="button" class="mg-sw ${on?'on':''}" data-act="mgr-guard" role="switch" aria-checked="${on}" aria-label="تشغيل أو إيقاف الفلتر"><i></i></button></div><div class="field" style="margin:12px 0 0"><label>مدة الكتم أول مرة</label><select class="input" data-chg="mgr-guard-mins">${GUARD_OPTS.map(([v,l])=>`<option value="${v}" ${v===m?'selected':''}>${l}</option>`).join('')}</select></div><details class="mg-more"><summary>إزاي بيشتغل؟</summary><p>أي شتيمة في الجروب: الرسالة تتمسح والطالب يتكتم في نفس اللحظة وييجيلك تنبيه تراجعه. الكتم فوري ومش محتاج موافقتك (لو غلط فك الكتم). لو اتكرر الكتم بيزيد (٤ أضعاف ثم ٢٤ ضعف).</p></details></div>`;
 }
 acts['mgr-guard']=async()=>{try{await setDoc(doc(db,'manager','config'),{guard:mgrCfg.guard===false},{merge:true});}catch(e){fail(e);}};
-chg['mgr-guard-mins']=async el=>{try{await setDoc(doc(db,'manager','config'),{guardMins:+el.value||60},{merge:true});toast('اتحفظ');}catch(e){fail(e);}};
+chg['mgr-guard-mins']=async el=>{try{await setDoc(doc(db,'manager','config'),{guardMins:gMins(el.value)},{merge:true});toast('اتحفظ');}catch(e){fail(e);}};
 function paintAlerts(){
   const t=$('#mgrtabs'),b=$('#mgralerts');if(!t||!b)return;
   const nw=mgrAlerts.filter(a=>a.status==='new').length;
   t.innerHTML=`<a class="${mgrTab==='new'?'on':''}" data-act="mgr-tab" data-t="new">محتاج مراجعة (${nw})</a><a class="${mgrTab==='done'?'on':''}" data-act="mgr-tab" data-t="done">اتراجعت</a>`;
   const list=mgrAlerts.filter(a=>mgrTab==='new'?a.status==='new':a.status!=='new');
-  b.innerHTML=list.length?list.map(a=>`<div class="card" style="padding:12px"><div class="row" style="justify-content:space-between;gap:8px"><b>${esc(a.name||'طالب')}</b><span class="chip" dir="ltr">${esc(a.code||'')}</span></div>
-    <div class="muted" style="margin:6px 0;font-size:.85rem">${a.kind==='profanity'?'🧼 شتيمة':'🤖 إهانة'} · كتم ${+a.muteMins||0} دقيقة · ${aiDate(a.createdAt)} ${a.createdAt&&a.createdAt.toDate?a.createdAt.toDate().toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'}):''}</div>
-    ${a.text?`<div style="background:color-mix(in srgb,var(--bad,#e5484d) 10%,transparent);border-radius:12px;padding:10px;margin-bottom:6px;white-space:pre-wrap;word-break:break-word">${esc(a.text)}</div>`:''}
-    <small class="muted">${a.deleted?'🗑 الرسالة اتمسحت من الجروب · ':''}${esc(a.reason||'')}</small>
-    ${a.status==='new'?`<div class="row" style="flex-wrap:wrap;gap:6px;margin-top:10px"><button class="btn primary sm" data-act="al-ok" data-id="${a.id}">إبقاء الكتم ✓</button><button class="btn ghost sm" data-act="al-clear" data-id="${a.id}">إنذار غلط (فك الكتم)</button><button class="btn ghost sm" data-act="al-kick" data-id="${a.id}">إخراج من الجروب</button>${a.msgId?`<button class="btn ghost sm" data-act="al-delmsg" data-id="${a.id}">مسح الرسالة</button>`:''}</div>`:`<div class="muted" style="margin-top:8px">${esc(ALERT_ST[a.status]||a.status)}</div>`}
+  b.innerHTML=list.length?list.map(a=>`<div class="mg-al ${esc(a.status||'')}"><div class="mg-alh"><span class="mg-av" style="--h:${hueOf(a.name)}">${initial(a.name)}</span><div class="info"><b>${esc(a.name||'طالب')}</b><small>${a.createdAt&&a.createdAt.toDate?a.createdAt.toDate().toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'}):''} · ${aiDate(a.createdAt)}</small></div><span class="chip" dir="ltr">${esc(a.code||'')}</span></div>
+    <div class="mg-tags"><span class="badge bad">${a.kind==='profanity'?'🧼 شتيمة':'🤖 إهانة'}</span><span class="badge gold">كتم ${a.forever?'للأبد':(+a.muteMins>0?fmtMins(+a.muteMins):'—')}</span>${a.deleted?'<span class="badge">🗑 اتمسحت من الجروب</span>':''}</div>
+    ${a.text?`<div class="mg-q">${esc(a.text)}</div>`:''}
+    ${a.reason?`<small class="muted">${esc(a.reason)}</small>`:''}
+    ${a.status==='new'?`<div class="mg-acts"><button class="btn primary sm" data-act="al-ok" data-id="${a.id}">تأكيد الكتم ✓</button><button class="btn ghost sm" data-act="al-clear" data-id="${a.id}">إنذار غلط</button><button class="btn danger sm" data-act="al-kick" data-id="${a.id}">إخراج</button>${a.msgId?`<button class="btn ghost sm" data-act="al-delmsg" data-id="${a.id}">مسح الرسالة</button>`:''}</div>`:`<div class="mg-done">${esc(ALERT_ST[a.status]||a.status)}</div>`}
   </div>`).join(''):empty(mgrTab==='new'?'مفيش تنبيهات محتاجة مراجعة 👌':'لسه مفيش تنبيهات اتراجعت','i-shield');
 }
 acts['mgr-tab']=el=>{mgrTab=el.dataset.t;paintAlerts();};
@@ -2981,7 +3138,6 @@ acts['open-student']=el=>{
   openSheet(`${sheetHead('بيانات الطالب')}
     <div class="row" style="margin-bottom:14px">${avatar(u,56)}<div><b>${esc(u.name)}</b><br><small class="muted" dir="ltr">${esc(u.email)}</small></div></div>
     <div class="field"><label>كود الطالب (ابعته لمدير المنصة)</label>${codeChip(u)}</div>
-    <div class="field"><label>النوع</label><select class="input" data-chg="st-gender" data-uid="${u.uid}"><option value="" ${u.gender?'':'selected'}>— لسه ما اختارش —</option><option value="m" ${u.gender==='m'?'selected':''}>ولد 👦</option><option value="f" ${u.gender==='f'?'selected':''}>بنت 👧</option></select></div>
     <div class="field"><label>التخصص</label><select class="input" data-chg="st-track" data-uid="${u.uid}"><option value="" ${u.track?'':'selected'}>— بدون —</option>${trackOpts(u.track)}</select></div>
     <div class="row" style="margin-bottom:12px"><button class="btn ${u.banned?'primary':'danger'} sp" data-act="st-ban" data-uid="${u.uid}">${u.banned?'رفع الإيقاف':'إيقاف الحساب'}</button>
       <button class="btn ghost sp" data-act="st-mute" data-uid="${u.uid}">${icon('i-mute')} ${mutedNow(u)?'إلغاء الكتم':'كتم في الجروب'}</button>
@@ -2996,7 +3152,6 @@ acts['open-student']=el=>{
       <div class="kv"><span>امتحانات اتحلت</span><b>${att.length}</b></div>`+att.map(x=>`<div class="kv"><span>${esc(x.title||'امتحان')}</span><span>${fmtN(x.score)}/${x.total} <small class="muted">(أعلى ${fmtN(x.best)})</small></span></div>`).join('');
   }).catch(()=>{const b=$('#sprog');if(b)b.textContent='مقدرتش أحمّل التقدم';});
 };
-chg['st-gender']=async el=>{try{await updateDoc(doc(db,'users',el.dataset.uid),{gender:el.value});toast('اتغيّر ✓');}catch(e){fail(e);}};
 chg['st-track']=async el=>{try{await updateDoc(doc(db,'users',el.dataset.uid),{track:el.value});toast('اتغيّر ✓');}catch(e){fail(e);}};
 acts['st-ban']=async el=>{const u=adminUsers.find(x=>x.uid===el.dataset.uid);try{await updateDoc(doc(db,'users',u.uid),{banned:!u.banned});closeSheet();toast(u.banned?'اترفع الإيقاف':'اتوقف الحساب');}catch(e){fail(e);}};
 acts['st-mute']=async el=>{const u=adminUsers.find(x=>x.uid===el.dataset.uid);try{await updateDoc(doc(db,'users',u.uid),{muted:!mutedNow(u),mutedUntil:0});closeSheet();toast(mutedNow(u)?'اتلغى الكتم':'اتكتم');}catch(e){fail(e);}};
@@ -3320,7 +3475,7 @@ function viewAdminThread(uid){
       var c=document.createElement('canvas');c.className='confetti';
       var W=c.width=innerWidth,H=c.height=innerHeight,x=c.getContext('2d');document.body.appendChild(c);
       var r=near.getBoundingClientRect(),ox=r.left+r.width/2,oy=r.top+r.height/2;
-      var cols=['#1769E0','#12B5E5','#FFB534','#1FD2C2','#ffffff','#0EA5E9'];
+      var cols=['#3F5FE8','#9A6BF4','#FFB534','#1FD2C2','#ffffff','#6B63F2'];
       var P=[];for(var i=0;i<140;i++)P.push({x:ox,y:oy,vx:(Math.random()-.5)*16,vy:Math.random()*-15-3,s:Math.random()*8+4,r:Math.random()*6,vr:(Math.random()-.5)*.5,c:cols[i%cols.length]});
       var t=0;(function f(){
         x.clearRect(0,0,W,H);t++;
