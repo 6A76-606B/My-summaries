@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#1B2670">
+<meta name="theme-color" content="#0A2463">
 <script>(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t);var m=document.querySelector('meta[name=theme-color]');if(m)m.content=t==='dark'?'#0B1030':'#1B2670';}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
 <title>My summaries</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1508,7 +1508,7 @@ window.addEventListener('hashchange',()=>{if(ready)render();});
    ===================================================================== */
 function applyGender(){
   const m=document.querySelector('meta[name=theme-color]');
-  if(m){const d=document.documentElement.dataset.theme==='dark';m.content=d?'#0B1030':'#1B2670';}
+  if(m){const d=document.documentElement.dataset.theme==='dark';m.content=d?'#050B1E':'#0A2463';}
 }
 function render(){
   applyGender();
@@ -1643,14 +1643,17 @@ forms['profile']=async f=>{
 function viewContent(tab){
   if(!['videos','files','exams'].includes(tab))tab='videos';
   const tok=routeTok;
-  studentShell('content',seg([['videos','فيديوهات','i-play'],['files','ملفات','i-file'],['exams','امتحانات','i-exam']],tab,'#/content/')+`<button class="ratecard" data-act="rate">${icon('i-star')}<span><b>قيّم المنصة</b><small>رأيك يهمنا — ابعتلنا أي ملاحظة أو اقتراح</small></span></button><div id="list" class="stack"><div class="skel"></div><div class="skel"></div></div>`);
+  studentShell('content','<div class="hello" id="hello"></div>'+seg([['videos','فيديوهات','i-play'],['files','ملفات','i-file'],['exams','امتحانات','i-exam']],tab,'#/content/')+`<button class="ratecard" data-act="rate">${icon('i-star')}<span><b>قيّم المنصة</b><small>رأيك يهمنا — ابعتلنا أي ملاحظة أو اقتراح</small></span></button><div id="list" class="stack"><div class="skel"></div><div class="skel"></div></div>`);
   let items=null;
   const paint=()=>{
     const box=$('#list');if(!box||tok!==routeTok||items===null)return;
     if(!items.length){box.innerHTML=empty('لسه مفيش '+({videos:'فيديوهات',files:'ملفات',exams:'امتحانات'}[tab])+' في تخصصك. الأدمن هيضيفها قريب.');return;}
     box.innerHTML=items.map(it=>tab==='videos'?videoCard(it):tab==='files'?fileCard(it):examCard(it)).join('');
   };
-  loadProgress().then(paint).catch(()=>{});
+  const paintHello=()=>{const h=$('#hello');if(!h||tok!==routeTok)return;
+    const wd=Object.values(prog.watched).filter(w=>w&&w.done).length,ex=Object.keys(prog.attempts).length,nm=String(profile.name||'').trim().split(/\s+/)[0]||'بطل';
+    h.innerHTML=`<div class="hv">${avatar(profile,52)}<div class="ht"><b>أهلاً يا ${esc(nm)} 👋</b><small>يلا نذاكر النهاردة</small></div></div><div class="hs"><div><b>${wd}</b><small>فيديو خلّصته</small></div><div><b>${ex}</b><small>امتحان حليته</small></div></div>`;};
+  loadProgress().then(()=>{paint();paintHello();}).catch(()=>{});
   unsubs.push(onSnapshot(query(collection(db,tab),where('track','in',['all',profile.track])),
     s=>{items=s.docs.map(d=>({id:d.id,...d.data()})).sort(byDate);paint();},fail));
 }
@@ -1658,7 +1661,7 @@ function videoCard(v){
   const y=ytId(v.url),w=prog.watched[v.id];
   const thumb=y?`style="background-image:url(https://i.ytimg.com/vi/${y}/mqdefault.jpg)"`:'';
   const badge=w&&w.done?`<span class="badge ok">${icon('i-check')} تمت المشاهدة</span>`:(w&&w.sec>0?`<span class="badge gold">بدأت المشاهدة</span>`:'');
-  return `<a class="vcard" href="#/video/${v.id}"><div class="thumb" ${thumb}>${icon('i-play')}</div><div class="vinfo"><b>${esc(v.title)}</b>${v.desc?`<p>${esc(v.desc)}</p>`:''}${badge}</div></a>`;
+  return `<a class="vcard vid" href="#/video/${v.id}"><div class="thumb" ${thumb}>${icon('i-play')}</div><div class="vinfo"><b>${esc(v.title)}</b>${v.desc?`<p>${esc(v.desc)}</p>`:''}${badge}</div></a>`;
 }
 function fileCard(f){
   const k=f.kind||fileKind(f.url);
@@ -2070,6 +2073,7 @@ const kbTr=()=>window.__kbTrack||(profile&&profile.track)||'';
 const AI_HB=`<span class="ai-hb"><button type="button" class="icon-btn" data-act="ai-new" aria-label="محادثة جديدة">${icon('i-plus')}</button><button type="button" class="icon-btn" data-act="ai-list" aria-label="المحادثات"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></button></span>`;
 /* رسالة جروب + لو فيها منشن للـ AI بيرد باختصار في الجروب */
 async function grpSend(d){
+  if(!d.isAdmin&&badWord(d.text))throw Object.assign(new Error('الرسالة فيها لفظ غير لائق، عدّلها وابعتها تاني 🌷'),{code:'bad_word'});
   const ref=await addDoc(collection(db,'group_messages'),d);
   if((d.mentions||[]).some(m=>m&&m.u===AI_UID))aiGroupReply(d.text,ref.id);
   return ref;
@@ -2255,6 +2259,68 @@ acts['aiq']=el=>{const st=aiQ[el.dataset.k];if(!st||st[+el.dataset.q]!==undefine
 acts['ai-copy']=el=>{const m=aiState.msgs.filter(x=>!x.hidden)[+el.dataset.i];if(!m)return;try{navigator.clipboard.writeText(m.content.replace(/```(quiz|svg|cards|next)[\s\S]*?```/g,''));el.textContent='اتنسخ ✓';setTimeout(()=>el.textContent='نسخ',1500);}catch{}};
 acts['ai-pdf']=el=>{const m=aiState.msgs.filter(x=>!x.hidden)[+el.dataset.i];if(!m)return;const w=window.open('','_blank');if(!w){alert('اسمح بالنوافذ المنبثقة عشان تطبع.');return;}
   w.document.write(`<!doctype html><html dir="rtl" lang="ar"><meta charset="utf-8"><title>ملخص</title><style>body{font-family:Tahoma,Arial,sans-serif;line-height:1.9;padding:28px;max-width:780px;margin:auto;color:#111}.ai-h{font-size:1.25rem;font-weight:800;color:#3F5FE8;margin:16px 0 4px;border-bottom:2px solid #ddd}.ai-li{padding-inline-start:12px}img{max-width:100%}.aq{border:1px solid #ccc;padding:10px;border-radius:10px}.aq-o{display:block;margin:4px 0;padding:6px 10px;border:1px solid #ccc;border-radius:8px;background:#fff;width:100%;text-align:start}button{all:unset}
+
+/* ---------- admin: المزيد + فلتر الطلاب ---------- */
+.tile{position:relative;display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:22px;background:var(--card);border:1.5px solid var(--line);color:var(--text);transition:transform .15s,border-color .2s,box-shadow .2s}
+.tile:hover{border-color:color-mix(in srgb,var(--act) 45%,var(--line))}
+.tile:active{transform:scale(.98)}
+.tile .tic{flex:none;width:52px;height:52px;border-radius:17px;display:grid;place-items:center;background:var(--grad);color:#fff;box-shadow:0 10px 22px -10px color-mix(in srgb,var(--act) 80%,transparent)}
+.tile .tic .ic{width:26px;height:26px}
+.tile .tx{flex:1;min-width:0}
+.tile .tx b{display:block;font-size:1.02rem}
+.tile .tx small{display:block;color:var(--muted);margin-top:2px}
+.tile>.ic{flex:none;width:20px;height:20px;color:var(--muted)}
+.tile .cnt{min-width:22px;height:22px;padding:0 6px;border-radius:99px;background:#FF3B5C;color:#fff;font-style:normal;font-size:.72rem;font-weight:800;line-height:22px;text-align:center}
+.tile .cnt[hidden]{display:none!important}
+button.stat{font:inherit;color:inherit;cursor:pointer;text-align:center;position:relative;overflow:hidden}
+.adm .stat.on{border-color:var(--act);background:color-mix(in srgb,var(--act) 14%,var(--card));box-shadow:0 10px 22px -12px color-mix(in srgb,var(--act) 70%,transparent)}
+
+/* ---------- الجروبات ---------- */
+.page.grp .msgs,.page.grpadmin .msgs{background:
+  radial-gradient(color-mix(in srgb,var(--act) 16%,transparent) 1.3px,transparent 1.6px) 0 0/24px 24px,
+  radial-gradient(circle at 12% 0%,color-mix(in srgb,var(--act) 12%,transparent),transparent 52%),
+  radial-gradient(circle at 92% 100%,color-mix(in srgb,#9A6BF4 10%,transparent),transparent 50%),
+  color-mix(in srgb,var(--paper) 55%,var(--card))}
+.msg:not(.mine) .bub.admb{border-color:color-mix(in srgb,var(--gold) 70%,var(--line));background:linear-gradient(135deg,color-mix(in srgb,var(--gold) 18%,var(--card)),var(--card))}
+.msg:not(.mine) .bub.admb .mn{color:#B7791F}
+.bub.admb .mn em{background:var(--gold);color:#2A1B00}
+.msg:not(.mine) .bub.mgrb{border-color:color-mix(in srgb,#7C3AED 55%,var(--line));background:linear-gradient(135deg,color-mix(in srgb,#7C3AED 13%,var(--card)),var(--card))}
+.bub.mgrb .mn em{background:linear-gradient(135deg,#7C3AED,#C026D3);color:#fff}
+.gmenu{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gm{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:92px;padding:12px 8px;border-radius:20px;border:1.5px solid var(--line);background:var(--card);color:var(--text);font-weight:700;transition:transform .12s,border-color .2s}
+.gm:hover{border-color:color-mix(in srgb,var(--act) 45%,var(--line))}
+.gm:active{transform:scale(.97)}
+.gm .ic{width:28px;height:28px;color:var(--act)}
+.gm.bad{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 40%,var(--line))}
+.gm.bad .ic{color:var(--bad)}
+
+/* ---------- ألوان جديدة: كوبالت/سماوي (أولاد أكتر) + بنفسجي هادي في الإضاءة (بنات) ---------- */
+:root{--text:#0D1838;--hero:#0A2463;--paper:#ECF1FA;--card:rgba(255,255,255,.88);--line:rgba(25,70,190,.15);--muted:#5A6A90;--act:#1F5BFF;--aqua:#16D0E6;--sh:12,30,90;--grad:linear-gradient(120deg,#1238C8 0%,#1F5BFF 55%,#0A84E8 100%)}
+@media (prefers-color-scheme:dark){:root{--text:#EAF1FF;--hero:#050B1E;--paper:#050A1A;--card:rgba(14,24,54,.72);--solid:#0E1936;--line:rgba(100,150,255,.2);--muted:#9DB0DA;--act:#4D8DFF;--sh:0,0,0;--grad:linear-gradient(120deg,#1B47E0 0%,#2F6BFF 55%,#18A0F0 100%)}}
+html[data-theme=light]{--text:#0D1838;--hero:#0A2463;--paper:#ECF1FA;--card:rgba(255,255,255,.88);--solid:#fff;--line:rgba(25,70,190,.15);--muted:#5A6A90;--act:#1F5BFF;--sh:12,30,90;--grad:linear-gradient(120deg,#1238C8 0%,#1F5BFF 55%,#0A84E8 100%)}
+html[data-theme=dark]{--text:#EAF1FF;--hero:#050B1E;--paper:#050A1A;--card:rgba(14,24,54,.72);--solid:#0E1936;--line:rgba(100,150,255,.2);--muted:#9DB0DA;--act:#4D8DFF;--sh:0,0,0;--grad:linear-gradient(120deg,#1B47E0 0%,#2F6BFF 55%,#18A0F0 100%)}
+.top{box-shadow:0 14px 30px -14px rgba(20,100,255,.6),inset 0 -2px 0 rgba(120,200,255,.45)}
+.adm .bottom .bn.on,.adm .bottom.four .bn.on{background:linear-gradient(135deg,#1238C8,#1F5BFF,#0A84E8);background-size:220% 220%}
+
+/* ---------- شكل الطلاب ---------- */
+.hello{display:flex;flex-direction:column;gap:12px;padding:16px;margin-bottom:12px;border-radius:26px;color:#fff;background:linear-gradient(135deg,var(--hero),color-mix(in srgb,var(--hero) 45%,#1F5BFF));box-shadow:0 16px 34px -18px rgba(20,90,255,.7)}
+.hello:empty{display:none}
+.hello .hv{display:flex;align-items:center;gap:12px}
+.hello .ht b{display:block;font-family:var(--disp);font-weight:400;font-size:1.25rem;line-height:1.3}
+.hello .ht small{color:rgba(255,255,255,.78)}
+.hello .hs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hello .hs>div{padding:10px 12px;border-radius:18px;text-align:center;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18)}
+.hello .hs b{display:block;font-family:var(--disp);font-weight:400;font-size:1.6rem;line-height:1.2}
+.hello .hs small{color:rgba(255,255,255,.8)}
+.vcard.vid{flex-direction:column;gap:0;padding:0;overflow:hidden;border-radius:24px}
+.vcard.vid .thumb{width:100%;min-height:0;aspect-ratio:16/9;border-radius:0;box-shadow:none}
+.vcard.vid .vinfo{padding:12px 16px 14px}
+.vcard.vid::after{display:none}
+.thumb{background:linear-gradient(135deg,#0A2463,#1F5BFF 70%,#0A84E8) center/cover}
+.ratecard{padding:10px 14px}.ratecard small{display:none}
+.brow:has(.rk.r1){border-color:#E7AE3B;background:linear-gradient(135deg,color-mix(in srgb,#E7AE3B 20%,var(--card)),var(--card))}
+.brow:has(.rk.r2){border-color:#C3CAD6;background:linear-gradient(135deg,color-mix(in srgb,#C3CAD6 22%,var(--card)),var(--card))}
+.brow:has(.rk.r3){border-color:#D08A57;background:linear-gradient(135deg,color-mix(in srgb,#D08A57 20%,var(--card)),var(--card))}
 </style><body>${aiRich(m.content,'p'+el.dataset.i)}<script>setTimeout(()=>print(),400)<\/script></body></html>`);w.document.close();};
 acts['ai-svg-dl']=el=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');c.width=img.width*2||1200;c.height=img.height*2||900;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(img,0,0,c.width,c.height);const a=document.createElement('a');a.download='رسم.png';a.href=c.toDataURL('image/png');a.click();};img.src=el.dataset.u;};
 
@@ -2354,7 +2420,7 @@ const msgHTML=(m,canDel,hasMenu)=>{
   const aud=okA?`<div class="aplayer" data-aud="${esc(m.id)}" data-dur="${+m.dur||0}"><button type="button" class="aplay" data-act="aplay" data-mid="${esc(m.id)}" aria-label="تشغيل">${icon('i-play')}${icon('i-pause')}</button><div class="wv">${barsOf(m.id).map(v=>`<i style="height:${v}%"></i>`).join('')}</div><span class="adur">${fmtDur(m.dur)}</span></div>`:'';
   const poll=isPoll?`<div class="poll" data-pid="${esc(m.id)}"><div class="pq">${icon('i-poll')}${esc(m.text)}</div><div class="pops">${m.options.map((o,i)=>`<button type="button" class="popt" data-act="vote" data-pid="${esc(m.id)}" data-i="${i}" ${m.closed?'disabled':''}><i class="pfill"></i><span class="plab">${esc(o)}</span><b class="ppct">0%</b></button>`).join('')}</div><div class="pmeta"><span class="pcnt">0 صوت</span>${m.closed?'<span class="pclosed">التصويت اتقفل</span>':''}</div></div>`:'';
   const more=hasMenu?`<button type="button" class="mmore" data-act="msg-menu" data-id="${esc(m.id)}" aria-label="خيارات الرسالة">${icon('i-more')}</button>`:(canDel?`<button class="mdel" data-act="msg-del" data-id="${esc(m.id)}" aria-label="حذف">${icon('i-trash')}</button>`:'');
-  return `<div class="msg ${m.mine?'mine':''}" data-mid="${esc(m.id)}" style="--h:${hueOf(m.name)}"><div class="mav">${initial(m.name)}</div><div class="bub ${okI?'hasimg':''} ${isPoll?'pollb':''} ${hasMenu?'hasmore':''} ${rxHTML(m)?'hasrx':''} ${mentionsMe(m)?'ment':''} ${m.badge==='AI'?'aib':''}"><div class="mn">${esc(m.name)}${m.badge?`<em>${m.badge}</em>`:''}</div>${img}${aud}${poll}${(m.text&&!isPoll)?`<p>${mentionHTML(m)}</p>`:''}<time>${timeTxt(m)}</time>${more}${rxHTML(m)}</div></div>`;
+  return `<div class="msg ${m.mine?'mine':''}" data-mid="${esc(m.id)}" style="--h:${hueOf(m.name)}"><div class="mav">${initial(m.name)}</div><div class="bub ${okI?'hasimg':''} ${isPoll?'pollb':''} ${hasMenu?'hasmore':''} ${rxHTML(m)?'hasrx':''} ${mentionsMe(m)?'ment':''} ${m.badge==='AI'?'aib':m.badge==='الأدمن'?'admb':m.badge==='المشرف'?'mgrb':''}"><div class="mn">${esc(m.name)}${m.badge?`<em>${m.badge}</em>`:''}</div>${img}${aud}${poll}${(m.text&&!isPoll)?`<p>${mentionHTML(m)}</p>`:''}<time>${timeTxt(m)}</time>${more}${rxHTML(m)}</div></div>`;
 };
 const chatHead=(ic,color,title,sub)=>`<div class="chead" style="--c:${color}"><span class="chi">${icon(ic)}</span><div><b>${esc(title)}</b><small>${esc(sub)}</small></div></div>`;
 function chatBox(head=''){return `<div class="chat">${head}<div id="pins"></div><div class="msgs" id="msgs"></div><div id="cnote"></div><div id="mpop"></div><div id="cprev"></div>
@@ -2568,6 +2634,7 @@ forms['msg-edit']=async f=>{
   const id=f.elements.id.value,t=f.elements.t.value.trim(),m=msgData.get(id);if(!m)return closeSheet();
   if(!t&&!m.image)return toast('الرسالة مينفعش تبقى فاضية',true);
   if(t===m.text)return closeSheet();
+  if(badWord(t))return toast('الرسالة فيها لفظ غير لائق، عدّلها وابعتها تاني 🌷',true);
   try{await updateDoc(doc(db,'group_messages',id),{text:t,edited:true,editedAt:serverTimestamp()});closeSheet();toast('اتعدّلت ✓');}catch(e){fail(e);}
 };
 const studentMsgActions=m=>(m.uid===me.uid&&!m.type&&(m.text||m.image))?[{label:'تعديل الرسالة',icon:'i-edit',fn:()=>editMsg(m)}]:[];
@@ -2663,7 +2730,7 @@ acts['st-kick']=async el=>{const u=adminUsers.find(x=>x.uid===el.dataset.uid);if
 const cntKey=k=>'seen_'+(me?me.uid:'x')+'_'+k;
 function seenGet(k){try{return +localStorage.getItem(cntKey(k))||0;}catch{return 0;}}
 function seenSet(k){if(viewAs)return;try{localStorage.setItem(cntKey(k),String(Date.now()));}catch{}}
-function setCnt(id,n){const e=document.getElementById('cnt-'+id);if(!e)return;e.hidden=!(n>0);e.textContent=n>99?'99+':String(n>0?n:'');}
+function setCnt(id,n){if(id==='manager')setCnt('more',n);const e=document.getElementById('cnt-'+id);if(!e)return;e.hidden=!(n>0);e.textContent=n>99?'99+':String(n>0?n:'');}
 const tms=t=>t&&t.toMillis?t.toMillis():0;
 function watchStudentCounts(main){
   if(!me||viewAs||!profile||!profile.track)return;
@@ -2820,7 +2887,7 @@ function viewCommunity(tab){
   const tr=TRACKS[profile.track]||{};
   const kickedNow=tab==='group'&&!!profile.kicked;
   const head='';
-  studentShell(tab,(kickedNow?`<div class="card center pad"><div class="lock-ic" style="margin:0 auto 10px">${icon('i-out')}</div><h3>اتشلت من الجروب</h3><p class="muted">الأدمن شالك من الجروب. لو شايف إن ده غلط كلّمه من "كلم الأدمن".</p></div>`:chatBox(head)),kickedNow?'':'chatpage');
+  studentShell(tab,(kickedNow?`<div class="card center pad"><div class="lock-ic" style="margin:0 auto 10px">${icon('i-out')}</div><h3>اتشلت من الجروب</h3><p class="muted">الأدمن شالك من الجروب. لو شايف إن ده غلط كلّمه من "كلم الأدمن".</p></div>`:chatBox(head)),kickedNow?'':'chatpage'+(tab==='group'?' grp':''));
   if(kickedNow)return;
   if(tab==='group'){
     groupPins=[];pinIdx=0;people=[{uid:'admin',name:'الأدمن'},{uid:AI_UID,name:AI_NAME}];
@@ -2851,7 +2918,7 @@ function viewCommunity(tab){
    ADMIN
    ===================================================================== */
 function adminShell(active,body,pageCls=''){
-  const nav=[['students','الطلاب','i-users'],['content','المحتوى','i-content'],['group','الجروب','i-chat'],['inbox','الرسائل','i-inbox'],['ai','الـ AI','i-spark'],['ratings','التقييمات','i-star'],['manager','المدير','i-shield']];
+  const nav=[['students','الطلاب','i-users'],['content','المحتوى','i-content'],['group','الجروب','i-chat'],['inbox','الرسائل','i-inbox'],['more','المزيد','i-more']],lbl={students:'الطلاب',content:'المحتوى',inbox:'الرسائل',more:'المزيد',ai:'الـ AI',ratings:'التقييمات',manager:'مدير المنصة'},sub=['ai','ratings','manager'];
   const full=pageCls.includes('chatpage');
   watchAdminCounts(active);
   startGuard();
@@ -2859,10 +2926,10 @@ function adminShell(active,body,pageCls=''){
   app.innerHTML=full?`<div class="shell full adm">
     <header class="top"><a class="icon-btn" href="#/admin/students" aria-label="رجوع">${icon('i-back')}</a><b class="ttl">الجروب</b><span class="sp"></span>${sndBtn()}${themeBtn()}${pageCls.includes('grpadmin')?`<button class="icon-btn" data-act="grp-menu" aria-label="المزيد">${icon('i-more')}</button>`:''}</header>
     <main class="page ${pageCls}" id="page">${body}</main></div>`:`<div class="shell adm">
-    <header class="top"><div class="brand"><div><b>My summaries</b><small>لوحة الأدمن</small></div></div>
+    <header class="top"><div class="brand"><div><b>My summaries</b><small>${lbl[active]||'لوحة الأدمن'}</small></div></div>
       ${sndBtn()}${themeBtn()}<button class="icon-btn" data-act="view-as" aria-label="اعرض كطالب" title="اعرض كطالب">👁</button><button class="icon-btn" data-act="logout" aria-label="خروج">${icon('i-out')}</button></header>
     <main class="page ${pageCls}" id="page">${body}</main>
-    <nav class="bottom four ${nav.length>5?'six':'five'}">${nav.map(([k,l,ic])=>`<a class="bn ${k===active?'on':''}" href="#/admin/${k}${k==='content'?'/videos':''}">${icon(ic)}<span>${l}</span>${k==='inbox'||k==='group'||k==='manager'?`<i class="cnt" id="cnt-${k}" hidden></i>`:''}</a>`).join('')}</nav></div>`;
+    <nav class="bottom four ${nav.length>5?'six':'five'}">${nav.map(([k,l,ic])=>`<a class="bn ${k===active||(k==='more'&&sub.includes(active))?'on':''}" href="#/admin/${k}${k==='content'?'/videos':''}">${icon(ic)}<span>${l}</span>${k==='inbox'||k==='group'||k==='more'?`<i class="cnt" id="cnt-${k}" hidden></i>`:''}</a>`).join('')}</nav></div>`;
   let nf=true;
   if(active!=='inbox')unsubs.push(onSnapshot(query(collection(db,'support_threads'),where('unread','==',true),limit(100)),s=>{setCnt('inbox',s.docs.reduce((a,d)=>a+Math.max(1,+d.data().unreadCount||0),0));if(!nf&&s.docChanges().some(c=>!c.doc.metadata.hasPendingWrites))playSnd('notify');nf=false;},()=>{}));
 }
@@ -2874,8 +2941,13 @@ function adminRoute(){
   if(b==='inbox')return c?viewAdminThread(c):viewAdminInbox();
   if(b==='ai')return viewAdminAI(c);
   if(b==='manager')return c==='chat'?viewAdminManager():viewAdminManagerHub();
+  if(b==='more')return viewAdminMore();
   if(b==='ratings')return viewAdminRatings();
   return viewAdminStudents();
+}
+function viewAdminMore(){
+  const T=[['ai','الـ AI','i-spark','اسم الـ AI ومحادثات الطلاب معاه'],['ratings','التقييمات','i-star','آراء الطلاب وتقييماتهم'],['manager','مدير المنصة','i-shield','بيراقب الجروب وبينفّذ أوامرك']];
+  adminShell('more',`<div class="stack hub">${T.map(([k,t,ic,d])=>`<a class="tile" href="#/admin/${k}"><span class="tic">${icon(ic)}</span><span class="tx"><b>${t}</b><small>${d}</small></span>${k==='manager'?'<i class="cnt" id="cnt-manager" hidden></i>':''}${icon('i-back','flip')}</a>`).join('')}</div>`);
 }
 if(!location.hash)location.hash='';
 
@@ -2897,9 +2969,14 @@ function paintMgrHead(){
   if(!live)msg='⚠️ المراقبة التلقائية مش شغّالة دلوقتي (آخر فحص: '+mgrAgo(st.lastRunAt)+'). من غير الـ Cron وحساب البوت على الـ Worker محدش بيراقب لما تقفل الصفحة. الأوامر بالشات شغّالة عادي.';
   else if(st.status==='error')msg='⚠️ المراقبة بتفشل: '+esc(st.err||'سبب غير معروف');
   else{cls='ok';msg=(on?'✅ المراقبة شغّالة 24 ساعة':'⏸ المراقبة متوقفة')+' — آخر فحص '+mgrAgo(st.lastRunAt);}
-  b.innerHTML=`<div class="mgrst ${cls}">${msg}</div><div class="mgrbtns"><button type="button" class="btn ${on?'ghost':'primary'}" data-act="mgr-toggle">${on?'إيقاف المراقبة':'تشغيل المراقبة'}</button><button type="button" class="btn ghost" data-act="mgr-rules">📋 الأوامر (${mgrCfg.rules.filter(r=>r.on).length})</button><button type="button" class="btn ghost" data-act="mgr-log">📜 السجل</button>${$('#mgrbody')?'':'<a class="btn primary" href="#/admin/manager/chat">💬 كلّم المدير</a>'}</div>`;
+  b.innerHTML=`<div class="mgrst ${cls}">${msg}</div><div class="mgrbtns"><button type="button" class="btn ${on?'ghost':'primary'}" data-act="mgr-toggle">${on?'إيقاف المراقبة':'تشغيل المراقبة'}</button><button type="button" class="btn ghost" data-act="mgr-rules">📋 الأوامر (${mgrCfg.rules.filter(r=>r.on).length})</button><button type="button" class="btn ghost" data-act="mgr-log">📜 السجل</button>${$('#mgrbody')?(mgrMsgs.length?'<button type="button" class="btn ghost" data-act="mgr-clear">🗑 مسح المحادثة</button>':''):'<a class="btn primary" href="#/admin/manager/chat">💬 كلّم المدير</a>'}</div>`;
 }
+let mgrFor='';
+const mgrKey=()=>'mgrChat:'+mgrFor;
+function mgrSave(){if(!mgrFor)return;try{localStorage.setItem(mgrKey(),JSON.stringify(mgrMsgs.slice(-80)));}catch{}}
+function mgrLoad(){try{const a=JSON.parse(localStorage.getItem(mgrKey())||'[]');return Array.isArray(a)?a.filter(m=>m&&typeof m.content==='string'&&(m.role==='user'||m.role==='assistant')).slice(-80):[];}catch{return [];}}
 function paintMgr(){
+  mgrSave();paintMgrHead();
   const b=$('#mgrbody');if(!b)return;
   if(!mgrMsgs.length&&!mgrBusy){
     b.innerHTML=`<div class="ai-welcome"><span class="aw-ic">🛡</span><h2>مدير المنصة</h2><p class="muted">قوله يعمل أي حاجة على المنصة زيك: يكتم أو يطرد طالب، يمسح رسايل، يعمل امتحان من الدروس، يضيف فيديو أو ملف، يرد على الطلاب، أو يغيّر أوامر المراقبة. الأسرار (الباسورد، الكود، المفاتيح، القواعد) مبيلمسهاش ومبيعملهاش.</p><div class="aw-chips">${['اعمل امتحان ١٠ أسئلة على درس ','اكتم فلان ساعة','أي حد يعمل سبام اكتمه ساعة','قفّل الجروب'].map(t=>`<button type="button" class="aw-chip" data-act="mgr-chip" data-t="${esc(t)}">${esc(t)}</button>`).join('')}</div></div>`;return;
@@ -2909,7 +2986,8 @@ function paintMgr(){
 }
 function viewAdminManager(){
   subShell('مدير المنصة (AI)','#/admin/manager',`<div class="chat aichat"><div id="mgrhead" class="mgrhead"></div><div class="msgs aibody" id="mgrbody"></div><form class="composer" data-form="mgr"><input name="t" placeholder="قوله يعمل إيه… مثال: اكتم أحمد ساعة" autocomplete="off" maxlength="1500"><button class="send" aria-label="إرسال">${icon('i-send','flip')}</button></form></div>`,'chatpage');
-  mgrMsgs=[];mgrBusy=false;paintMgr();paintMgrHead();mgrWatch();
+  if(mgrFor!==me.uid){mgrFor=me.uid;mgrMsgs=mgrLoad();mgrBusy=false;}
+  paintMgr();mgrWatch();
 }
 function mgrWatch(){
   unsubs.push(onSnapshot(doc(db,'manager','config'),s=>{
@@ -3025,6 +3103,7 @@ forms['mgr']=async f=>{
   }catch(e){mgrMsgs.push({role:'assistant',err:true,content:e&&e.name==='TypeError'?'مفيش اتصال بالـ Worker.':String((e&&e.message)||'حصل خطأ')});}
   finally{mgrBusy=false;paintMgr();}
 };
+acts['mgr-clear']=()=>{if(mgrBusy)return toast('استنى المدير يخلّص الأول');if(!confirm('مسح المحادثة مع المدير؟'))return;mgrMsgs=[];paintMgr();};
 acts['mgr-chip']=el=>{const i=$('form[data-form=mgr] input[name=t]');if(i){i.value=el.dataset.t;i.focus();}};
 acts['mgr-toggle']=async()=>{try{await setDoc(doc(db,'manager','config'),{enabled:mgrCfg.enabled===false},{merge:true});}catch(e){fail(e);}};
 const saveRules=rules=>setDoc(doc(db,'manager','config'),{rules},{merge:true});
@@ -3138,16 +3217,18 @@ acts['view-exit']=()=>{viewAs=null;profile=null;location.hash='#/admin/students'
 /* ---------- students ---------- */
 function viewAdminStudents(){
   adminShell('students',`<div class="stats" id="stats"></div><label class="search">${icon('i-search')}<input id="q" placeholder="ابحث بالاسم أو الإيميل"></label><div id="ulist" class="stack"><div class="skel"></div></div>`);
-  let term='';
+  let term='',trk='';
   const paint=()=>{
     const st=$('#stats');if(!st)return;
-    st.innerHTML=`<div class="stat"><b>${adminUsers.length}</b><small>كل الطلاب</small></div>`+Object.entries(TRACKS).map(([k,t])=>`<div class="stat"><b>${adminUsers.filter(u=>u.track===k).length}</b><small>${t.name}</small></div>`).join('');
-    const list=adminUsers.filter(u=>!term||(u.name||'').toLowerCase().includes(term)||(u.email||'').toLowerCase().includes(term));
+    const tab=(k,n,l)=>`<button type="button" class="stat ${trk===k?'on':''}" data-trk="${k}"><b>${n}</b><small>${l}</small></button>`;
+    st.innerHTML=tab('',adminUsers.length,'كل الطلاب')+Object.entries(TRACKS).map(([k,t])=>tab(k,adminUsers.filter(u=>u.track===k).length,t.name)).join('');
+    const list=adminUsers.filter(u=>(!trk||u.track===trk)&&(!term||(u.name||'').toLowerCase().includes(term)||(u.email||'').toLowerCase().includes(term)));
     $('#ulist').innerHTML=list.length?list.map(u=>`<button class="urow" data-act="open-student" data-uid="${u.uid}">${avatar(u,44)}<div class="info"><b>${esc(u.name)}</b><small class="muted">${esc(u.email)}</small></div>
       <div class="stack" style="gap:4px;align-items:flex-end">${codeChip(u)}${u.track?`<span class="chip" style="--c:${TRACKS[u.track]?TRACKS[u.track].color:'#666'}">${TRACKS[u.track]?TRACKS[u.track].name:''}</span>`:'<span class="badge">بدون تخصص</span>'}${u.banned?'<span class="badge bad">موقوف</span>':''}${mutedNow(u)?'<span class="badge gold">مكتوم</span>':''}</div></button>`).join(''):empty('مفيش طلاب مطابقين','i-users');
   };
   unsubs.push(onSnapshot(collection(db,'users'),s=>{adminUsers=s.docs.map(d=>({uid:d.id,...d.data()})).sort(byDate);paint();},fail));
   $('#q').oninput=e=>{term=e.target.value.trim().toLowerCase();paint();};
+  $('#stats').onclick=e=>{const b=e.target.closest('[data-trk]');if(!b)return;trk=b.dataset.trk;paint();};
 }
 acts['copy-code']=el=>{const c=el.dataset.code;const ok=()=>toast('اتنسخ ✓ '+c);try{navigator.clipboard.writeText(c).then(ok,()=>{throw 0;});}catch{const t=document.createElement('textarea');t.value=c;document.body.appendChild(t);t.select();try{document.execCommand('copy');ok();}catch{toast('مقدرتش أنسخ',true);}t.remove();}};
 acts['open-student']=el=>{
@@ -3356,11 +3437,11 @@ function viewAdminGroup(){
 acts['grp-menu']=()=>{
   const tk=window.__gtrack;
   openSheet(`${sheetHead('الجروب')}
-    <div class="stack">
-      <button class="btn primary block" data-act="grp-do" data-a="poll-new">${icon('i-poll')} تصويت</button>
-      <button class="btn ghost block" data-act="grp-do" data-a="grp-members">${icon('i-users')} الأعضاء</button>
-      <button class="btn ghost block" data-act="grp-do" data-a="grp-lock">${icon('i-lock')} ${window.__locked?'فتح الجروب':'قفل الجروب'}</button>
-      <button class="btn danger block" data-act="grp-do" data-a="grp-clear">${icon('i-trash')} مسح الكل</button>
+    <div class="gmenu">
+      <button type="button" class="gm" data-act="grp-do" data-a="poll-new">${icon('i-poll')}<span>تصويت</span></button>
+      <button type="button" class="gm" data-act="grp-do" data-a="grp-members">${icon('i-users')}<span>الأعضاء</span></button>
+      <button type="button" class="gm" data-act="grp-do" data-a="grp-lock">${icon('i-lock')}<span>${window.__locked?'فتح الجروب':'قفل الجروب'}</span></button>
+      <button type="button" class="gm bad" data-act="grp-do" data-a="grp-clear">${icon('i-trash')}<span>مسح الكل</span></button>
     </div>`);
 };
 acts['grp-do']=el=>{const a=el.dataset.a;closeSheet();if(acts[a])acts[a](el);};
